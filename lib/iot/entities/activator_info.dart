@@ -9,7 +9,7 @@ class ActivatorInfo {
   String? password;
 
   // 配网超时时间
-  int? timeOut;
+  int? timeout;
 
   // 配网token
   String? bindToken;
@@ -23,31 +23,14 @@ class ActivatorInfo {
   // 所选服务器host
   String? deviceHost;
 
-  ActivatorCallback? callback;
+  ActivatorInfo(this.ssid, this.password, this.timeout, this.bindToken,
+      this.timeZone, this.channel, this.deviceHost);
 
-  ActivatorInfo(this.ssid, this.password, this.timeOut, this.bindToken,
-      this.timeZone, this.channel, this.deviceHost, this.callback);
+  ActivatorInfo.build(String? ssid, String? password, int? timeout,
+      String? bindToken, String? timezone, String? channel, String? deviceHost)
+      : this(ssid, password, timeout, bindToken, timezone, channel, deviceHost);
 
-  ActivatorInfo.build(
-      String? ssid,
-      String? password,
-      int? timeout,
-      String? bindToken,
-      String? timezone,
-      String? channel,
-      String? deviceHost,
-      ActivatorCallback? callback)
-      : this(ssid, password, timeout, bindToken, timezone, channel, deviceHost,
-            callback);
-
-  ActivatorInfo.buildNoPassword(
-      String? ssid,
-      int? timeout,
-      String? bindToken,
-      String? timezone,
-      String? channel,
-      String? deviceHost,
-      ActivatorCallback? callback)
-      : this(ssid, null, timeout, bindToken, timezone, channel, deviceHost,
-            callback);
+  ActivatorInfo.buildNoPassword(String? ssid, int? timeout, String? bindToken,
+      String? timezone, String? channel, String? deviceHost)
+      : this(ssid, null, timeout, bindToken, timezone, channel, deviceHost);
 }
