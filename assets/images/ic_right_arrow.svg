@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 4</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.105882 0 0 0 0 0.117647 0 0 0 0 0.176471 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="新增预约_全屋备份-5" transform="translate(-311.000000, -524.000000)">
+            <g id="编组-5备份-4" transform="translate(16.000000, 508.000000)" filter="url(#filter-1)">
+                <g transform="translate(295.000000, 16.000000)" id="编组-3">
+                    <rect id="矩形备份-2" x="0" y="0" width="40" height="40"></rect>
+                    <polyline id="Path-5备份-2" stroke="#C8C7CC" stroke-width="1.5" stroke-linecap="round" transform="translate(20.000000, 20.000000) rotate(-180.000000) translate(-20.000000, -20.000000) " points="23.3333333 13.3333333 16.6666667 20.0075543 23.3333333 26.6666667"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

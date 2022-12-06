@@ -270,6 +270,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.6.0"
+  flutter_spinkit:
+    dependency: "direct main"
+    description:
+      name: flutter_spinkit
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -789,6 +796,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.2+1"
+  stratosfy_esp_ble_provisioning:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "34d2408c2fc262297adda06677cce5837810f95a"
+      url: "http://172.16.10.35/aiot/stratosfy_esp_ble_provisioning.git"
+    source: git
+    version: "1.4.0"
   stream_channel:
     dependency: transitive
     description:
