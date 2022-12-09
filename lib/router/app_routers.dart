@@ -55,7 +55,15 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         GoRoute(
             path: '/transport',
             name: AppRoute.transport.name,
-            pageBuilder: (context, state) =>
-                CupertinoPage(key: state.pageKey, child: TransportPage())),
+            pageBuilder: (context, state) {
+              final ssid = state.queryParams['ssid'];
+              final password = state.queryParams['password'];
+              return CupertinoPage(
+                  key: state.pageKey,
+                  child: TransportPage(
+                    ssid: ssid,
+                    password: password,
+                  ));
+            }),
       ]);
 });

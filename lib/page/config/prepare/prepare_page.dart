@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class PreparePage extends ConsumerStatefulWidget {
   const PreparePage({super.key});
@@ -79,30 +80,66 @@ class PrepareConsumerState extends ConsumerState {
                   onPressed: () {
                     if (!ref.watch(
                         prepareProvider.select((value) => value.checked))) {
-                      print('checked false');
+                      SnackBar snackBar = const SnackBar(
+                        content: Text('请先勾选已听到“进入配网模式”'),
+                        duration: Duration(seconds: 1),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       return;
                     }
-
-                    print('checked true');
 
                     ref
                         .read(prepareProvider.notifier)
                         .isPermissionGranted()
                         .then((value) {
                       if (value) {
-                        context.push('/scan');
+                        context.push('/wifi');
                       } else {
-                        ref.read(prepareProvider.notifier).requestPermissions();
+                        ref
+                            .read(prepareProvider.notifier)
+                            .requestPermissions()
+                            .then((value) {
+                          if (value) {
+                            context.push('/wifi');
+                          } else {
+                            showCupertinoDialog(
+                                context: context,
+                                builder: (context) {
+                                  return CupertinoAlertDialog(
+                                    title: const Text(
+                                        'You need to grant album permissions'),
+                                    content: const Text(
+                                        'Please go to your mobile phone to set the permission to open the corresponding album'),
+                                    actions: <Widget>[
+                                      CupertinoDialogAction(
+                                        child: const Text('cancle'),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      CupertinoDialogAction(
+                                        child: const Text('confirm'),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          // 打开手机上该app权限的页面
+                                          openAppSettings();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          }
+                        });
                       }
                     });
                   },
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Color(0xFF353547)),
+                        MaterialStateProperty.all(const Color(0xFF1296DB)),
                     foregroundColor: MaterialStateProperty.all(Colors.white),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12))),
-                    fixedSize: MaterialStateProperty.all(Size(343, 66)),
+                    fixedSize: MaterialStateProperty.all(const Size(343, 48)),
                   ),
                   child: const Text("开始添加"),
                 )),

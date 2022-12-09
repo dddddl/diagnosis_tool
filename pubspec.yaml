@@ -20,7 +20,7 @@ dependencies:
   flutter_hooks: ^0.18.0
   hooks_riverpod: ^2.0.0-dev.7
 
-  json_annotation: ^4.4.0
+  json_annotation: ^4.7.0
   mqtt_client: ^9.6.7
   uuid: 3.0.5
   # Dart 常用工具类库 https://github.com/Sky24n/common_utils
@@ -55,6 +55,12 @@ dependencies:
       url: http://172.16.10.35/aiot/stratosfy_esp_ble_provisioning.git
   # A collection of loading indicators animated with flutter.
   flutter_spinkit: ^5.1.0
+  # wifi状态监听库
+  connectivity_plus: ^3.0.2
+  # wifi 信息库
+  network_info_plus: ^3.0.1
+  # 跳转app setting页面
+  app_settings: ^4.1.8
 dev_dependencies:
   flutter_test:
     sdk: flutter

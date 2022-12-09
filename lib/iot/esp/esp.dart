@@ -79,10 +79,11 @@ class _MyAppState extends State<MyApp> {
     print("** Listening **");
     EspBleProvisioning().getBluetoothStateStream().listen((state) async {
       print("State *********** $state");
-      if (this.mounted)
+      if (mounted) {
         setState(() {
           this.state = state;
         });
+      }
       if (state == BluetoothState.ON) {
         if (snackbar != null) {
           snackbar?.close();
@@ -103,7 +104,7 @@ class _MyAppState extends State<MyApp> {
     controller =
         EspBleProvisioning().scanBluetoothDevice().listen((value) async {
       setState(() {
-        if (value.length > 0) {
+        if (value.isNotEmpty) {
           print("************DEVICE SCAN RESULT : $value");
           isScanned = true;
           isLoading = false;

@@ -1,32 +1,89 @@
-part 'wifi_state.freezed.dart';
-part 'wifi_state.g.dart';
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:network_info_plus/network_info_plus.dart';
+
+part 'wifi_provider.freezed.dart';
+part 'wifi_provider.g.dart';
 
 @freezed
-class WifiState with _$WifiState{
+class WifiState with _$WifiState {
+  // ssid
+  // password
 
-    // ssid
-    // password
+  const factory WifiState({
+    String? ssid,
+    String? password,
+  }) = _WifiState;
 
-    const factory WifiState({
-        required String ssid,
-        String? password,
-    }) = _WifiState;
-    
-    factory WifiState.fromJson(Map<String, dynamic> json) => _$WifiStateFromJson(json);
+  factory WifiState.fromJson(Map<String, dynamic> json) =>
+      _$WifiStateFromJson(json);
 }
 
-
-final wifiProvider = StateNotifierProvider<WifiStateNotifier, WifiState>((ref) => WifiStateNotifier());
-
+final wifiProvider =
+    StateNotifierProvider.autoDispose<WifiStateNotifier, WifiState>(
+        (ref) => WifiStateNotifier());
 
 class WifiStateNotifier extends StateNotifier<WifiState> {
-    
-    
-    WifiStateNotifier() : super(WifiState());
-    
-    
+  WifiStateNotifier() : super(WifiState());
 
+  StreamSubscription? connectivitySubscription;
 
+  void setSsid(String ssid) {
+    state = state.copyWith(ssid: ssid);
+  }
+
+  void setPassword(String password) {
+    state = state.copyWith(password: password);
+  }
+
+  // 获取当前连接的wifi ssid
+  void listenWiFiState() async {
+    connectivitySubscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) async {
+      if (result == ConnectivityResult.wifi) {
+        print('Connected to WiFi');
+        String? wifiName = await getWifiName();
+        print(wifiName);
+        state = state.copyWith(ssid: wifiName?.replaceAll('"', ''));
+      } else {
+        print('Not connected to WiFi');
+        state = state.copyWith(
+          ssid: null,
+        );
+      }
+    });
+  }
+
+  Future<String?> getWifiName() async {
+    return await NetworkInfo().getWifiName();
+  }
+
+  bool isValidate() {
+    return isWifiConnected() && isPasswordValid();
+  }
+
+  // wifi名是否合法
+  bool isWifiConnected() {
+    return state.ssid != null;
+  }
+
+  // 密码是否合法
+  bool isPasswordValid() {
+    return state.password != null && state.password!.length >= 8;
+  }
+
+  // 是否输入密码
+  bool isPasswordEmpty() {
+    return state.password == null || state.password!.isEmpty;
+  }
+
+  @override
+  void dispose() {
+    connectivitySubscription?.cancel();
+    super.dispose();
+  }
 }
-
-

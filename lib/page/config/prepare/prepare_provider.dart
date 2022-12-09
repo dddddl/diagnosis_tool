@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -34,13 +35,16 @@ class PrepareStateNotifier extends StateNotifier<PrepareState> {
       var androidInfo = await deviceInfo.androidInfo;
       if (androidInfo.version.sdkInt >= 31) {
         if (await Permission.bluetoothConnect.status.isGranted &&
-            await Permission.bluetoothScan.status.isGranted) {
+            await Permission.bluetoothScan.status.isGranted &&
+            await Permission.bluetooth.status.isGranted &&
+            await Permission.bluetoothAdvertise.status.isGranted &&
+            await Permission.location.status.isGranted) {
           return true;
         } else {
           return false;
         }
       } else {
-        if (await Permission.locationWhenInUse.status.isGranted &&
+        if (await Permission.location.status.isGranted &&
             await Permission.bluetoothAdvertise.status.isGranted &&
             await Permission.bluetoothScan.status.isGranted &&
             await Permission.bluetooth.status.isGranted &&
@@ -60,7 +64,7 @@ class PrepareStateNotifier extends StateNotifier<PrepareState> {
 
   // 申请蓝牙权限
   // You can request multiple permissions at once.
-  void requestPermissions() async {
+  Future<bool> requestPermissions() async {
     // 如果是Android平台
     var granted = false;
     if (Platform.isAndroid) {
@@ -69,7 +73,7 @@ class PrepareStateNotifier extends StateNotifier<PrepareState> {
       granted = await _requestIOSPermissions();
     }
 
-    state = state.copyWith(permissionGranted: granted);
+    return granted;
   }
 
   // 申请Android蓝牙权限
@@ -82,17 +86,23 @@ class PrepareStateNotifier extends StateNotifier<PrepareState> {
       status = await [
         Permission.bluetoothConnect,
         Permission.bluetoothScan,
+        Permission.location,
       ].request();
     } else {
       status = await [
-        Permission.locationWhenInUse,
+        Permission.location,
         Permission.bluetooth,
         Permission.bluetoothConnect,
         Permission.bluetoothScan,
         Permission.bluetoothAdvertise,
       ].request();
     }
-    return status.values.every((element) => element.isGranted);
+
+    if (status.values.every((element) => element.isGranted)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // 申请iOS蓝牙权限

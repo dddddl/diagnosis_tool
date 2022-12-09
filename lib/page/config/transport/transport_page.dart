@@ -1,31 +1,78 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class TransportPage extends ConsumerWidget {
+import 'transport_provider.dart';
+
+class TransportPage extends ConsumerStatefulWidget {
+  String? ssid;
+  String? password;
+
+  TransportPage({Key? key, required this.ssid, required this.password})
+      : super(key: key);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return TransportConsumerState();
+  }
+}
+
+class TransportConsumerState extends ConsumerState<TransportPage> {
+  @override
+  void initState() {
+    super.initState();
+    ref
+        .read(transportProvider.notifier)
+        .listenTransportState(widget.ssid, widget.password);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String progress =
+        ref.watch(transportProvider.select((value) => value.progress)) ?? '0%';
+
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text('传输'),
+        elevation: 0,
+        title: const Text('连接设备'),
       ),
-      body: Center(
+      body: Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+                padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                child: Text('连接设备', style: TextStyle(fontSize: 28))),
+            Center(
+              child: Container(
+                margin: const EdgeInsets.only(top: 64),
+                child: SpinKitRipple(
+                  color: Theme.of(context).backgroundColor,
+                  size: 200,
+                ),
+              ),
             ),
-            Text(
-              'test',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 48),
+                child: Center(
+                  child: Text("设备连接网络       $progress",
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
+                )),
+            const Padding(
+                padding: EdgeInsets.only(top: 2),
+                child: Center(
+                  child: Text('请将设备尽量靠近路由器',
+                      style: TextStyle(
+                        fontSize: 12,
+                      )),
+                )),
           ],
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
