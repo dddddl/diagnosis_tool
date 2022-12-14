@@ -1,5 +1,7 @@
+import 'package:diagnosis_tool/router/app_routers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'transport_provider.dart';
@@ -28,8 +30,22 @@ class TransportConsumerState extends ConsumerState<TransportPage> {
 
   @override
   Widget build(BuildContext context) {
-    String progress =
-        ref.watch(transportProvider.select((value) => value.progress)) ?? '0%';
+    int progress =
+        ref.watch(transportProvider.select((value) => value.progress)) ?? 0;
+
+    ref.listen<bool>(
+        transportProvider.select((value) => value.isFailed ?? false),
+        (previous, next) {
+      if (next) {}
+    });
+
+    ref.listen<bool>(
+        transportProvider.select((value) => value.isSuccess ?? false),
+        (previous, next) {
+      if (next) {
+        context.pushNamed(AppRoute.success.name);
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +72,7 @@ class TransportConsumerState extends ConsumerState<TransportPage> {
             Padding(
                 padding: const EdgeInsets.only(top: 48),
                 child: Center(
-                  child: Text("设备连接网络       $progress",
+                  child: Text("设备连接网络       $progress%",
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

@@ -37,10 +37,10 @@ mixin MixinLeTransportImpl implements LeTransport {
       return;
     }
 
-    BluetoothCharacteristic? tx = service?.characteristics.firstWhere(
+    BluetoothCharacteristic? tx = service.characteristics.firstWhere(
         (element) => element.uuid == Guid.fromMac(LeConfig.characterWriteUuid));
 
-    BluetoothCharacteristic? rx = service?.characteristics.firstWhere(
+    BluetoothCharacteristic? rx = service.characteristics.firstWhere(
         (element) => element.uuid == Guid.fromMac(LeConfig.characterReadUuid));
 
     if (tx == null || rx == null) {

@@ -201,7 +201,7 @@ class WiFiConsumerState extends ConsumerState {
                         }
 
                         context
-                            .pushNamed(AppRoute.transport.name, queryParams: {
+                            .replaceNamed(AppRoute.transport.name, queryParams: {
                           'ssid': _ssidController.text,
                           'password': _passwordController.text,
                         });

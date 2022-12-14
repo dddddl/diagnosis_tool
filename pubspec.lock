@@ -36,6 +36,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  blufi:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "46f87b3f15d1ffc830a9c4ea5e93419d20280dd0"
+      url: "http://172.16.10.35/aiot/blufi.git"
+    source: git
+    version: "0.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -356,7 +365,7 @@ packages:
       name: go_router
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.2.3"
+    version: "5.2.4"
   graphs:
     dependency: transitive
     description:
@@ -475,7 +484,7 @@ packages:
       name: mqtt_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.7.2"
+    version: "9.7.3"
   network_info_plus:
     dependency: "direct main"
     description:
@@ -845,15 +854,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.2+1"
-  stratosfy_esp_ble_provisioning:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "7480562b3904e1fe3687c543a0e8f580f5c12c91"
-      url: "http://172.16.10.35/aiot/stratosfy_esp_ble_provisioning.git"
-    source: git
-    version: "1.4.0"
   stream_channel:
     dependency: transitive
     description:

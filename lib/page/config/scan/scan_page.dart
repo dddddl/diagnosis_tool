@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:stratosfy_esp_ble_provisioning/esp_bluetooth_provisioning.dart';
 
 class ScanPage extends ConsumerStatefulWidget {
   @override
@@ -11,7 +9,6 @@ class ScanPage extends ConsumerStatefulWidget {
 class _ScanPageState extends ConsumerState<ScanPage> {
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -38,7 +35,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: () {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

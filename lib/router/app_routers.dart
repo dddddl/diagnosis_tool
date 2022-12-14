@@ -1,5 +1,6 @@
 import 'package:diagnosis_tool/page/ble_direct_connect/connect_page.dart';
 import 'package:diagnosis_tool/page/config/prepare/prepare_page.dart';
+import 'package:diagnosis_tool/page/config/success/success_page.dart';
 import 'package:diagnosis_tool/page/config/transport/transport_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,6 +17,7 @@ enum AppRoute {
   scan,
   wifi,
   transport,
+  success,
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -64,6 +66,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     ssid: ssid,
                     password: password,
                   ));
+            }),
+        GoRoute(
+            path: '/success',
+            name: AppRoute.success.name,
+            pageBuilder: (context, state) {
+              return CupertinoPage(key: state.pageKey, child: SuccessPage());
             }),
       ]);
 });

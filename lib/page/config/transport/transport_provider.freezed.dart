@@ -22,8 +22,9 @@ TransportState _$TransportStateFromJson(Map<String, dynamic> json) {
 mixin _$TransportState {
   String? get ssid => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
-  String? get progress => throw _privateConstructorUsedError;
+  int? get progress => throw _privateConstructorUsedError;
   bool? get isFailed => throw _privateConstructorUsedError;
+  bool? get isSuccess => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,12 @@ abstract class $TransportStateCopyWith<$Res> {
           TransportState value, $Res Function(TransportState) then) =
       _$TransportStateCopyWithImpl<$Res, TransportState>;
   @useResult
-  $Res call({String? ssid, String? password, String? progress, bool? isFailed});
+  $Res call(
+      {String? ssid,
+      String? password,
+      int? progress,
+      bool? isFailed,
+      bool? isSuccess});
 }
 
 /// @nodoc
@@ -57,6 +63,7 @@ class _$TransportStateCopyWithImpl<$Res, $Val extends TransportState>
     Object? password = freezed,
     Object? progress = freezed,
     Object? isFailed = freezed,
+    Object? isSuccess = freezed,
   }) {
     return _then(_value.copyWith(
       ssid: freezed == ssid
@@ -70,10 +77,14 @@ class _$TransportStateCopyWithImpl<$Res, $Val extends TransportState>
       progress: freezed == progress
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       isFailed: freezed == isFailed
           ? _value.isFailed
           : isFailed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isSuccess: freezed == isSuccess
+          ? _value.isSuccess
+          : isSuccess // ignore: cast_nullable_to_non_nullable
               as bool?,
     ) as $Val);
   }
@@ -87,7 +98,12 @@ abstract class _$$_TransportStateCopyWith<$Res>
       __$$_TransportStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? ssid, String? password, String? progress, bool? isFailed});
+  $Res call(
+      {String? ssid,
+      String? password,
+      int? progress,
+      bool? isFailed,
+      bool? isSuccess});
 }
 
 /// @nodoc
@@ -105,6 +121,7 @@ class __$$_TransportStateCopyWithImpl<$Res>
     Object? password = freezed,
     Object? progress = freezed,
     Object? isFailed = freezed,
+    Object? isSuccess = freezed,
   }) {
     return _then(_$_TransportState(
       ssid: freezed == ssid
@@ -118,10 +135,14 @@ class __$$_TransportStateCopyWithImpl<$Res>
       progress: freezed == progress
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       isFailed: freezed == isFailed
           ? _value.isFailed
           : isFailed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isSuccess: freezed == isSuccess
+          ? _value.isSuccess
+          : isSuccess // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
   }
@@ -131,7 +152,7 @@ class __$$_TransportStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TransportState implements _TransportState {
   const _$_TransportState(
-      {this.ssid, this.password, this.progress, this.isFailed});
+      {this.ssid, this.password, this.progress, this.isFailed, this.isSuccess});
 
   factory _$_TransportState.fromJson(Map<String, dynamic> json) =>
       _$$_TransportStateFromJson(json);
@@ -141,13 +162,15 @@ class _$_TransportState implements _TransportState {
   @override
   final String? password;
   @override
-  final String? progress;
+  final int? progress;
   @override
   final bool? isFailed;
+  @override
+  final bool? isSuccess;
 
   @override
   String toString() {
-    return 'TransportState(ssid: $ssid, password: $password, progress: $progress, isFailed: $isFailed)';
+    return 'TransportState(ssid: $ssid, password: $password, progress: $progress, isFailed: $isFailed, isSuccess: $isSuccess)';
   }
 
   @override
@@ -161,13 +184,15 @@ class _$_TransportState implements _TransportState {
             (identical(other.progress, progress) ||
                 other.progress == progress) &&
             (identical(other.isFailed, isFailed) ||
-                other.isFailed == isFailed));
+                other.isFailed == isFailed) &&
+            (identical(other.isSuccess, isSuccess) ||
+                other.isSuccess == isSuccess));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, ssid, password, progress, isFailed);
+      Object.hash(runtimeType, ssid, password, progress, isFailed, isSuccess);
 
   @JsonKey(ignore: true)
   @override
@@ -187,8 +212,9 @@ abstract class _TransportState implements TransportState {
   const factory _TransportState(
       {final String? ssid,
       final String? password,
-      final String? progress,
-      final bool? isFailed}) = _$_TransportState;
+      final int? progress,
+      final bool? isFailed,
+      final bool? isSuccess}) = _$_TransportState;
 
   factory _TransportState.fromJson(Map<String, dynamic> json) =
       _$_TransportState.fromJson;
@@ -198,9 +224,11 @@ abstract class _TransportState implements TransportState {
   @override
   String? get password;
   @override
-  String? get progress;
+  int? get progress;
   @override
   bool? get isFailed;
+  @override
+  bool? get isSuccess;
   @override
   @JsonKey(ignore: true)
   _$$_TransportStateCopyWith<_$_TransportState> get copyWith =>

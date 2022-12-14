@@ -6,7 +6,7 @@ import '../../activator.dart';
 import '../../callback/activator_callback.dart';
 import 'ble_activator.dart';
 
-class BleActivatorImpl implements LeActivator {
+class LeActivatorAdapter implements LeActivator {
   BleActivator? _bleActivator;
 
   @override
