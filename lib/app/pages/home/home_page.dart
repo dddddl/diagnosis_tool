@@ -1,4 +1,4 @@
-import 'package:diagnosis_tool/page/home/item_widget.dart';
+import 'package:diagnosis_tool/app/pages/home/item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';

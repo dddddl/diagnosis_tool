@@ -1,10 +1,11 @@
-import 'package:diagnosis_tool/common/text_style.dart';
-import 'package:diagnosis_tool/page/config/prepare/prepare_provider.dart';
+import 'package:diagnosis_tool/app/widgets/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import 'prepare_provider.dart';
 
 class PreparePage extends ConsumerStatefulWidget {
   const PreparePage({super.key});

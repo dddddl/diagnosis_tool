@@ -1,4 +1,4 @@
-import 'package:diagnosis_tool/common/text_style.dart';
+import 'package:diagnosis_tool/app/widgets/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

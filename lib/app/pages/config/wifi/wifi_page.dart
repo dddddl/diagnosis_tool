@@ -1,6 +1,6 @@
 import 'package:app_settings/app_settings.dart';
-import 'package:diagnosis_tool/page/config/wifi/wifi_provider.dart';
-import 'package:diagnosis_tool/router/app_routers.dart';
+import 'package:diagnosis_tool/app/pages/config/wifi/wifi_provider.dart';
+import 'package:diagnosis_tool/app/router/app_routers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

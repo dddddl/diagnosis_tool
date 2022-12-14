@@ -1,4 +1,4 @@
-import 'package:diagnosis_tool/router/app_routers.dart';
+import 'package:diagnosis_tool/app/router/app_routers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
