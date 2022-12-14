@@ -1,14 +1,13 @@
-import 'package:diagnosis_tool/page/ble_direct_connect/connect_page.dart';
-import 'package:diagnosis_tool/page/config/prepare/prepare_page.dart';
-import 'package:diagnosis_tool/page/config/success/success_page.dart';
-import 'package:diagnosis_tool/page/config/transport/transport_page.dart';
+import 'package:diagnosis_tool/app/pages/ble_direct_connect/connect_page.dart';
+import 'package:diagnosis_tool/app/pages/config/prepare/prepare_page.dart';
+import 'package:diagnosis_tool/app/pages/config/scan/scan_page.dart';
+import 'package:diagnosis_tool/app/pages/config/success/success_page.dart';
+import 'package:diagnosis_tool/app/pages/config/transport/transport_page.dart';
+import 'package:diagnosis_tool/app/pages/config/wifi/wifi_page.dart';
+import 'package:diagnosis_tool/app/pages/home/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../page/config/scan/scan_page.dart';
-import '../page/config/wifi/wifi_page.dart';
-import '../page/home/home_page.dart';
 
 enum AppRoute {
   home,
