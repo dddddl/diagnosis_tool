@@ -33,7 +33,8 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
           _callback?.onProgress(ActivatorProgress.TRANSPORTING);
           Future.delayed(const Duration(seconds: 2)).then((value) {
             print('delayed');
-            _sendConfigData();
+            // _sendConfigData();
+            _listenCustomData();
           });
         });
       }
@@ -57,6 +58,7 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
       print("Custom Data : $event");
       _sendCustomData();
     });
+    _sendCustomData();
   }
 
   /// 处理自定义消息
@@ -66,6 +68,7 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
       _blufiPlugin?.sendCustomData(request.getRequestData());
     } catch (e) {
       print(e);
+      _sendConfigData();
     }
   }
 

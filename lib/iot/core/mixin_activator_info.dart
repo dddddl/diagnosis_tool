@@ -12,12 +12,12 @@ mixin MixinActivatorInfo {
   convert(ActivatorInfo info) {
     cmdQueue.clear();
 
-    var wifiInfo = "${info.ssid}\n${info.password ?? ""}";
-
-    cmdQueue.add(CmdBuilder()
-        .setId(CMD_WIFI_INFO)
-        .setStringData(wifiInfo)
-        .buildRequest());
+    // var wifiInfo = "${info.ssid}\n${info.password ?? ""}";
+    //
+    // cmdQueue.add(CmdBuilder()
+    //     .setId(CMD_WIFI_INFO)
+    //     .setStringData(wifiInfo)
+    //     .buildRequest());
 
     cmdQueue.add(CmdBuilder()
         .setId(CMD_HOST_INFO)

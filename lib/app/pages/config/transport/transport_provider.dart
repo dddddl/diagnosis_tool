@@ -51,7 +51,7 @@ class TransportStateNotifier extends StateNotifier<TransportState> {
   void _startTransport(String? ssid, String? password) {
     activator?.start(
         ActivatorInfo(ssid, password, 90, "bindToken", "timeZone", "channel",
-            "deviceHost"),
+            "robot.china-dongcheng.com"),
         ActivatorCallback(
           onSuccess: (result) {
             print("onSuccess");
