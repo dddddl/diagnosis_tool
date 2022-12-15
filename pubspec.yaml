@@ -21,7 +21,7 @@ dependencies:
   hooks_riverpod: ^2.0.0-dev.7
 
   json_annotation: ^4.7.0
-  mqtt_client: ^9.6.7
+  mqtt_client: ^9.7.3
   uuid: 3.0.5
   # Dart 常用工具类库 https://github.com/Sky24n/common_utils
   common_utils: 2.1.0
