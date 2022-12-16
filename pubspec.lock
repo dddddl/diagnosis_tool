@@ -228,7 +228,7 @@ packages:
     source: hosted
     version: "4.0.6"
   event_bus:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: event_bus
       url: "https://pub.dartlang.org"
@@ -771,7 +771,7 @@ packages:
       name: shared_preferences_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   shared_preferences_macos:
     dependency: transitive
     description:
@@ -799,7 +799,7 @@ packages:
       name: shared_preferences_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   shelf:
     dependency: transitive
     description:
