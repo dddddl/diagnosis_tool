@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class HomePage extends ConsumerWidget {
   static const List<Map<String, String>> source = [
     {"icon": "assets/images/ic_upload", "title": "添加设备", "route": "/prepare"},
-    {"icon": "assets/images/ic_upload", "title": "机器人列表", "route": "/prepare"},
+    {"icon": "assets/images/ic_upload", "title": "机器人列表", "route": "/robots"},
   ];
 
   @override

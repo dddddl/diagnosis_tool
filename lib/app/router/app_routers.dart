@@ -5,6 +5,8 @@ import 'package:diagnosis_tool/app/pages/config/success/success_page.dart';
 import 'package:diagnosis_tool/app/pages/config/transport/transport_page.dart';
 import 'package:diagnosis_tool/app/pages/config/wifi/wifi_page.dart';
 import 'package:diagnosis_tool/app/pages/home/home_page.dart';
+import 'package:diagnosis_tool/app/pages/robot/robot_page.dart';
+import 'package:diagnosis_tool/app/pages/robots/robot_list_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +19,8 @@ enum AppRoute {
   wifi,
   transport,
   success,
+  robots,
+  robot,
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -71,6 +75,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             name: AppRoute.success.name,
             pageBuilder: (context, state) {
               return CupertinoPage(key: state.pageKey, child: SuccessPage());
+            }),
+        GoRoute(
+            path: '/robots',
+            name: AppRoute.robots.name,
+            pageBuilder: (context, state) {
+              return CupertinoPage(key: state.pageKey, child: RobotListPage());
+            }),
+        GoRoute(
+            path: '/robot',
+            name: AppRoute.robot.name,
+            pageBuilder: (context, state) {
+              return CupertinoPage(key: state.pageKey, child: RobotPage());
             }),
       ]);
 });
