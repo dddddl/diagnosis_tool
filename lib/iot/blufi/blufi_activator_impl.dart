@@ -12,7 +12,8 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
   ActivatorInfo? _activatorInfo;
   ActivatorCallback? _callback;
   late final Blufi? _blufiPlugin;
-
+  StreamSubscription? customDataSubscription = null;
+  StreamSubscription? wifiSubscription = null;
   BlufiActivatorImpl(ActivatorInfo info, ActivatorCallback callback) {
     _activatorInfo = info;
     _callback = callback;
@@ -42,24 +43,28 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
   }
 
   _sendConfigData() {
-    _blufiPlugin
-        ?.sendWifiConfig(
-            _activatorInfo!.ssid!, _activatorInfo!.password!)
+    wifiSubscription = _blufiPlugin
+        ?.sendWifiConfig(_activatorInfo!.ssid!, _activatorInfo!.password!)
         .listen((event) {
       print("Connection Response : $event");
       if (event) {
         _callback?.onProgress(ActivatorProgress.REGISTERING);
+        wifiSubscription?.cancel();
       }
     });
   }
 
   _listenCustomData() {
-    _blufiPlugin?.receiveCustomData().listen((event) {
-      print("Custom Data : $event");
+    customDataSubscription =
+        _blufiPlugin?.receiveCustomData().listen((event) {
+      print(
+          "===============================================Custom Data : $event");
       _sendCustomData();
     });
     _sendCustomData();
   }
+
+  bool sendCustomEnd = false;
 
   /// 处理自定义消息
   _sendCustomData() {
@@ -67,8 +72,12 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
       CmdRequest request = cmdQueue.removeFirst();
       _blufiPlugin?.sendCustomData(request.getRequestData());
     } catch (e) {
-      print(e);
-      _sendConfigData();
+      print("===============================================_sendConfigData");
+      if (!sendCustomEnd) {
+        sendCustomEnd = true;
+        customDataSubscription?.cancel();
+        _sendConfigData();
+      }
     }
   }
 

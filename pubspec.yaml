@@ -61,6 +61,8 @@ dependencies:
   app_settings: ^4.1.8
   # event bus
   event_bus: ^2.0.0
+  # 压缩
+  archive: ^3.3.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
