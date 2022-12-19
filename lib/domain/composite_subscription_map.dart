@@ -1,5 +1,7 @@
 import 'dart:async';
 
+
+
 /// Acts as a container for multiple subscriptions that can be canceled at once
 /// e.g. view subscriptions in Flutter that need to be canceled on view disposal
 ///
@@ -43,15 +45,15 @@ class CompositeSubscriptionMap<K> {
       throw ('This composite was disposed, try to use new instance instead');
     }
     _subscriptionsMap[k] = subscription;
-    print('add Key $k');
-    print('subscription $subscription');
+    logger.i(  'add Key $k');
+    logger.i(  'subscription $subscription');
     return subscription;
   }
 
   /// Cancels subscription and removes it from this composite.
   void remove(K k) {
-    print('remove Key $k');
-    print('_subscriptionsMap[k]' + _subscriptionsMap[k].toString());
+    logger.i(  'remove Key $k');
+    logger.i(  '_subscriptionsMap[k]' + _subscriptionsMap[k].toString());
     _subscriptionsMap[k]?.cancel();
     _subscriptionsMap.remove(k);
   }

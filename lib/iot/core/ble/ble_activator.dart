@@ -1,6 +1,8 @@
 import 'package:diagnosis_tool/iot/activator.dart';
 import 'package:diagnosis_tool/iot/core/mixin_activator_info.dart';
 import 'package:diagnosis_tool/iot/entities/activator_info.dart';
+import 'package:diagnosis_tool/iot/utils/log_utils.dart';
+
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import '../../callback/activator_callback.dart';
@@ -30,7 +32,7 @@ class BleActivator
 
   @override
   void stop() {
-    print("stop   ");
+    LogUtils.log("stop   ");
     release(_activatorInfo?.scanResult);
   }
 }

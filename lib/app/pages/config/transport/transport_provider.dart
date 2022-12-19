@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:diagnosis_tool/app/di/logger_provider.dart';
 import 'package:diagnosis_tool/iot/activator.dart';
 import 'package:diagnosis_tool/iot/blufi/blufi_activator.dart';
 import 'package:diagnosis_tool/iot/callback/activator_callback.dart';
@@ -8,8 +9,10 @@ import 'package:diagnosis_tool/iot/core/ble/le_activator.dart';
 import 'package:diagnosis_tool/iot/entities/activator_info.dart';
 import 'package:diagnosis_tool/iot/entities/le_activator_info.dart';
 import 'package:diagnosis_tool/iot/iot.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/src/logger.dart';
 
 part 'transport_provider.freezed.dart';
 
@@ -31,13 +34,15 @@ class TransportState with _$TransportState {
 
 final transportProvider =
     StateNotifierProvider.autoDispose<TransportStateNotifier, TransportState>(
-        (ref) => TransportStateNotifier(const TransportState()));
+        (ref) =>
+            TransportStateNotifier(const TransportState(), ref.read(logger)));
 
 class TransportStateNotifier extends StateNotifier<TransportState> {
   Timer? timer;
   BlufiActivator? activator;
+  Logger logger;
 
-  TransportStateNotifier(TransportState state) : super(state) {
+  TransportStateNotifier(TransportState state, this.logger) : super(state) {
     activator = Iot.getBlufiActivator();
   }
 
@@ -54,16 +59,16 @@ class TransportStateNotifier extends StateNotifier<TransportState> {
             "robot.china-dongcheng.com"),
         ActivatorCallback(
           onSuccess: (result) {
-            print("onSuccess");
+            logger.i("onSuccess");
             state = state.copyWith(progress: 100);
             timer?.cancel();
           },
           onFailure: (e) {
-            print("onFailure");
+            logger.i("onFailure");
             state = state.copyWith(isFailed: true);
           },
           onProgress: (progress) {
-            print("onProgress");
+            logger.i("onProgress");
             progress == ActivatorProgress.CONNECTING
                 ? state = state.copyWith(
                     progress:
@@ -91,7 +96,7 @@ class TransportStateNotifier extends StateNotifier<TransportState> {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if ((state.progress ?? 0) <= _timeout) {
         state = state.copyWith(progress: 1 + (state.progress ?? 0));
-        print(state.progress);
+        logger.i(state.progress.toString());
       } else {
         timer.cancel();
       }

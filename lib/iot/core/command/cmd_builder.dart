@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:diagnosis_tool/iot/utils/cmd_utils.dart';
+import 'package:diagnosis_tool/iot/utils/log_utils.dart';
+
 
 import '../../entities/iot_exception.dart';
 import 'cmd_config.dart';
@@ -33,10 +35,10 @@ class CmdBuilder {
 
     data[0] = data[0] & 0x7F;
     id = CmdUtils.twoBytesToInt(data, 0);
-    print("id $id");
+    LogUtils.log(  "id $id");
 
     int length = CmdUtils.twoBytesToInt(data, 2);
-    print("length $length");
+    LogUtils.log(  "length $length");
 
     if (length != size - headSize) {
       throw IotException("length size must == raw size - $headSize");
@@ -44,7 +46,7 @@ class CmdBuilder {
 
     this.data = Uint8List(length);
     this.data.setRange(0, size - 4, data, 4);
-    print("data $data");
+    LogUtils.log(  "data $data");
     return this;
   }
 

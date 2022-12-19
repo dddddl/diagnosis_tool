@@ -16,6 +16,8 @@ void main() {
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 
+  
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

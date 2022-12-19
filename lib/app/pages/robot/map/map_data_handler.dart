@@ -5,44 +5,51 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:archive/archive_io.dart';
+import 'package:logger/src/logger.dart';
+
 import 'map_data_interface.dart';
 
 class MapDataHandler extends MapDataInterface {
+  Logger logger;
+
+  MapDataHandler(this.logger);
+
   @override
   Future<Image> handleMapData(String mapData) async {
     List<String> map = mapData.split(' ');
 
     for (int i = 0; i < map.length; i++) {
-      print(map[i]);
+      logger.i(map[i]);
     }
 
     Rect rect = Rect.fromLTRB(double.parse(map[2]), double.parse(map[5]),
         double.parse(map[4]), double.parse(map[3]));
 
-    print('rect $rect');
-    print('rect.left ${rect.left}');
-    print('rect.top ${rect.top}');
-    print('rect.right ${rect.right}');
-    print('rect.bottom ${rect.bottom}');
+    logger.i('rect $rect');
+    logger.i('rect.left ${rect.left}');
+    logger.i('rect.top ${rect.top}');
+    logger.i('rect.right ${rect.right}');
+    logger.i('rect.bottom ${rect.bottom}');
 
     List<int> stringBytes = base64Url.decode(map.last);
 
     ZLibDecoder decoder = ZLibDecoder();
     List<int> decodeBytes = decoder.decodeBytes(stringBytes);
-    print('decodeBytes length ${decodeBytes.length}');
-    print('decodeBytes $decodeBytes');
+    logger.i('decodeBytes length ${decodeBytes.length}');
+    logger.i('decodeBytes $decodeBytes');
 
     int width = (rect.right - rect.left + 1).toInt();
     int height = (rect.top - rect.bottom + 1).toInt();
-    print('all size ${width * height}');
+    logger.i('all size ${width * height}');
 
     Int32List color = _analyzeColor(decodeBytes, width, height);
 
-    print('decodeBytes length ${color.length}');
-    print('decodeBytes $color');
+    logger.i('decodeBytes length ${color.length}');
+    logger.i('decodeBytes $color');
 
     return _loadImage(color, width, height);
   }
+
   /// 用于生成雪花噪点数据
   int xorshift32(int x) {
     x ^= x << 13;
@@ -54,13 +61,10 @@ class MapDataHandler extends MapDataInterface {
   int seed = 0xDEADBEEF;
 
   Future<Image> _loadImage(Int32List color, int width, int height) {
-
     final pixels = Int32List(width * height);
     for (int i = 0; i < pixels.length; i++) {
       seed = pixels[i] = xorshift32(seed);
     }
-
-
 
     final Completer<Image> completer = Completer<Image>();
     decodeImageFromPixels(

@@ -1,4 +1,6 @@
 import 'package:diagnosis_tool/iot/core/command/cmd_request.dart';
+import 'package:diagnosis_tool/iot/utils/log_utils.dart';
+
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import '../../entities/ble_config.dart';
@@ -12,9 +14,9 @@ mixin MixinLeTransportImpl implements LeTransport {
         .connect(timeout: Duration(seconds: timeout), autoConnect: false);
 
     scanResult.device.state.listen((event) async {
-      print("device state $event");
+      LogUtils.log(  "device state $event");
       if (event == BluetoothDeviceState.connected) {
-        print("connected  discoverServices");
+        LogUtils.log(  "connected  discoverServices");
         await discoverService(scanResult);
       } else if (event == BluetoothDeviceState.disconnected) {
       } else if (event == BluetoothDeviceState.connecting) {

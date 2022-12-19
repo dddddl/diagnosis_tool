@@ -7,6 +7,7 @@ import 'package:diagnosis_tool/iot/callback/activator_progress.dart';
 import 'package:diagnosis_tool/iot/core/command/cmd_request.dart';
 import 'package:diagnosis_tool/iot/core/mixin_activator_info.dart';
 import 'package:diagnosis_tool/iot/entities/activator_info.dart';
+import 'package:diagnosis_tool/iot/utils/log_utils.dart';
 
 class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
   ActivatorInfo? _activatorInfo;
@@ -14,6 +15,7 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
   late final Blufi? _blufiPlugin;
   StreamSubscription? customDataSubscription = null;
   StreamSubscription? wifiSubscription = null;
+
   BlufiActivatorImpl(ActivatorInfo info, ActivatorCallback callback) {
     _activatorInfo = info;
     _callback = callback;
@@ -24,16 +26,16 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
   @override
   void start() {
     _blufiPlugin?.scanBluetoothDevice().listen((event) {
-      print(event);
-      print("Device : ${event.length}");
+      LogUtils.log(event.toString());
+      LogUtils.log("Device : ${event.length}");
       if (event.isNotEmpty) {
         _callback?.onProgress(ActivatorProgress.CONNECTING);
         _blufiPlugin?.stopScanBluetoothDevice();
         _blufiPlugin?.connectToBleDevice(event.first).listen((event) {
-          print("Connection Response : $event");
+          LogUtils.log("Connection Response : $event");
           _callback?.onProgress(ActivatorProgress.TRANSPORTING);
           Future.delayed(const Duration(seconds: 2)).then((value) {
-            print('delayed');
+            LogUtils.log('delayed');
             // _sendConfigData();
             _listenCustomData();
           });
@@ -46,7 +48,7 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
     wifiSubscription = _blufiPlugin
         ?.sendWifiConfig(_activatorInfo!.ssid!, _activatorInfo!.password!)
         .listen((event) {
-      print("Connection Response : $event");
+      LogUtils.log("Connection Response : $event");
       if (event) {
         _callback?.onProgress(ActivatorProgress.REGISTERING);
         wifiSubscription?.cancel();
@@ -55,9 +57,8 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
   }
 
   _listenCustomData() {
-    customDataSubscription =
-        _blufiPlugin?.receiveCustomData().listen((event) {
-      print(
+    customDataSubscription = _blufiPlugin?.receiveCustomData().listen((event) {
+      LogUtils.log(
           "===============================================Custom Data : $event");
       _sendCustomData();
     });
@@ -72,7 +73,7 @@ class BlufiActivatorImpl with MixinActivatorInfo implements Activator {
       CmdRequest request = cmdQueue.removeFirst();
       _blufiPlugin?.sendCustomData(request.getRequestData());
     } catch (e) {
-      print("===============================================_sendConfigData");
+      LogUtils.log("===============================================_sendConfigData");
       if (!sendCustomEnd) {
         sendCustomEnd = true;
         customDataSubscription?.cancel();

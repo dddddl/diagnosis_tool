@@ -1,11 +1,15 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:diagnosis_tool/app/di/logger_provider.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/src/logger.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 
 part 'wifi_provider.freezed.dart';
+
 part 'wifi_provider.g.dart';
 
 @freezed
@@ -24,10 +28,12 @@ class WifiState with _$WifiState {
 
 final wifiProvider =
     StateNotifierProvider.autoDispose<WifiStateNotifier, WifiState>(
-        (ref) => WifiStateNotifier());
+        (ref) => WifiStateNotifier(ref.read(logger)));
 
 class WifiStateNotifier extends StateNotifier<WifiState> {
-  WifiStateNotifier() : super(WifiState());
+  Logger logger;
+
+  WifiStateNotifier(this.logger) : super(WifiState());
 
   StreamSubscription? connectivitySubscription;
 
@@ -45,12 +51,13 @@ class WifiStateNotifier extends StateNotifier<WifiState> {
         .onConnectivityChanged
         .listen((ConnectivityResult result) async {
       if (result == ConnectivityResult.wifi) {
-        print('Connected to WiFi');
-        String? wifiName = await getWifiName();
-        print(wifiName);
-        state = state.copyWith(ssid: wifiName?.replaceAll('"', ''));
+        logger.i('Connected to WiFi');
+
+        String? wifiName = await getWifiName() ?? '';
+        logger.i(wifiName);
+        state = state.copyWith(ssid: wifiName.replaceAll('"', ''));
       } else {
-        print('Not connected to WiFi');
+        logger.i('Not connected to WiFi');
         state = state.copyWith(
           ssid: null,
         );

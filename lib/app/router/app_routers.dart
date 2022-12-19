@@ -5,6 +5,7 @@ import 'package:diagnosis_tool/app/pages/config/success/success_page.dart';
 import 'package:diagnosis_tool/app/pages/config/transport/transport_page.dart';
 import 'package:diagnosis_tool/app/pages/config/wifi/wifi_page.dart';
 import 'package:diagnosis_tool/app/pages/home/home_page.dart';
+import 'package:diagnosis_tool/app/pages/log/log_page.dart';
 import 'package:diagnosis_tool/app/pages/robot/robot_page.dart';
 import 'package:diagnosis_tool/app/pages/robots/robot_list_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +22,7 @@ enum AppRoute {
   success,
   robots,
   robot,
+  log,
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -87,6 +89,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             name: AppRoute.robot.name,
             pageBuilder: (context, state) {
               return CupertinoPage(key: state.pageKey, child: RobotPage());
+            }),
+        GoRoute(
+            path: '/log',
+            name: AppRoute.log.name,
+            pageBuilder: (context, state) {
+              return CupertinoPage(key: state.pageKey, child: LogPage());
             }),
       ]);
 });

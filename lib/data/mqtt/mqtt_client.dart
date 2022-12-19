@@ -24,7 +24,7 @@ void main() {
 
       SubscribeParams params = SubscribeParams(['/test/topic']);
       SubscribeParams params1 = SubscribeParams(['/test/topic']);
-      print(params == params1);
+      logger.i(  params == params1);
 
     }
   });
@@ -33,34 +33,34 @@ void main() {
 class _test1 extends Observer<String> {
   @override
   void onComplete() {
-    print('_test1 onComplete');
+    logger.i(  '_test1 onComplete');
   }
 
   @override
   void onError(e) {
-    print(e);
+    logger.i(  e);
   }
 
   @override
   void onNext(String? response) {
-    print('_test1 onNext: $response');
+    logger.i(  '_test1 onNext: $response');
   }
 }
 
 class _test extends Observer<String> {
   @override
   void onComplete() {
-    print('_test1 onComplete');
+    logger.i(  '_test1 onComplete');
   }
 
   @override
   void onError(e) {
-    print(e);
+    logger.i(  e);
   }
 
   @override
   void onNext(String? response) {
-    print('onNext: $response');
+    logger.i(  'onNext: $response');
   }
 }
 
@@ -111,12 +111,12 @@ class MqttClient {
 
     // Connect the client
     try {
-      print('MQTT client connecting to AWS IoT using certificates....');
+      logger.i(  'MQTT client connecting to AWS IoT using certificates....');
       MqttClientConnectionStatus? status = await _client?.connect();
       _connected = (status?.state == MqttConnectionState.connected);
       return _connected;
     } on Exception catch (e) {
-      print('MQTT client exception - $e');
+      logger.i(  'MQTT client exception - $e');
       _client?.disconnect();
       _connected = false;
       return false;
@@ -125,7 +125,7 @@ class MqttClient {
 
   void pubMsg(PublishParams params) {
     if (_client?.connectionStatus?.state == MqttConnectionState.connected) {
-      print('MQTT client connected to AWS IoT');
+      logger.i(  'MQTT client connected to AWS IoT');
 
       // Publish to a topic of your choice
       String topic = params.topic;
@@ -134,7 +134,7 @@ class MqttClient {
       // Important: AWS IoT Core can only handle QOS of 0 or 1. QOS 2 (exactlyOnce) will fail!
       _client?.publishMessage(topic, MqttQos.atMostOnce, builder.payload!);
     } else {
-      print(
+      logger.i( 
           'ERROR MQTT client connection failed - disconnecting, state is ${_client?.connectionStatus?.state}');
       _client?.disconnect();
     }
@@ -161,7 +161,7 @@ class MqttClient {
         _client?.connectionStatus?.state == MqttConnectionState.connected) {
       StreamSubscription<List<MqttReceivedMessage<MqttMessage>>>? subscription =
           _client?.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-        print('EXAMPLE::Change notification:: topic is <${c[0].topic}>');
+        logger.i(  'EXAMPLE::Change notification:: topic is <${c[0].topic}>');
         if (params.topics.contains(c[0].topic)) {
           final recMess = c[0].payload as MqttPublishMessage;
           final pt =
@@ -177,32 +177,32 @@ class MqttClient {
 
   // 连接成功
   void onConnected() {
-    print('Connected');
+    logger.i(  'Connected');
   }
 
 // 连接断开
   void onDisconnected() {
-    print('Disconnected');
+    logger.i(  'Disconnected');
   }
 
 // 订阅主题成功
   void onSubscribed(String topic) {
-    print('Subscribed topic: $topic');
+    logger.i(  'Subscribed topic: $topic');
   }
 
 // 订阅主题失败
   void onSubscribeFail(String topic) {
-    print('Failed to subscribe $topic');
+    logger.i(  'Failed to subscribe $topic');
   }
 
 // 成功取消订阅
   void onUnsubscribed(String? topic) {
-    print('Unsubscribed topic: $topic');
+    logger.i(  'Unsubscribed topic: $topic');
   }
 
 // 收到 PING 响应
   void pong() {
-    print('Ping response client callback invoked');
+    logger.i(  'Ping response client callback invoked');
   }
 
   /// Disposes (unsubscribes) from the [Stream]

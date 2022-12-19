@@ -63,6 +63,8 @@ dependencies:
   event_bus: ^2.0.0
   # 压缩
   archive: ^3.3.5
+  # 日志
+  logger: ^1.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
