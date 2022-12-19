@@ -43,7 +43,7 @@ class TransportConsumerState extends ConsumerState<TransportPage> {
         transportProvider.select((value) => value.isSuccess ?? false),
         (previous, next) {
       if (next) {
-        context.pushNamed(AppRoute.success.name);
+        context.replaceNamed(AppRoute.success.name);
       }
     });
 
