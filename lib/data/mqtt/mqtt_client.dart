@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:diagnosis_tool/domain/composite_subscription.dart';
 import 'package:diagnosis_tool/domain/composite_subscription_map.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
+import 'package:diagnosis_tool/iot/utils/log_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
@@ -24,8 +25,7 @@ void main() {
 
       SubscribeParams params = SubscribeParams(['/test/topic']);
       SubscribeParams params1 = SubscribeParams(['/test/topic']);
-      logger.i(  params == params1);
-
+      LogUtils.log(params == params1);
     }
   });
 }
@@ -33,34 +33,34 @@ void main() {
 class _test1 extends Observer<String> {
   @override
   void onComplete() {
-    logger.i(  '_test1 onComplete');
+    LogUtils.log('_test1 onComplete');
   }
 
   @override
   void onError(e) {
-    logger.i(  e);
+    LogUtils.log(e);
   }
 
   @override
   void onNext(String? response) {
-    logger.i(  '_test1 onNext: $response');
+    LogUtils.log('_test1 onNext: $response');
   }
 }
 
 class _test extends Observer<String> {
   @override
   void onComplete() {
-    logger.i(  '_test1 onComplete');
+    LogUtils.log('_test1 onComplete');
   }
 
   @override
   void onError(e) {
-    logger.i(  e);
+    LogUtils.log(e);
   }
 
   @override
   void onNext(String? response) {
-    logger.i(  'onNext: $response');
+    LogUtils.log('onNext: $response');
   }
 }
 
@@ -84,8 +84,8 @@ class MqttClient {
 
   Future<bool> connectWithPort() async {
     // Create the client
-    _client = MqttServerClient.withPort(
-        '10.9.9.46', 'tststsetstsetsetstse', 1883);
+    _client =
+        MqttServerClient.withPort('10.9.9.46', 'tststsetstsetsetstse', 1883);
 
     _client?.keepAlivePeriod = 20;
     // Set the protocol to V3.1.1 for AWS IoT Core, if you fail to do this you will not receive a connect ack with the response code
@@ -111,12 +111,12 @@ class MqttClient {
 
     // Connect the client
     try {
-      logger.i(  'MQTT client connecting to AWS IoT using certificates....');
+      LogUtils.log('MQTT client connecting to AWS IoT using certificates....');
       MqttClientConnectionStatus? status = await _client?.connect();
       _connected = (status?.state == MqttConnectionState.connected);
       return _connected;
     } on Exception catch (e) {
-      logger.i(  'MQTT client exception - $e');
+      LogUtils.log('MQTT client exception - $e');
       _client?.disconnect();
       _connected = false;
       return false;
@@ -125,7 +125,7 @@ class MqttClient {
 
   void pubMsg(PublishParams params) {
     if (_client?.connectionStatus?.state == MqttConnectionState.connected) {
-      logger.i(  'MQTT client connected to AWS IoT');
+      LogUtils.log('MQTT client connected to AWS IoT');
 
       // Publish to a topic of your choice
       String topic = params.topic;
@@ -134,7 +134,7 @@ class MqttClient {
       // Important: AWS IoT Core can only handle QOS of 0 or 1. QOS 2 (exactlyOnce) will fail!
       _client?.publishMessage(topic, MqttQos.atMostOnce, builder.payload!);
     } else {
-      logger.i( 
+      LogUtils.log(
           'ERROR MQTT client connection failed - disconnecting, state is ${_client?.connectionStatus?.state}');
       _client?.disconnect();
     }
@@ -161,7 +161,7 @@ class MqttClient {
         _client?.connectionStatus?.state == MqttConnectionState.connected) {
       StreamSubscription<List<MqttReceivedMessage<MqttMessage>>>? subscription =
           _client?.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-        logger.i(  'EXAMPLE::Change notification:: topic is <${c[0].topic}>');
+        LogUtils.log('EXAMPLE::Change notification:: topic is <${c[0].topic}>');
         if (params.topics.contains(c[0].topic)) {
           final recMess = c[0].payload as MqttPublishMessage;
           final pt =
@@ -177,32 +177,32 @@ class MqttClient {
 
   // 连接成功
   void onConnected() {
-    logger.i(  'Connected');
+    LogUtils.log('Connected');
   }
 
 // 连接断开
   void onDisconnected() {
-    logger.i(  'Disconnected');
+    LogUtils.log('Disconnected');
   }
 
 // 订阅主题成功
   void onSubscribed(String topic) {
-    logger.i(  'Subscribed topic: $topic');
+    LogUtils.log('Subscribed topic: $topic');
   }
 
 // 订阅主题失败
   void onSubscribeFail(String topic) {
-    logger.i(  'Failed to subscribe $topic');
+    LogUtils.log('Failed to subscribe $topic');
   }
 
 // 成功取消订阅
   void onUnsubscribed(String? topic) {
-    logger.i(  'Unsubscribed topic: $topic');
+    LogUtils.log('Unsubscribed topic: $topic');
   }
 
 // 收到 PING 响应
   void pong() {
-    logger.i(  'Ping response client callback invoked');
+    LogUtils.log('Ping response client callback invoked');
   }
 
   /// Disposes (unsubscribes) from the [Stream]

@@ -33,7 +33,7 @@ abstract class LogUtils {
     return _logger!;
   }
 
-  static void log(String message) {
+  static void log(dynamic message) {
     _getLogger().then((logger) => logger.i(message));
   }
 }

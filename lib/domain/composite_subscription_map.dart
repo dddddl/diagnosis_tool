@@ -45,15 +45,15 @@ class CompositeSubscriptionMap<K> {
       throw ('This composite was disposed, try to use new instance instead');
     }
     _subscriptionsMap[k] = subscription;
-    logger.i(  'add Key $k');
-    logger.i(  'subscription $subscription');
+    print(  'add Key $k');
+    print(  'subscription $subscription');
     return subscription;
   }
 
   /// Cancels subscription and removes it from this composite.
   void remove(K k) {
-    logger.i(  'remove Key $k');
-    logger.i(  '_subscriptionsMap[k]' + _subscriptionsMap[k].toString());
+    print(  'remove Key $k');
+    print(  '_subscriptionsMap[k]' + _subscriptionsMap[k].toString());
     _subscriptionsMap[k]?.cancel();
     _subscriptionsMap.remove(k);
   }
