@@ -48,7 +48,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: cc6da1b765b9e3a6bb4afd2024c57cb3062c50da
+      resolved-ref: bd13816aa743075607fc83dd90f774c7e3b708db
       url: "http://172.16.10.35/aiot/blufi.git"
     source: git
     version: "0.0.1"

@@ -15,28 +15,26 @@ import 'package:diagnosis_tool/iot/utils/log_utils.dart';
 class BlufiActivatorImpl
     with MixinActivatorInfo, MixinDataHandler
     implements Activator {
-  ActivatorInfo? _activatorInfo;
   ActivatorCallback? _callback;
-  late final Blufi? _blufiPlugin;
+  late final Blufi? _plugin;
   StreamSubscription? customDataSubscription = null;
   StreamSubscription? wifiSubscription = null;
   StreamSubscription? scanSubscription = null;
 
   BlufiActivatorImpl(ActivatorInfo info, ActivatorCallback callback) {
-    _activatorInfo = info;
     _callback = callback;
-    _blufiPlugin = Blufi();
+    _plugin = Blufi();
     convert(info);
   }
 
   @override
   void start() {
-    scanSubscription = _blufiPlugin?.scanBluetoothDevice().listen((event) {
+    scanSubscription = _plugin?.scanBluetoothDevice().listen((event) {
       LogUtils.log(event.toString());
       LogUtils.log("Device : ${event.length}");
       if (event.isNotEmpty) {
         _callback?.onProgress(ActivatorProgress.CONNECTING);
-        _blufiPlugin?.stopScanBluetoothDevice();
+        _plugin?.stopScanBluetoothDevice();
         connect(event.first);
       }
     });
@@ -44,7 +42,7 @@ class BlufiActivatorImpl
 
   void connect(BleDevices bleDevices) {
     scanSubscription?.cancel();
-    _blufiPlugin?.connectToBleDevice(bleDevices).listen((event) {
+    _plugin?.connectToBleDevice(bleDevices).listen((event) {
       LogUtils.log("Connection Response : $event");
       _callback?.onProgress(ActivatorProgress.TRANSPORTING);
       Future.delayed(const Duration(seconds: 2)).then((value) {
@@ -67,7 +65,7 @@ class BlufiActivatorImpl
   // }
 
   _listenCustomData() {
-    customDataSubscription = _blufiPlugin?.receiveCustomData().listen((event) {
+    customDataSubscription = _plugin?.receiveCustomData().listen((event) {
       LogUtils.log("listen data ============================: $event");
 
       CmdResponse response = handleData(event);
@@ -100,7 +98,7 @@ class BlufiActivatorImpl
   _sendCustomData() {
     try {
       CmdRequest request = cmdQueue.removeFirst();
-      _blufiPlugin?.sendCustomData(request.getRequestData());
+      _plugin?.sendCustomData(request.getRequestData());
     } catch (e) {
       if (!sendCustomEnd) {
         sendCustomEnd = true;
@@ -110,7 +108,7 @@ class BlufiActivatorImpl
 
   @override
   void stop() {
-    _blufiPlugin?.dispose();
+    _plugin?.dispose();
     customDataSubscription?.cancel();
   }
 }
