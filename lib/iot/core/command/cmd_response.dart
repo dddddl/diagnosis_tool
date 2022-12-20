@@ -54,7 +54,7 @@ class CmdResponse {
   String mac() {
     try {
       Uint8List macList = data.sublist(1);
-      return utf8.decode(macList);
+      return macList.map((e) => e.toRadixString(16).padLeft(2, '0')).join(':');
     } catch (e) {
       return '';
     }

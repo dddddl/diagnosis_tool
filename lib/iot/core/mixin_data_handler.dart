@@ -48,33 +48,13 @@ mixin MixinDataHandler {
     LogUtils.log('-------data-------');
     LogUtils.log(data);
 
-    CmdResponse cmdResponse;
+    CmdResponse cmdResponse = CmdBuilder().setId(id).setBytesData(data).buildResponse();
     if (msg[0] & 0x80 == 0x80) {
       LogUtils.log("收到的是响应");
-      cmdResponse = CmdBuilder().setId(id).setBytesData(data).buildResponse();
-
       data[0] == 0 ? LogUtils.log("响应成功") : LogUtils.log("响应失败");
     } else {
       LogUtils.log("收到的是请求");
-      cmdResponse = CmdBuilder().setId(id).setBytesData(data).buildResponse();
-
-      if (cmdResponse.id == 0x00de) {
-        LogUtils.log("0x00de data :${cmdResponse.data}");
-      } else if (cmdResponse.id == 0x00df) {
-        LogUtils.log("0x00df data :${cmdResponse.data}");
-        if (cmdResponse.data[0] == 0x00) {
-          Uint8List mac = Uint8List(cmdResponse.data.length - 1);
-          mac.setAll(0, cmdResponse.data.sublist(1));
-          LogUtils.log("mac data :$mac");
-        } else {
-          LogUtils.log("错误码 :${cmdResponse.data}");
-        }
-      } else {
-        LogUtils.log("消息头错误：${cmdResponse.id}");
-      }
     }
-
-    LogUtils.log(cmdResponse);
 
     return cmdResponse;
   }

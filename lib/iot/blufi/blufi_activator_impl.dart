@@ -80,7 +80,9 @@ class BlufiActivatorImpl
           LogUtils.log("Unknown progress");
         }
       } else if (response.isResult()) {
+        LogUtils.log("isResult valid ${response.valid()}");
         if (response.valid()) {
+          LogUtils.log("Device mac : ${response.mac()}");
           _callback?.onSuccess(response.mac());
         } else {
           _callback?.onFailure("Failed to connect");
