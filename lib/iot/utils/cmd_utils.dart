@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:diagnosis_tool/iot/utils/log_utils.dart';
+
 abstract class CmdUtils {
   /// int 转 2个字节数组
   static Uint8List intTo2Bytes(int data) {
@@ -10,10 +12,10 @@ abstract class CmdUtils {
     return bytes;
   }
 
-  /// 2个字节转int
   static int twoBytesToInt(Uint8List data, int index) {
-    var byteData = ByteData.view(data.buffer, index, 2);
-    int value = byteData.getInt16(0, Endian.big);
+    // 使用ByteData从字节数组的指定位置读取两个字节
+    ByteData byteData = ByteData.view(data.buffer, index);
+    int value = byteData.getUint16(0, Endian.big);
     return value;
   }
 

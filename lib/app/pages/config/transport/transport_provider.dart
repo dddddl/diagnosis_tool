@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
+import 'package:diagnosis_tool/data/constants.dart';
 import 'package:diagnosis_tool/iot/activator.dart';
 import 'package:diagnosis_tool/iot/blufi/blufi_activator.dart';
 import 'package:diagnosis_tool/iot/callback/activator_callback.dart';
@@ -13,6 +14,7 @@ import 'package:diagnosis_tool/iot/iot.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/src/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'transport_provider.freezed.dart';
 
@@ -59,35 +61,49 @@ class TransportStateNotifier extends StateNotifier<TransportState> {
             "robot.china-dongcheng.com"),
         ActivatorCallback(
           onSuccess: (result) {
-            logger.i("onSuccess");
+            logger.i("onSuccess $result");
             state = state.copyWith(progress: 100);
             timer?.cancel();
+            SharedPreferences.getInstance().then((prefs) {
+              List<String>? localRobots =
+                  prefs.getStringList(Constants.localRobots);
+              localRobots ??= [];
+              localRobots.contains(result)
+                  ? logger.i("robot already exists")
+                  : localRobots.add(result);
+
+              prefs.setStringList(Constants.localRobots, localRobots);
+            });
+            Future.delayed(const Duration(seconds: 1)).then((value) {
+              state = state.copyWith(isSuccess: true);
+            });
           },
           onFailure: (e) {
             logger.i("onFailure");
             state = state.copyWith(isFailed: true);
           },
           onProgress: (progress) {
-            logger.i("onProgress");
+            logger.i("onProgress $progress");
             progress == ActivatorProgress.CONNECTING
                 ? state = state.copyWith(
                     progress:
                         (state.progress ?? 0) > 10 ? (state.progress ?? 0) : 10)
                 : progress == ActivatorProgress.TRANSPORTING
                     ? state = state.copyWith(
-                        progress: (state.progress ?? 0) > 50
+                        progress: (state.progress ?? 0) > 30
                             ? (state.progress ?? 0)
-                            : 50)
-                    : progress == ActivatorProgress.REGISTERING
+                            : 30)
+                    : progress == ActivatorProgress.ROUTER_CONNECTING
                         ? state = state.copyWith(
-                            progress: (state.progress ?? 0) > 90
+                            progress: (state.progress ?? 0) > 60
                                 ? (state.progress ?? 0)
-                                : 90)
-                        : state = state.copyWith(progress: 0);
-
-            if (progress == ActivatorProgress.REGISTERING) {
-              state = state.copyWith(isSuccess: true);
-            }
+                                : 60)
+                        : progress == ActivatorProgress.REGISTERING
+                            ? state = state.copyWith(
+                                progress: (state.progress ?? 0) > 90
+                                    ? (state.progress ?? 0)
+                                    : 90)
+                            : state = state.copyWith(progress: 0);
           },
         ));
   }

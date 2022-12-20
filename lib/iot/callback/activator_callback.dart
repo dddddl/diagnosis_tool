@@ -6,7 +6,8 @@ typedef OnProgress = void Function(ActivatorProgress progress);
 
 /// 配网成功
 /// @param device
-typedef OnSuccess = void Function(IotDevice device);
+// typedef OnSuccess = void Function(IotDevice device);
+typedef OnSuccess = void Function(String deviceMac);
 
 /// 配网失败
 /// @param code 错误码
