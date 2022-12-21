@@ -1,10 +1,11 @@
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
-import 'package:diagnosis_tool/app/pages/robot/map/map_widget.dart';
 import 'package:diagnosis_tool/app/pages/robot/robot_provider.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'map_widget.dart';
 
 class RobotPage extends ConsumerStatefulWidget {
   RobotPage({Key? key}) : super(key: key);
