@@ -51,6 +51,10 @@ dependencies:
   blufi:
     git:
       url: http://172.16.10.35/aiot/blufi.git
+  # 原生设备信息自定义
+  deviceinfo:
+    git:
+      url: http://172.16.10.35/aiot/deviceinfo.git
   # A collection of loading indicators animated with flutter.
   flutter_spinkit: ^5.1.0
   # wifi状态监听库

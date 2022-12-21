@@ -142,7 +142,7 @@ packages:
       name: code_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.0"
+    version: "4.4.0"
   collection:
     dependency: transitive
     description:
@@ -227,6 +227,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.0.0"
+  deviceinfo:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: e32c090d2c309b27f97faa0f1a96a20ff810222d
+      url: "http://172.16.10.35/aiot/deviceinfo.git"
+    source: git
+    version: "0.0.1"
   dio:
     dependency: "direct main"
     description:

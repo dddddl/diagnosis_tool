@@ -4,15 +4,32 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends ConsumerWidget {
-  static const List<Map<String, String>> source = [
+class HomePage extends ConsumerStatefulWidget {
+  final List<Map<String, String>> source = [
     {"icon": "assets/images/ic_upload", "title": "添加设备", "route": "/prepare"},
     {"icon": "assets/images/ic_upload", "title": "机器人列表", "route": "/robots"},
     {"icon": "assets/images/ic_upload", "title": "日志", "route": "/log"},
   ];
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() {
+    return HomePageState();
+  }
+}
+
+class HomePageState extends ConsumerState<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -21,7 +38,7 @@ class HomePage extends ConsumerWidget {
         body: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: source
+            children: widget.source
                 .map((e) => HomeItemWidget(
                       icon: e["icon"]!,
                       title: e['title']!,
@@ -31,8 +48,6 @@ class HomePage extends ConsumerWidget {
                     ))
                 .toList(),
           ),
-        )
-        // This trailing comma makes auto-formatting nicer for build methods.
-        );
+        ));
   }
 }

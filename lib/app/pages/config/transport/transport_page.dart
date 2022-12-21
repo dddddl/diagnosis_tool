@@ -22,10 +22,10 @@ class TransportPage extends ConsumerStatefulWidget {
 class TransportConsumerState extends ConsumerState<TransportPage> {
   @override
   void initState() {
-    super.initState();
     ref
         .read(transportProvider.notifier)
         .listenTransportState(widget.ssid, widget.password);
+    super.initState();
   }
 
   @override

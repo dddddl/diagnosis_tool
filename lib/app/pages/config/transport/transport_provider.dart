@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:deviceinfo/deviceinfo.dart';
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
+import 'package:diagnosis_tool/app/utils/channel_util.dart';
 import 'package:diagnosis_tool/data/constants.dart';
 import 'package:diagnosis_tool/iot/activator.dart';
 import 'package:diagnosis_tool/iot/blufi/blufi_activator.dart';
@@ -10,6 +12,7 @@ import 'package:diagnosis_tool/iot/core/ble/le_activator.dart';
 import 'package:diagnosis_tool/iot/entities/activator_info.dart';
 import 'package:diagnosis_tool/iot/entities/le_activator_info.dart';
 import 'package:diagnosis_tool/iot/iot.dart';
+import 'package:diagnosis_tool/iot/utils/time_util.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -44,8 +47,11 @@ class TransportStateNotifier extends StateNotifier<TransportState> {
   BlufiActivator? activator;
   Logger logger;
 
+  Deviceinfo? _deviceInfo;
+
   TransportStateNotifier(TransportState state, this.logger) : super(state) {
     activator = Iot.getBlufiActivator();
+    _deviceInfo = Deviceinfo();
   }
 
   final int _timeout = 98;
@@ -55,9 +61,13 @@ class TransportStateNotifier extends StateNotifier<TransportState> {
     _startTransport(ssid, password);
   }
 
-  void _startTransport(String? ssid, String? password) {
+  Future<void> _startTransport(String? ssid, String? password) async {
+    String timezone = TimeZoneUtil.createGmtOffsetString(
+        true, true, DateTime.now().timeZoneOffset.inMilliseconds);
+    String? countryCode = await _deviceInfo?.getPlatformCountryCode();
+    String channel = await ChannelUtil.channel(countryCode);
     activator?.start(
-        ActivatorInfo(ssid, password, 90, "bindToken", "timeZone", "channel",
+        ActivatorInfo(ssid, password, 90, "bindToken", timezone, channel,
             "robot.china-dongcheng.com"),
         ActivatorCallback(
           onSuccess: (result) {
@@ -130,6 +140,7 @@ class TransportStateNotifier extends StateNotifier<TransportState> {
   void dispose() {
     timer?.cancel();
     activator?.onStop();
+    _deviceInfo = null;
     super.dispose();
   }
 }
