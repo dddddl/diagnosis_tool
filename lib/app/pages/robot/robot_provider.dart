@@ -29,7 +29,7 @@ class RobotStateNotifier extends Controller<RobotState> {
   Logger logger;
 
   RobotStateNotifier(repository, this.logger)
-      : presenter = RobotPresenter(repository),
+      : presenter = RobotPresenter(repository, logger),
         mapData = MapDataHandler(logger),
         super(const RobotState(image: null)) {
     _loadMap();
@@ -37,8 +37,8 @@ class RobotStateNotifier extends Controller<RobotState> {
 
   @override
   void init() {
-    presenter.onNext = (robot) {
-      logger.i(robot.toString());
+    presenter.onNext = (robotState) {
+      logger.i(robotState.toString());
     };
 
     presenter.onComplete = () {

@@ -9,9 +9,15 @@ class RobotPresenter extends Presenter {
 
   RobotUseCase robotUseCase;
 
-  RobotPresenter(repository) : robotUseCase = RobotUseCase(repository);
+  RobotPresenter(repository, logger)
+      : robotUseCase = RobotUseCase(repository, logger);
 
   void getRobot(String robotId) {
+    robotUseCase.execute(
+        _RobotUseCaseObserver(this), RobotUseCaseParams(robotId));
+  }
+
+  void getRobotState(String robotId) {
     robotUseCase.execute(
         _RobotUseCaseObserver(this), RobotUseCaseParams(robotId));
   }
@@ -39,6 +45,6 @@ class _RobotUseCaseObserver extends Observer<RobotUseCaseResponse> {
 
   @override
   void onNext(response) {
-    presenter.onNext?.call(response!.robot);
+    presenter.onNext?.call(response!.robotState);
   }
 }
