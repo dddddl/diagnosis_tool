@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:convert';
 import 'dart:ui';
@@ -80,12 +79,6 @@ class MapDataHandler extends MapDataInterface {
       (Image image) => completer.complete(image),
     );
     return completer.future;
-  }
-
-  Future<Image> _convert(Uint8List list) async {
-    final codec = await instantiateImageCodec(list);
-    FrameInfo frame = await codec.getNextFrame();
-    return frame.image;
   }
 
   Int32List _analyzeColor(List<int> bytes, int width, int height) {
