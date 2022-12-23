@@ -1,13 +1,17 @@
+import 'package:diagnosis_tool/data/mqtt/mqtt_client.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
 import 'package:diagnosis_tool/domain/presenter.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_usecase.dart';
 
+import '../../../domain/entities/robot_map.dart';
+
 class RobotPresenter extends Presenter {
-  Function? onNext;
+  Function(RobotState state)? onNext;
   Function? onComplete;
   Function? onError;
 
   RobotUseCase robotUseCase;
+  SubscribeParams? topics;
 
   RobotPresenter(repository, logger)
       : robotUseCase = RobotUseCase(repository, logger);
@@ -18,13 +22,26 @@ class RobotPresenter extends Presenter {
   }
 
   void getRobotState(String robotId) {
+    _addSubscribeParams(robotId);
     robotUseCase.execute(
         _RobotUseCaseObserver(this), RobotUseCaseParams(robotId));
+  }
+
+  Future<void> _addSubscribeParams(String topic) async {
+    bool connect = await MqttClient.instance.connectWithPort();
+    topics = SubscribeParams(['/mower/up/$topic']);
+    if (connect) {
+      MqttClient.instance.subscribeMsg(topics!);
+      MqttClient.instance.listen(topics!);
+    }
   }
 
   @override
   void dispose() {
     robotUseCase.dispose();
+    if (topics != null) {
+      MqttClient.instance.unsubscribeMsg(topics!);
+    }
   }
 }
 

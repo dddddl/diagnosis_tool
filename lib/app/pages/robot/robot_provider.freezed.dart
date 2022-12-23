@@ -15,27 +15,30 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$RobotState {
+mixin _$RobotViewState {
   Image? get image => throw _privateConstructorUsedError;
+  RobotState get robotState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $RobotStateCopyWith<RobotState> get copyWith =>
+  $RobotViewStateCopyWith<RobotViewState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RobotStateCopyWith<$Res> {
-  factory $RobotStateCopyWith(
-          RobotState value, $Res Function(RobotState) then) =
-      _$RobotStateCopyWithImpl<$Res, RobotState>;
+abstract class $RobotViewStateCopyWith<$Res> {
+  factory $RobotViewStateCopyWith(
+          RobotViewState value, $Res Function(RobotViewState) then) =
+      _$RobotViewStateCopyWithImpl<$Res, RobotViewState>;
   @useResult
-  $Res call({Image? image});
+  $Res call({Image? image, RobotState robotState});
+
+  $RobotStateCopyWith<$Res> get robotState;
 }
 
 /// @nodoc
-class _$RobotStateCopyWithImpl<$Res, $Val extends RobotState>
-    implements $RobotStateCopyWith<$Res> {
-  _$RobotStateCopyWithImpl(this._value, this._then);
+class _$RobotViewStateCopyWithImpl<$Res, $Val extends RobotViewState>
+    implements $RobotViewStateCopyWith<$Res> {
+  _$RobotViewStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -46,87 +49,116 @@ class _$RobotStateCopyWithImpl<$Res, $Val extends RobotState>
   @override
   $Res call({
     Object? image = freezed,
+    Object? robotState = null,
   }) {
     return _then(_value.copyWith(
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as Image?,
+      robotState: null == robotState
+          ? _value.robotState
+          : robotState // ignore: cast_nullable_to_non_nullable
+              as RobotState,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RobotStateCopyWith<$Res> get robotState {
+    return $RobotStateCopyWith<$Res>(_value.robotState, (value) {
+      return _then(_value.copyWith(robotState: value) as $Val);
+    });
   }
 }
 
 /// @nodoc
-abstract class _$$_RobotStateCopyWith<$Res>
-    implements $RobotStateCopyWith<$Res> {
-  factory _$$_RobotStateCopyWith(
-          _$_RobotState value, $Res Function(_$_RobotState) then) =
-      __$$_RobotStateCopyWithImpl<$Res>;
+abstract class _$$_RobotViewStateCopyWith<$Res>
+    implements $RobotViewStateCopyWith<$Res> {
+  factory _$$_RobotViewStateCopyWith(
+          _$_RobotViewState value, $Res Function(_$_RobotViewState) then) =
+      __$$_RobotViewStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Image? image});
+  $Res call({Image? image, RobotState robotState});
+
+  @override
+  $RobotStateCopyWith<$Res> get robotState;
 }
 
 /// @nodoc
-class __$$_RobotStateCopyWithImpl<$Res>
-    extends _$RobotStateCopyWithImpl<$Res, _$_RobotState>
-    implements _$$_RobotStateCopyWith<$Res> {
-  __$$_RobotStateCopyWithImpl(
-      _$_RobotState _value, $Res Function(_$_RobotState) _then)
+class __$$_RobotViewStateCopyWithImpl<$Res>
+    extends _$RobotViewStateCopyWithImpl<$Res, _$_RobotViewState>
+    implements _$$_RobotViewStateCopyWith<$Res> {
+  __$$_RobotViewStateCopyWithImpl(
+      _$_RobotViewState _value, $Res Function(_$_RobotViewState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? image = freezed,
+    Object? robotState = null,
   }) {
-    return _then(_$_RobotState(
+    return _then(_$_RobotViewState(
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as Image?,
+      robotState: null == robotState
+          ? _value.robotState
+          : robotState // ignore: cast_nullable_to_non_nullable
+              as RobotState,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_RobotState implements _RobotState {
-  const _$_RobotState({required this.image});
+class _$_RobotViewState implements _RobotViewState {
+  const _$_RobotViewState({required this.image, required this.robotState});
 
   @override
   final Image? image;
+  @override
+  final RobotState robotState;
 
   @override
   String toString() {
-    return 'RobotState(image: $image)';
+    return 'RobotViewState(image: $image, robotState: $robotState)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RobotState &&
-            (identical(other.image, image) || other.image == image));
+            other is _$_RobotViewState &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.robotState, robotState) ||
+                other.robotState == robotState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, image);
+  int get hashCode => Object.hash(runtimeType, image, robotState);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RobotStateCopyWith<_$_RobotState> get copyWith =>
-      __$$_RobotStateCopyWithImpl<_$_RobotState>(this, _$identity);
+  _$$_RobotViewStateCopyWith<_$_RobotViewState> get copyWith =>
+      __$$_RobotViewStateCopyWithImpl<_$_RobotViewState>(this, _$identity);
 }
 
-abstract class _RobotState implements RobotState {
-  const factory _RobotState({required final Image? image}) = _$_RobotState;
+abstract class _RobotViewState implements RobotViewState {
+  const factory _RobotViewState(
+      {required final Image? image,
+      required final RobotState robotState}) = _$_RobotViewState;
 
   @override
   Image? get image;
   @override
+  RobotState get robotState;
+  @override
   @JsonKey(ignore: true)
-  _$$_RobotStateCopyWith<_$_RobotState> get copyWith =>
+  _$$_RobotViewStateCopyWith<_$_RobotViewState> get copyWith =>
       throw _privateConstructorUsedError;
 }

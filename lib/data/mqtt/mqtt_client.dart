@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/domain/composite_subscription.dart';
 import 'package:diagnosis_tool/domain/composite_subscription_map.dart';
+import 'package:diagnosis_tool/domain/entities/mqtt_entity.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
 import 'package:diagnosis_tool/iot/utils/log_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -83,7 +86,9 @@ class MqttClient {
       {};
 
   Future<bool> connectWithPort() async {
-    // Create the client
+    if (_connected) {
+      return true;
+    }
     _client =
         MqttServerClient.withPort('10.9.9.46', 'tststsetstsetsetstse', 1883);
 
@@ -153,6 +158,27 @@ class MqttClient {
     _disposeSubscription(params);
     for (var element in params.topics) {
       _client?.unsubscribe(element);
+    }
+  }
+
+  void listen(SubscribeParams params) {
+    if (_client != null &&
+        _client?.connectionStatus?.state == MqttConnectionState.connected) {
+      final subscription =
+          _client?.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+        LogUtils.log('EXAMPLE::Change notification:: topic is <${c[0].topic}>');
+        if (params.topics.contains(c[0].topic)) {
+          final recMess = c[0].payload as MqttPublishMessage;
+          final pt =
+              MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+
+          MqttEntity entity = MqttEntity.fromJson(json.decode(pt));
+
+          mapMqttEntityToCmd(entity);
+        }
+      });
+
+      _addSubscription(params, subscription!);
     }
   }
 

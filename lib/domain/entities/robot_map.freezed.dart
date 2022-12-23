@@ -21,7 +21,8 @@ RobotState _$RobotStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RobotState {
   String? get name => throw _privateConstructorUsedError;
-  MachineState? get state => throw _privateConstructorUsedError;
+  int? get state => throw _privateConstructorUsedError;
+  MachineState? get machineState => throw _privateConstructorUsedError;
   int? get power => throw _privateConstructorUsedError;
   int? get timestamp => throw _privateConstructorUsedError;
   double? get acreage => throw _privateConstructorUsedError;
@@ -44,7 +45,8 @@ abstract class $RobotStateCopyWith<$Res> {
   @useResult
   $Res call(
       {String? name,
-      MachineState? state,
+      int? state,
+      MachineState? machineState,
       int? power,
       int? timestamp,
       double? acreage,
@@ -71,6 +73,7 @@ class _$RobotStateCopyWithImpl<$Res, $Val extends RobotState>
   $Res call({
     Object? name = freezed,
     Object? state = freezed,
+    Object? machineState = freezed,
     Object? power = freezed,
     Object? timestamp = freezed,
     Object? acreage = freezed,
@@ -87,6 +90,10 @@ class _$RobotStateCopyWithImpl<$Res, $Val extends RobotState>
       state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
+              as int?,
+      machineState: freezed == machineState
+          ? _value.machineState
+          : machineState // ignore: cast_nullable_to_non_nullable
               as MachineState?,
       power: freezed == power
           ? _value.power
@@ -142,7 +149,8 @@ abstract class _$$_RobotStateCopyWith<$Res>
   @useResult
   $Res call(
       {String? name,
-      MachineState? state,
+      int? state,
+      MachineState? machineState,
       int? power,
       int? timestamp,
       double? acreage,
@@ -168,6 +176,7 @@ class __$$_RobotStateCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? state = freezed,
+    Object? machineState = freezed,
     Object? power = freezed,
     Object? timestamp = freezed,
     Object? acreage = freezed,
@@ -184,6 +193,10 @@ class __$$_RobotStateCopyWithImpl<$Res>
       state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
+              as int?,
+      machineState: freezed == machineState
+          ? _value.machineState
+          : machineState // ignore: cast_nullable_to_non_nullable
               as MachineState?,
       power: freezed == power
           ? _value.power
@@ -223,6 +236,7 @@ class _$_RobotState implements _RobotState {
   const _$_RobotState(
       {this.name,
       this.state,
+      this.machineState,
       this.power,
       this.timestamp,
       this.acreage,
@@ -237,7 +251,9 @@ class _$_RobotState implements _RobotState {
   @override
   final String? name;
   @override
-  final MachineState? state;
+  final int? state;
+  @override
+  final MachineState? machineState;
   @override
   final int? power;
   @override
@@ -255,7 +271,7 @@ class _$_RobotState implements _RobotState {
 
   @override
   String toString() {
-    return 'RobotState(name: $name, state: $state, power: $power, timestamp: $timestamp, acreage: $acreage, duration: $duration, moveSpeed: $moveSpeed, motorRotateSpeed: $motorRotateSpeed, position: $position)';
+    return 'RobotState(name: $name, state: $state, machineState: $machineState, power: $power, timestamp: $timestamp, acreage: $acreage, duration: $duration, moveSpeed: $moveSpeed, motorRotateSpeed: $motorRotateSpeed, position: $position)';
   }
 
   @override
@@ -265,6 +281,8 @@ class _$_RobotState implements _RobotState {
             other is _$_RobotState &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.state, state) || other.state == state) &&
+            (identical(other.machineState, machineState) ||
+                other.machineState == machineState) &&
             (identical(other.power, power) || other.power == power) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
@@ -281,8 +299,8 @@ class _$_RobotState implements _RobotState {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, state, power, timestamp,
-      acreage, duration, moveSpeed, motorRotateSpeed, position);
+  int get hashCode => Object.hash(runtimeType, name, state, machineState, power,
+      timestamp, acreage, duration, moveSpeed, motorRotateSpeed, position);
 
   @JsonKey(ignore: true)
   @override
@@ -301,7 +319,8 @@ class _$_RobotState implements _RobotState {
 abstract class _RobotState implements RobotState {
   const factory _RobotState(
       {final String? name,
-      final MachineState? state,
+      final int? state,
+      final MachineState? machineState,
       final int? power,
       final int? timestamp,
       final double? acreage,
@@ -316,7 +335,9 @@ abstract class _RobotState implements RobotState {
   @override
   String? get name;
   @override
-  MachineState? get state;
+  int? get state;
+  @override
+  MachineState? get machineState;
   @override
   int? get power;
   @override

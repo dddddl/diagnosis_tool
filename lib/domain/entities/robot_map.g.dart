@@ -9,7 +9,9 @@ part of 'robot_map.dart';
 _$_RobotState _$$_RobotStateFromJson(Map<String, dynamic> json) =>
     _$_RobotState(
       name: json['name'] as String?,
-      state: $enumDecodeNullable(_$MachineStateEnumMap, json['state']),
+      state: json['state'] as int?,
+      machineState:
+          $enumDecodeNullable(_$MachineStateEnumMap, json['machineState']),
       power: json['power'] as int?,
       timestamp: json['timestamp'] as int?,
       acreage: (json['acreage'] as num?)?.toDouble(),
@@ -24,7 +26,8 @@ _$_RobotState _$$_RobotStateFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_RobotStateToJson(_$_RobotState instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'state': _$MachineStateEnumMap[instance.state],
+      'state': instance.state,
+      'machineState': _$MachineStateEnumMap[instance.machineState],
       'power': instance.power,
       'timestamp': instance.timestamp,
       'acreage': instance.acreage,

@@ -9,7 +9,8 @@ part 'robot_map.g.dart';
 class RobotState with _$RobotState {
   const factory RobotState({
     String? name,
-    MachineState? state,
+    int? state,
+    MachineState? machineState,
     int? power,
     int? timestamp,
     double? acreage,
@@ -21,6 +22,20 @@ class RobotState with _$RobotState {
 
   factory RobotState.fromJson(Map<String, dynamic> json) =>
       _$RobotStateFromJson(json);
+
+  factory RobotState.initial() => const RobotState(
+        name: null,
+        state: null,
+        power: null,
+        timestamp: null,
+        acreage: null,
+        duration: null,
+        moveSpeed: null,
+        motorRotateSpeed: null,
+        position: null,
+      );
+
+
 }
 
 @freezed

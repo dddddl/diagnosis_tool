@@ -88,7 +88,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             path: '/robot',
             name: AppRoute.robot.name,
             pageBuilder: (context, state) {
-              return CupertinoPage(key: state.pageKey, child: RobotPage());
+              final mac = state.queryParams['mac'];
+              return CupertinoPage(
+                  key: state.pageKey, child: RobotPage(mac: mac ?? ''));
             }),
         GoRoute(
             path: '/log',
