@@ -135,9 +135,9 @@ class MapDataHandler extends MapDataInterface {
         colors[i] = 0xFFD7E370;
       } else if (bytes[i] == 99) {
         //轨迹点
-        colors[i] = 0xFFFFFFFF;
+        colors[i] = 0x99000000;
       } else {
-        colors[i] = 0xFFFFFFFF;
+        colors[i] = 0x99000000;
       }
     }
 

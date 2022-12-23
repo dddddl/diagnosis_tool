@@ -5,7 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'map_widget.dart';
+import 'widget/clipperimage2.dart';
+import 'widget/map_widget.dart';
 
 class RobotPage extends ConsumerStatefulWidget {
   RobotPage({Key? key}) : super(key: key);
@@ -24,19 +25,17 @@ class RobotConsumerState extends ConsumerState<RobotPage> {
 
   @override
   Widget build(BuildContext context) {
-    final image = ref.watch(robotProvider.select((value) => value.image));
-
-    ref.read(logger).i('image is null ${image == null}');
+    // final image = ref.watch(robotProvider.select((value) => value.image));
+    //
+    // ref.read(logger).i('image is null ${image == null}');
     return Scaffold(
       appBar: AppBar(
         title: Text('Robot'),
       ),
       body: Container(
         color: const Color(0xFFF5F5F5),
-        child: CustomPaint(
-          size: const Size(double.infinity, double.infinity),
-          painter: MapWidget(image),
-        ),
+        // child: ClipperImage2(image: image),
+        child: MapWidget(),
       ),
     );
   }
