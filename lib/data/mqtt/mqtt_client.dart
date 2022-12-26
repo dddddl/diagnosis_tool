@@ -11,6 +11,7 @@ import 'package:diagnosis_tool/iot/utils/log_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
   MqttClient.instance.connectWithPort().then((value) {
@@ -89,8 +90,8 @@ class MqttClient {
     if (_connected) {
       return true;
     }
-    _client =
-        MqttServerClient.withPort('10.9.9.46', 'tststsetstsetsetstse', 1883);
+    var uuid = Uuid();
+    _client = MqttServerClient.withPort('10.9.9.46', uuid.v1(), 1883);
 
     _client?.keepAlivePeriod = 20;
     // Set the protocol to V3.1.1 for AWS IoT Core, if you fail to do this you will not receive a connect ack with the response code

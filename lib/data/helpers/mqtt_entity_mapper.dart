@@ -11,7 +11,9 @@ void mapMqttEntityToCmd(MqttEntity mqttEntity) {
   if (mqttEntity.cmd == "data") {
     RobotState robotState = RobotState.fromJson(mqttEntity.data);
     eventBus.fire(mapRobotStateToMachine(robotState));
-  } else if (mqttEntity.cmd == "map") {}
+  } else if (mqttEntity.cmd == "map") {
+
+  }
 }
 
 RobotState mapRobotStateToMachine(RobotState robotState) {
@@ -21,20 +23,26 @@ RobotState mapRobotStateToMachine(RobotState robotState) {
 
   if (state == 0x01) {
     machineState = MachineState.locked;
-  } else if (state == 0x02) {
-    machineState = MachineState.locked;
-  } else if (state == 0x03) {
-    machineState = MachineState.locked;
-  } else if (state == 0x04) {
-    machineState = MachineState.locked;
-  } else if (state == 0x05) {
-    machineState = MachineState.locked;
-  } else if (state == 0x02) {
-    machineState = MachineState.locked;
-  } else if (state == 0x02) {
-    machineState = MachineState.locked;
+  } else if (state == 0x11) {
+    machineState = MachineState.standby;
+  } else if (state == 0x12) {
+    machineState = MachineState.mapping;
+  } else if (state == 0x13) {
+    machineState = MachineState.mowing;
+  } else if (state == 0x14) {
+    machineState = MachineState.returning;
+  } else if (state == 0x15) {
+    machineState = MachineState.paused;
+  } else if (state == 0x20) {
+    machineState = MachineState.positioning;
+  } else if (state == 0x30) {
+    machineState = MachineState.sleep;
+  } else if (state == 0x31) {
+    machineState = MachineState.exception;
+  } else if (state == 0x00) {
+    machineState = MachineState.shutdown;
   } else {
-    machineState = MachineState.locked;
+    machineState = MachineState.shutdown;
   }
 
   robotState = robotState.copyWith(machineState: machineState);

@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'widget/clipperimage2.dart';
 import 'widget/map_widget.dart';
+import 'widget/machine_state_widget.dart';
 
 class RobotPage extends HookConsumerWidget {
   String mac;
@@ -35,29 +36,7 @@ class RobotPage extends HookConsumerWidget {
           child: Stack(
             children: [
               MapWidget(),
-              Positioned(
-                  bottom: 0,
-                  child: Row(
-                    children: [
-                      Text('State: ${ref.watch(
-                          robotProvider.select((value) =>
-                          value.robotState
-                              .state))}'),
-                      Text('Battery:  ${ref.watch(
-                          robotProvider.select((value) =>
-                          value.robotState
-                              .power))}%'),
-                      Text('Area:  ${ref.watch(
-                          robotProvider.select((value) =>
-                          value.robotState
-                              .acreage))} m²'),
-                      Text('Speed:  ${ref.watch(
-                          robotProvider.select((value) =>
-                          value.robotState
-                              .motorRotateSpeed))} m/s'),
-                    ],
-                  ),
-              )
+              const MachineStateWidget(),
             ],
             // MapWidget(),
           ),

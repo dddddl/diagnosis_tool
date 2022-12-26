@@ -17,7 +17,7 @@ _$_RobotState _$$_RobotStateFromJson(Map<String, dynamic> json) =>
       acreage: (json['acreage'] as num?)?.toDouble(),
       duration: json['duration'] as int?,
       moveSpeed: (json['moveSpeed'] as num?)?.toDouble(),
-      motorRotateSpeed: json['motorRotateSpeed'] as int?,
+      motorRotateSpeed: (json['motorRotateSpeed'] as num?)?.toDouble(),
       position: json['position'] == null
           ? null
           : Position.fromJson(json['position'] as Map<String, dynamic>),
@@ -48,6 +48,7 @@ const _$MachineStateEnumMap = {
   MachineState.sleep: 'sleep',
   MachineState.exception: 'exception',
   MachineState.shutdown: 'shutdown',
+  MachineState.other: 'other',
 };
 
 _$_Position _$$_PositionFromJson(Map<String, dynamic> json) => _$_Position(

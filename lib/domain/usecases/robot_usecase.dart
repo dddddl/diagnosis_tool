@@ -21,8 +21,6 @@ class RobotUseCase extends UseCase<RobotUseCaseResponse, RobotUseCaseParams> {
   Future<Stream<RobotUseCaseResponse?>> buildUseCaseStream(
       RobotUseCaseParams? params) async {
     return eventBus.on<RobotState>().map((event) {
-      event =
-          event.copyWith(machineState: MachineState.values[event.machineState]);
       return RobotUseCaseResponse(event);
     });
   }

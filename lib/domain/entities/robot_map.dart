@@ -1,3 +1,4 @@
+import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/domain/entities/machine_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,7 +17,7 @@ class RobotState with _$RobotState {
     double? acreage,
     int? duration,
     double? moveSpeed,
-    int? motorRotateSpeed,
+    double? motorRotateSpeed,
     Position? position,
   }) = _RobotState;
 
@@ -34,8 +35,6 @@ class RobotState with _$RobotState {
         motorRotateSpeed: null,
         position: null,
       );
-
-
 }
 
 @freezed

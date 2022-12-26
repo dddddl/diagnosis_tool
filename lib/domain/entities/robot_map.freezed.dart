@@ -28,7 +28,7 @@ mixin _$RobotState {
   double? get acreage => throw _privateConstructorUsedError;
   int? get duration => throw _privateConstructorUsedError;
   double? get moveSpeed => throw _privateConstructorUsedError;
-  int? get motorRotateSpeed => throw _privateConstructorUsedError;
+  double? get motorRotateSpeed => throw _privateConstructorUsedError;
   Position? get position => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $RobotStateCopyWith<$Res> {
       double? acreage,
       int? duration,
       double? moveSpeed,
-      int? motorRotateSpeed,
+      double? motorRotateSpeed,
       Position? position});
 
   $PositionCopyWith<$Res>? get position;
@@ -118,7 +118,7 @@ class _$RobotStateCopyWithImpl<$Res, $Val extends RobotState>
       motorRotateSpeed: freezed == motorRotateSpeed
           ? _value.motorRotateSpeed
           : motorRotateSpeed // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
@@ -156,7 +156,7 @@ abstract class _$$_RobotStateCopyWith<$Res>
       double? acreage,
       int? duration,
       double? moveSpeed,
-      int? motorRotateSpeed,
+      double? motorRotateSpeed,
       Position? position});
 
   @override
@@ -221,7 +221,7 @@ class __$$_RobotStateCopyWithImpl<$Res>
       motorRotateSpeed: freezed == motorRotateSpeed
           ? _value.motorRotateSpeed
           : motorRotateSpeed // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
@@ -265,7 +265,7 @@ class _$_RobotState implements _RobotState {
   @override
   final double? moveSpeed;
   @override
-  final int? motorRotateSpeed;
+  final double? motorRotateSpeed;
   @override
   final Position? position;
 
@@ -326,7 +326,7 @@ abstract class _RobotState implements RobotState {
       final double? acreage,
       final int? duration,
       final double? moveSpeed,
-      final int? motorRotateSpeed,
+      final double? motorRotateSpeed,
       final Position? position}) = _$_RobotState;
 
   factory _RobotState.fromJson(Map<String, dynamic> json) =
@@ -349,7 +349,7 @@ abstract class _RobotState implements RobotState {
   @override
   double? get moveSpeed;
   @override
-  int? get motorRotateSpeed;
+  double? get motorRotateSpeed;
   @override
   Position? get position;
   @override

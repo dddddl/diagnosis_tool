@@ -19,4 +19,6 @@ enum MachineState {
   exception,
   // 关机
   shutdown,
+  // 未知 defalut
+  other,
 }
