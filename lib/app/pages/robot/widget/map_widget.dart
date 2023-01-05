@@ -52,10 +52,14 @@ class MapWidget extends ConsumerWidget {
             top: ref
                 .watch(mapProvider.select((value) => value.dragViewOffset))
                 .dy,
-            child: CustomPaint(
-              size: Size((image?.width ?? 0).roundToDouble(),
-                  (image?.height ?? 0).roundToDouble()),
-              painter: ChargePainter(chargeImage, chargePosition),
+            child: Transform.scale(
+              scale:
+                  ref.watch(mapProvider.select((value) => value.currentScale)),
+              child: CustomPaint(
+                size: Size((image?.width ?? 0).roundToDouble(),
+                    (image?.height ?? 0).roundToDouble()),
+                painter: ChargePainter(chargeImage, chargePosition),
+              ),
             ),
           ),
           Positioned(
