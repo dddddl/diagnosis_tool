@@ -2,9 +2,9 @@ import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/domain/entities/machine_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'robot_map.freezed.dart';
+part 'robot_status_entity.freezed.dart';
 
-part 'robot_map.g.dart';
+part 'robot_status_entity.g.dart';
 
 @freezed
 class RobotState with _$RobotState {
@@ -13,7 +13,7 @@ class RobotState with _$RobotState {
     int? state,
     MachineState? machineState,
     int? power,
-    int? timestamp,
+    double? timestamp,
     double? acreage,
     int? duration,
     double? moveSpeed,
@@ -49,3 +49,4 @@ class Position with _$Position {
   factory Position.fromJson(Map<String, dynamic> json) =>
       _$PositionFromJson(json);
 }
+

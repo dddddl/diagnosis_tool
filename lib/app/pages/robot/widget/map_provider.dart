@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
 import 'package:diagnosis_tool/data/helpers/map/map_data_handler.dart';
+import 'package:diagnosis_tool/domain/entities/robot_map_entity.dart';
+import 'package:diagnosis_tool/domain/observer.dart';
+import 'package:diagnosis_tool/domain/usecases/robot_map_usecase.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -32,15 +36,22 @@ class MapState with _$MapState {
 
 final mapProvider =
     StateNotifierProvider.autoDispose<MapStateNotifier, MapState>((ref) {
-  return MapStateNotifier(ref.read(logger));
+  return MapStateNotifier(ref.read(logger), ref.read(robotIdProvider));
 });
 
 class MapStateNotifier extends StateNotifier<MapState> {
   MapDataHandler mapDataHandler;
   Logger logger;
+  String robotId;
+  RobotMapUseCase robotMapUseCase;
 
-  MapStateNotifier(this.logger)
+  Function(RobotMapEntity? next)? onNext;
+  Function? onComplete;
+  Function? error;
+
+  MapStateNotifier(this.logger, this.robotId)
       : mapDataHandler = MapDataHandler(logger),
+        robotMapUseCase = RobotMapUseCase(logger),
         super(const MapState(
           image: null,
           chargeImage: null,
@@ -49,7 +60,10 @@ class MapStateNotifier extends StateNotifier<MapState> {
           dragViewOffset: Offset(0, 0),
           mapMode: MapMode.normal,
         )) {
-    _loadMap();
+    robotMapUseCase.execute(
+        _RobotMapUseCaseObserver(this), RobotMapUseCaseParams(robotId));
+    // _loadMap();
+    _listenMap();
   }
 
   Future<void> _loadMap() async {
@@ -63,6 +77,30 @@ class MapStateNotifier extends StateNotifier<MapState> {
         image: mapImage,
         chargeImage: chargeImage,
         chargePosition: chargePosition);
+  }
+
+  Future<void> _listenMap() async {
+    onNext = (next) async {
+      // 如果next为空，说明地图还未生成，不需要更新
+      if (next == null || next.mapData == null) {
+        logger.d('map data is null');
+        return;
+      }
+
+      logger.i(next.mapStartPose);
+      logger.i(next.width);
+      logger.i(next.height);
+
+      final mapImage = await mapDataHandler.parseIntListMapData(next.mapData!);
+      List<int> chargePosition = mapDataHandler.obtainChargePosition();
+      final chargeImage =
+          await mapDataHandler.loadImage('assets/images/ic_charge.png', false);
+
+      state = state.copyWith(
+          image: mapImage,
+          chargeImage: chargeImage,
+          chargePosition: chargePosition);
+    };
   }
 
   double _lastViewScale = 1.0;
@@ -137,5 +175,26 @@ class MapStateNotifier extends StateNotifier<MapState> {
 
   void normalMode() {
     state = state.copyWith(mapMode: MapMode.normal);
+  }
+}
+
+class _RobotMapUseCaseObserver extends Observer<RobotMapUseCaseResponse> {
+  final MapStateNotifier presenter;
+
+  _RobotMapUseCaseObserver(this.presenter);
+
+  @override
+  void onComplete() {
+    presenter.onComplete?.call();
+  }
+
+  @override
+  void onError(e) {
+    presenter.error?.call(e);
+  }
+
+  @override
+  void onNext(response) {
+    presenter.onNext?.call(response?.robotMap);
   }
 }

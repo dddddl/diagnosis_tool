@@ -1,12 +1,13 @@
 import 'package:diagnosis_tool/data/mqtt/mqtt_client.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
 import 'package:diagnosis_tool/domain/presenter.dart';
+import 'package:diagnosis_tool/domain/usecases/robot_map_usecase.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_usecase.dart';
 
-import '../../../domain/entities/robot_map.dart';
+import '../../../domain/entities/robot_status_entity.dart';
 
 class RobotPresenter extends Presenter {
-  Function(RobotState state)? onNext;
+  Function(dynamic next)? onNext;
   Function? onComplete;
   Function? onError;
 
@@ -25,11 +26,13 @@ class RobotPresenter extends Presenter {
     _addSubscribeParams(robotId);
     robotUseCase.execute(
         _RobotUseCaseObserver(this), RobotUseCaseParams(robotId));
+
+
   }
 
   Future<void> _addSubscribeParams(String topic) async {
     bool connect = await MqttClient.instance.connectWithPort();
-    topics = SubscribeParams(['/mower/up/$topic']);
+    topics = SubscribeParams(['/app/down/$topic']);
     if (connect) {
       MqttClient.instance.subscribeMsg(topics!);
       MqttClient.instance.listen(topics!);
@@ -65,3 +68,5 @@ class _RobotUseCaseObserver extends Observer<RobotUseCaseResponse> {
     presenter.onNext?.call(response!.robotState);
   }
 }
+
+

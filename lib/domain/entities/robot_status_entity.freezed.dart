@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'robot_map.dart';
+part of 'robot_status_entity.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -24,7 +24,7 @@ mixin _$RobotState {
   int? get state => throw _privateConstructorUsedError;
   MachineState? get machineState => throw _privateConstructorUsedError;
   int? get power => throw _privateConstructorUsedError;
-  int? get timestamp => throw _privateConstructorUsedError;
+  double? get timestamp => throw _privateConstructorUsedError;
   double? get acreage => throw _privateConstructorUsedError;
   int? get duration => throw _privateConstructorUsedError;
   double? get moveSpeed => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $RobotStateCopyWith<$Res> {
       int? state,
       MachineState? machineState,
       int? power,
-      int? timestamp,
+      double? timestamp,
       double? acreage,
       int? duration,
       double? moveSpeed,
@@ -102,7 +102,7 @@ class _$RobotStateCopyWithImpl<$Res, $Val extends RobotState>
       timestamp: freezed == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       acreage: freezed == acreage
           ? _value.acreage
           : acreage // ignore: cast_nullable_to_non_nullable
@@ -152,7 +152,7 @@ abstract class _$$_RobotStateCopyWith<$Res>
       int? state,
       MachineState? machineState,
       int? power,
-      int? timestamp,
+      double? timestamp,
       double? acreage,
       int? duration,
       double? moveSpeed,
@@ -205,7 +205,7 @@ class __$$_RobotStateCopyWithImpl<$Res>
       timestamp: freezed == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       acreage: freezed == acreage
           ? _value.acreage
           : acreage // ignore: cast_nullable_to_non_nullable
@@ -257,7 +257,7 @@ class _$_RobotState implements _RobotState {
   @override
   final int? power;
   @override
-  final int? timestamp;
+  final double? timestamp;
   @override
   final double? acreage;
   @override
@@ -322,7 +322,7 @@ abstract class _RobotState implements RobotState {
       final int? state,
       final MachineState? machineState,
       final int? power,
-      final int? timestamp,
+      final double? timestamp,
       final double? acreage,
       final int? duration,
       final double? moveSpeed,
@@ -341,7 +341,7 @@ abstract class _RobotState implements RobotState {
   @override
   int? get power;
   @override
-  int? get timestamp;
+  double? get timestamp;
   @override
   double? get acreage;
   @override

@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:diagnosis_tool/domain/entities/machine_state.dart';
 import 'package:diagnosis_tool/domain/entities/mqtt_entity.dart';
-import 'package:diagnosis_tool/domain/entities/robot_map.dart';
+import 'package:diagnosis_tool/domain/entities/robot_map_entity.dart';
+import 'package:diagnosis_tool/domain/entities/robot_status_entity.dart';
 import 'package:event_bus/event_bus.dart';
 
 EventBus eventBus = EventBus();
@@ -12,7 +13,8 @@ void mapMqttEntityToCmd(MqttEntity mqttEntity) {
     RobotState robotState = RobotState.fromJson(mqttEntity.data);
     eventBus.fire(mapRobotStateToMachine(robotState));
   } else if (mqttEntity.cmd == "map") {
-
+    RobotMapEntity robotState = RobotMapEntity.fromJson(mqttEntity.data);
+    eventBus.fire(robotState);
   }
 }
 

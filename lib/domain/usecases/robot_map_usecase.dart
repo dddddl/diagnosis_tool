@@ -5,23 +5,23 @@ import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/data/mqtt/mqtt_client.dart';
 import 'package:diagnosis_tool/domain/entities/machine_state.dart';
 import 'package:diagnosis_tool/domain/entities/robot.dart';
+import 'package:diagnosis_tool/domain/entities/robot_map_entity.dart';
 import 'package:diagnosis_tool/domain/entities/robot_status_entity.dart';
 import 'package:diagnosis_tool/domain/repositories/robot_repository.dart';
 import 'package:diagnosis_tool/domain/usecases.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:logger/logger.dart';
 
-class RobotUseCase extends UseCase<RobotUseCaseResponse, RobotUseCaseParams> {
-  RobotRepository robotRepository;
+class RobotMapUseCase extends UseCase<RobotMapUseCaseResponse, RobotMapUseCaseParams> {
   Logger logger;
 
-  RobotUseCase(this.robotRepository, this.logger) : super();
+  RobotMapUseCase( this.logger) : super();
 
   @override
-  Future<Stream<RobotUseCaseResponse?>> buildUseCaseStream(
-      RobotUseCaseParams? params) async {
-    return eventBus.on<RobotState>().map((event) {
-      return RobotUseCaseResponse(event);
+  Future<Stream<RobotMapUseCaseResponse?>> buildUseCaseStream(
+      RobotMapUseCaseParams? params) async {
+    return eventBus.on<RobotMapEntity>().map((event) {
+      return RobotMapUseCaseResponse(event);
     });
   }
 
@@ -31,14 +31,14 @@ class RobotUseCase extends UseCase<RobotUseCaseResponse, RobotUseCaseParams> {
   }
 }
 
-class RobotUseCaseParams {
+class RobotMapUseCaseParams {
   String robotId;
 
-  RobotUseCaseParams(this.robotId);
+  RobotMapUseCaseParams(this.robotId);
 }
 
-class RobotUseCaseResponse {
-  final RobotState robotState;
+class RobotMapUseCaseResponse {
+  final RobotMapEntity robotMap;
 
-  RobotUseCaseResponse(this.robotState);
+  RobotMapUseCaseResponse(this.robotMap);
 }

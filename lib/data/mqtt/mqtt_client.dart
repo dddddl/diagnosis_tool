@@ -167,7 +167,7 @@ class MqttClient {
         _client?.connectionStatus?.state == MqttConnectionState.connected) {
       final subscription =
           _client?.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-        LogUtils.log('EXAMPLE::Change notification:: topic is <${c[0].topic}>');
+        LogUtils.log('topic is <${c[0].topic}>');
         if (params.topics.contains(c[0].topic)) {
           final recMess = c[0].payload as MqttPublishMessage;
           final pt =
@@ -188,7 +188,7 @@ class MqttClient {
         _client?.connectionStatus?.state == MqttConnectionState.connected) {
       StreamSubscription<List<MqttReceivedMessage<MqttMessage>>>? subscription =
           _client?.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-        LogUtils.log('EXAMPLE::Change notification:: topic is <${c[0].topic}>');
+        LogUtils.log('topic is <${c[0].topic}>');
         if (params.topics.contains(c[0].topic)) {
           final recMess = c[0].payload as MqttPublishMessage;
           final pt =

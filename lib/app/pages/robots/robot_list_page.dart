@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../robot/robot_provider.dart';
+
 class RobotListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,6 +22,7 @@ class RobotListPage extends ConsumerWidget {
           return ListTile(
             title: Text("Robot mac ${robots[index].mac ?? 'Robot $index'}"),
             onTap: () {
+              ref.read(robotIdProvider.notifier).state = robots[index].mac ?? '';
               context.pushNamed('robot', queryParams: {
                 'mac': robots[index].mac,
               });

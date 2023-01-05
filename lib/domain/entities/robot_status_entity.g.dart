@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'robot_map.dart';
+part of 'robot_status_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -13,7 +13,7 @@ _$_RobotState _$$_RobotStateFromJson(Map<String, dynamic> json) =>
       machineState:
           $enumDecodeNullable(_$MachineStateEnumMap, json['machineState']),
       power: json['power'] as int?,
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toDouble(),
       acreage: (json['acreage'] as num?)?.toDouble(),
       duration: json['duration'] as int?,
       moveSpeed: (json['moveSpeed'] as num?)?.toDouble(),

@@ -30,6 +30,26 @@ class MapDataHandler {
     return _loadImage(color, width, height);
   }
 
+  /// 解析数据
+  Future<ui.Image> parseIntListMapData(List<int> mapData) {
+    Uint8List dataList = Uint8List.fromList(mapData);
+    Uint8List head = dataList.sublist(0, 34);
+    logger.d('head: $head');
+    double mapStartX = _bytesToDouble(head.sublist(0, 4));
+    logger.d('mapStartX: $mapStartX');
+    double mapStartY = _bytesToDouble(head.sublist(4, 8));
+    logger.d('mapStartY: $mapStartY');
+    int height = _bytesToInt(head.sublist(8, 12));
+    logger.d('height: $height');
+    int width = _bytesToInt(head.sublist(12, 16));
+    logger.d('width: $width');
+    Uint8List decodeBytes = dataList.sublist(34);
+    logger.d('decodeBytes: ${decodeBytes.length}');
+
+    Int32List color = _analyzeColor(decodeBytes, width, height);
+    return _loadImage(color, width, height);
+  }
+
   List<int> obtainChargePosition() {
     return [chargeX, chargeY];
   }

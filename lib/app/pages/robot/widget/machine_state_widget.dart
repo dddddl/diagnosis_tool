@@ -1,4 +1,4 @@
-import 'package:diagnosis_tool/domain/entities/robot_map.dart';
+import 'package:diagnosis_tool/domain/entities/robot_status_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

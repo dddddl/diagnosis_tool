@@ -5,7 +5,7 @@ import 'package:diagnosis_tool/app/pages/robot/robot_presenter.dart';
 import 'package:diagnosis_tool/data/helpers/map/map_data_handler.dart';
 import 'package:diagnosis_tool/data/repositories/data_robot_repository.dart';
 import 'package:diagnosis_tool/domain/controller.dart';
-import 'package:diagnosis_tool/domain/entities/robot_map.dart';
+import 'package:diagnosis_tool/domain/entities/robot_status_entity.dart';
 import 'package:flutter/services.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -24,6 +24,8 @@ class RobotViewState with _$RobotViewState {
         robotState: RobotState.initial(),
       );
 }
+
+final robotIdProvider = StateProvider.autoDispose<String>((ref) => '');
 
 final robotProvider =
     StateNotifierProvider.autoDispose<RobotStateNotifier, RobotViewState>(
@@ -45,9 +47,11 @@ class RobotStateNotifier extends Controller<RobotViewState> {
 
   @override
   void init() {
-    presenter.onNext = (robotState) {
-      state = state.copyWith(robotState: robotState);
-      logger.i(robotState.toString());
+    presenter.onNext = (next) {
+      if (next is RobotState) {
+        state = state.copyWith(robotState: next);
+        logger.i(next.toString());
+      } else {}
     };
 
     presenter.onComplete = () {
