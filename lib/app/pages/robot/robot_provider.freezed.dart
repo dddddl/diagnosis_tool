@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RobotViewState {
-  Image? get image => throw _privateConstructorUsedError;
   RobotState get robotState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +29,7 @@ abstract class $RobotViewStateCopyWith<$Res> {
           RobotViewState value, $Res Function(RobotViewState) then) =
       _$RobotViewStateCopyWithImpl<$Res, RobotViewState>;
   @useResult
-  $Res call({Image? image, RobotState robotState});
+  $Res call({RobotState robotState});
 
   $RobotStateCopyWith<$Res> get robotState;
 }
@@ -48,14 +47,9 @@ class _$RobotViewStateCopyWithImpl<$Res, $Val extends RobotViewState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = freezed,
     Object? robotState = null,
   }) {
     return _then(_value.copyWith(
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as Image?,
       robotState: null == robotState
           ? _value.robotState
           : robotState // ignore: cast_nullable_to_non_nullable
@@ -80,7 +74,7 @@ abstract class _$$_RobotViewStateCopyWith<$Res>
       __$$_RobotViewStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Image? image, RobotState robotState});
+  $Res call({RobotState robotState});
 
   @override
   $RobotStateCopyWith<$Res> get robotState;
@@ -97,14 +91,9 @@ class __$$_RobotViewStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = freezed,
     Object? robotState = null,
   }) {
     return _then(_$_RobotViewState(
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as Image?,
       robotState: null == robotState
           ? _value.robotState
           : robotState // ignore: cast_nullable_to_non_nullable
@@ -116,16 +105,14 @@ class __$$_RobotViewStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_RobotViewState implements _RobotViewState {
-  const _$_RobotViewState({required this.image, required this.robotState});
+  const _$_RobotViewState({required this.robotState});
 
-  @override
-  final Image? image;
   @override
   final RobotState robotState;
 
   @override
   String toString() {
-    return 'RobotViewState(image: $image, robotState: $robotState)';
+    return 'RobotViewState(robotState: $robotState)';
   }
 
   @override
@@ -133,13 +120,12 @@ class _$_RobotViewState implements _RobotViewState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RobotViewState &&
-            (identical(other.image, image) || other.image == image) &&
             (identical(other.robotState, robotState) ||
                 other.robotState == robotState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, image, robotState);
+  int get hashCode => Object.hash(runtimeType, robotState);
 
   @JsonKey(ignore: true)
   @override
@@ -149,12 +135,9 @@ class _$_RobotViewState implements _RobotViewState {
 }
 
 abstract class _RobotViewState implements RobotViewState {
-  const factory _RobotViewState(
-      {required final Image? image,
-      required final RobotState robotState}) = _$_RobotViewState;
+  const factory _RobotViewState({required final RobotState robotState}) =
+      _$_RobotViewState;
 
-  @override
-  Image? get image;
   @override
   RobotState get robotState;
   @override

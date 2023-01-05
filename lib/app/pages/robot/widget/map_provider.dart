@@ -1,8 +1,14 @@
+import 'dart:ffi';
+import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:diagnosis_tool/app/di/logger_provider.dart';
+import 'package:diagnosis_tool/data/helpers/map/map_data_handler.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 
 import '../robot_provider.dart';
 import 'map_mode.dart';
@@ -14,6 +20,8 @@ part 'map_provider.freezed.dart';
 class MapState with _$MapState {
   const factory MapState({
     Image? image,
+    required Image? chargeImage,
+    required List<int> chargePosition,
     required double currentScale,
     required Offset dragViewOffset,
     required MapMode mapMode,
@@ -24,27 +32,37 @@ class MapState with _$MapState {
 
 final mapProvider =
     StateNotifierProvider.autoDispose<MapStateNotifier, MapState>((ref) {
-  return MapStateNotifier(ref);
+  return MapStateNotifier(ref.read(logger));
 });
 
 class MapStateNotifier extends StateNotifier<MapState> {
-  MapStateNotifier(_ref)
-      : super(const MapState(
+  MapDataHandler mapDataHandler;
+  Logger logger;
+
+  MapStateNotifier(this.logger)
+      : mapDataHandler = MapDataHandler(logger),
+        super(const MapState(
           image: null,
+          chargeImage: null,
+          chargePosition: [0, 0],
           currentScale: 1.0,
           dragViewOffset: Offset(0, 0),
           mapMode: MapMode.normal,
         )) {
-    _ref.listen<Image?>(robotProvider.select((value) => value.image),
-        (_, image) {
-      double width = (image as Image).width.roundToDouble();
-      double height = (image as Image).height.roundToDouble();
+    _loadMap();
+  }
 
-      state = state.copyWith(
-        image: image,
-        dragViewOffset: Offset(0, 0),
-      );
-    });
+  Future<void> _loadMap() async {
+    ByteData mapData = await rootBundle.load('assets/mock/origin_slam_map.txt');
+    final mapImage = await mapDataHandler.parseMapData(mapData);
+    List<int> chargePosition = mapDataHandler.obtainChargePosition();
+    final chargeImage =
+        await mapDataHandler.loadImage('assets/images/ic_charge.png', false);
+
+    state = state.copyWith(
+        image: mapImage,
+        chargeImage: chargeImage,
+        chargePosition: chargePosition);
   }
 
   double _lastViewScale = 1.0;
@@ -60,7 +78,7 @@ class MapStateNotifier extends StateNotifier<MapState> {
           currentWall: WallData(
               start: details.localFocalPoint / _lastViewScale -
                   state.dragViewOffset * _lastViewScale,
-              end: details.localFocalPoint/ _lastViewScale -
+              end: details.localFocalPoint / _lastViewScale -
                   state.dragViewOffset * _lastViewScale,
               selected: true));
     }
@@ -99,7 +117,8 @@ class MapStateNotifier extends StateNotifier<MapState> {
       print('state.dragViewOffset ${state.dragViewOffset}');
       state = state.copyWith(
           currentWall: state.currentWall?.copyWith(
-              end: details.localFocalPoint/_lastViewScale - state.dragViewOffset * _lastViewScale));
+              end: details.localFocalPoint / _lastViewScale -
+                  state.dragViewOffset * _lastViewScale));
     }
   }
 

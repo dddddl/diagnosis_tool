@@ -17,19 +17,16 @@ part 'robot_provider.freezed.dart';
 @freezed
 class RobotViewState with _$RobotViewState {
   const factory RobotViewState({
-    required Image? image,
     required RobotState robotState,
   }) = _RobotViewState;
 
-  factory RobotViewState.initial() =>
-      RobotViewState(
-        image: null,
+  factory RobotViewState.initial() => RobotViewState(
         robotState: RobotState.initial(),
       );
 }
 
 final robotProvider =
-StateNotifierProvider.autoDispose<RobotStateNotifier, RobotViewState>(
+    StateNotifierProvider.autoDispose<RobotStateNotifier, RobotViewState>(
         (ref) => RobotStateNotifier(DataRobotRepository(), ref.read(logger)));
 
 class RobotStateNotifier extends Controller<RobotViewState> {
@@ -40,9 +37,7 @@ class RobotStateNotifier extends Controller<RobotViewState> {
   RobotStateNotifier(repository, this.logger)
       : presenter = RobotPresenter(repository, logger),
         mapDataHandler = MapDataHandler(logger),
-        super(RobotViewState.initial()) {
-    _loadMap();
-  }
+        super(RobotViewState.initial());
 
   void listenRobotState(String mac) {
     presenter.getRobotState(mac);
@@ -62,19 +57,6 @@ class RobotStateNotifier extends Controller<RobotViewState> {
     presenter.onError = (e) {
       logger.i('Could not retrieve robot.');
     };
-  }
-
-
-  Future<void> _loadMap() async {
-    ByteData mapData = await rootBundle.load('assets/mock/origin_slam_map.txt');
-
-    mapDataHandler
-        .parseMapData(mapData)
-        .then((value) {
-      logger.i('value $value');
-      state = state.copyWith(image: value);
-
-    });
   }
 
   @override

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:diagnosis_tool/domain/entities/robot_map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,6 +16,10 @@ class MapWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ui.Image? image = ref.watch(mapProvider.select((value) => value.image));
+    ui.Image? chargeImage =
+        ref.watch(mapProvider.select((value) => value.chargeImage));
+    List<int> chargePosition =
+        ref.watch(mapProvider.select((value) => value.chargePosition));
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -36,6 +43,19 @@ class MapWidget extends ConsumerWidget {
                     (image?.height ?? 0).roundToDouble()),
                 painter: MapPainter(image),
               ),
+            ),
+          ),
+          Positioned(
+            left: ref
+                .watch(mapProvider.select((value) => value.dragViewOffset))
+                .dx,
+            top: ref
+                .watch(mapProvider.select((value) => value.dragViewOffset))
+                .dy,
+            child: CustomPaint(
+              size: Size((image?.width ?? 0).roundToDouble(),
+                  (image?.height ?? 0).roundToDouble()),
+              painter: ChargePainter(chargeImage, chargePosition),
             ),
           ),
           Positioned(
@@ -102,6 +122,29 @@ class MapPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(MapPainter oldDelegate) {
+    return false;
+  }
+}
+
+class ChargePainter extends CustomPainter {
+  ui.Image? image;
+  List<int> chargePosition = [0, 0];
+
+  ChargePainter(this.image, this.chargePosition) : super();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (image != null) {
+      canvas.drawImage(
+          image!,
+          Offset(chargePosition[0].roundToDouble() - image!.width / 2,
+              chargePosition[1].roundToDouble() - image!.height / 2),
+          Paint());
+    }
+  }
+
+  @override
+  bool shouldRepaint(ChargePainter oldDelegate) {
     return false;
   }
 }
