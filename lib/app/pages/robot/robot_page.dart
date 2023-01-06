@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'widget/clipperimage2.dart';
 import 'widget/map_widget.dart';
 import 'widget/machine_state_widget.dart';
 
@@ -34,9 +33,9 @@ class RobotPage extends HookConsumerWidget {
           color: const Color(0xFFF5F5F5),
           // child: ClipperImage2(image: image),
           child: Stack(
-            children: [
+            children: const [
               MapWidget(),
-              const MachineStateWidget(),
+              MachineStateWidget(),
             ],
             // MapWidget(),
           ),
