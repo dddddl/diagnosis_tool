@@ -114,7 +114,7 @@ class MapDataHandler {
       } else if (bytes[i] == 0x03) {
         //充电桩坐标
         chargeY = i ~/ width;
-        chargeX = i % width == 0 ? (width - 1) : (i % width - 1);
+        chargeX = i % width == 0 ? (width) : (i % width);
         colors[i] = 0XFFED1941;
       } else {
         colors[i] = 0xFFfdb933;

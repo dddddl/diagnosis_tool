@@ -5,7 +5,9 @@ import 'dart:ui';
 
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
 import 'package:diagnosis_tool/data/helpers/map/map_data_handler.dart';
+import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/domain/entities/robot_map_entity.dart';
+import 'package:diagnosis_tool/domain/entities/robot_status_entity.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_map_usecase.dart';
 import 'package:flutter/gestures.dart';
@@ -23,15 +25,30 @@ part 'map_provider.freezed.dart';
 @freezed
 class MapState with _$MapState {
   const factory MapState({
-    Image? image,
-    required Image? chargeImage,
+    Image? map,
+    Image? chargeImage,
     required List<int> chargePosition,
+    Image? mowerImage,
+    Position? mowerPosition,
     required double currentScale,
     required Offset dragViewOffset,
     required MapMode mapMode,
     List<WallData>? walls,
     WallData? currentWall,
   }) = _MapState;
+
+  factory MapState.initial() => const MapState(
+        map: null,
+        chargeImage: null,
+        chargePosition: [0, 0],
+        mowerImage: null,
+        mowerPosition: null,
+        currentScale: 1.0,
+        dragViewOffset: Offset.zero,
+        mapMode: MapMode.normal,
+        walls: [],
+        currentWall: null,
+      );
 }
 
 final mapProvider =
@@ -52,18 +69,22 @@ class MapStateNotifier extends StateNotifier<MapState> {
   MapStateNotifier(this.logger, this.robotId)
       : mapDataHandler = MapDataHandler(logger),
         robotMapUseCase = RobotMapUseCase(logger),
-        super(const MapState(
-          image: null,
-          chargeImage: null,
-          chargePosition: [0, 0],
-          currentScale: 1.0,
-          dragViewOffset: Offset(0, 0),
-          mapMode: MapMode.normal,
-        )) {
+        super(MapState.initial()) {
     robotMapUseCase.execute(
         _RobotMapUseCaseObserver(this), RobotMapUseCaseParams(robotId));
     // _loadMap();
     _listenMap();
+    _listenPosition();
+  }
+
+  Future<void> _listenPosition() async {
+    final chargeImage =
+        await mapDataHandler.loadImage('assets/images/ic_charge.png', false);
+
+    eventBus.on<Position>().listen((event) {
+      logger.i(event);
+      state = state.copyWith(mowerPosition: event, mowerImage: chargeImage);
+    });
   }
 
   Future<void> _loadMap() async {
@@ -74,7 +95,7 @@ class MapStateNotifier extends StateNotifier<MapState> {
         await mapDataHandler.loadImage('assets/images/ic_charge.png', false);
 
     state = state.copyWith(
-        image: mapImage,
+        map: mapImage,
         chargeImage: chargeImage,
         chargePosition: chargePosition);
   }
@@ -97,14 +118,14 @@ class MapStateNotifier extends StateNotifier<MapState> {
           await mapDataHandler.loadImage('assets/images/ic_charge.png', false);
 
       state = state.copyWith(
-          image: mapImage,
+          map: mapImage,
           chargeImage: chargeImage,
           chargePosition: chargePosition);
     };
   }
 
   double _lastViewScale = 1.0;
-  Offset? _lastViewPoint = Offset(0, 0);
+  Offset? _lastViewPoint = const Offset(0, 0);
 
   void handleScaleStart(ScaleStartDetails details) {
     print('handleScaleStart localFocalPoint ${details.localFocalPoint}');
@@ -129,7 +150,7 @@ class MapStateNotifier extends StateNotifier<MapState> {
         double tempScale = _lastViewScale * details.scale;
 
         /// 放大缩小的最大倍数
-        if (tempScale > 2 || tempScale < 1) return;
+        if (tempScale > 13 || tempScale < 1) return;
         //缩放生效
         state = state.copyWith(currentScale: tempScale);
       } else {

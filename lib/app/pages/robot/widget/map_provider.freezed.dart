@@ -16,9 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MapState {
-  Image? get image => throw _privateConstructorUsedError;
+  Image? get map => throw _privateConstructorUsedError;
   Image? get chargeImage => throw _privateConstructorUsedError;
   List<int> get chargePosition => throw _privateConstructorUsedError;
+  Image? get mowerImage => throw _privateConstructorUsedError;
+  Position? get mowerPosition => throw _privateConstructorUsedError;
   double get currentScale => throw _privateConstructorUsedError;
   Offset get dragViewOffset => throw _privateConstructorUsedError;
   MapMode get mapMode => throw _privateConstructorUsedError;
@@ -36,15 +38,18 @@ abstract class $MapStateCopyWith<$Res> {
       _$MapStateCopyWithImpl<$Res, MapState>;
   @useResult
   $Res call(
-      {Image? image,
+      {Image? map,
       Image? chargeImage,
       List<int> chargePosition,
+      Image? mowerImage,
+      Position? mowerPosition,
       double currentScale,
       Offset dragViewOffset,
       MapMode mapMode,
       List<WallData>? walls,
       WallData? currentWall});
 
+  $PositionCopyWith<$Res>? get mowerPosition;
   $WallDataCopyWith<$Res>? get currentWall;
 }
 
@@ -61,9 +66,11 @@ class _$MapStateCopyWithImpl<$Res, $Val extends MapState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = freezed,
+    Object? map = freezed,
     Object? chargeImage = freezed,
     Object? chargePosition = null,
+    Object? mowerImage = freezed,
+    Object? mowerPosition = freezed,
     Object? currentScale = null,
     Object? dragViewOffset = null,
     Object? mapMode = null,
@@ -71,9 +78,9 @@ class _$MapStateCopyWithImpl<$Res, $Val extends MapState>
     Object? currentWall = freezed,
   }) {
     return _then(_value.copyWith(
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
+      map: freezed == map
+          ? _value.map
+          : map // ignore: cast_nullable_to_non_nullable
               as Image?,
       chargeImage: freezed == chargeImage
           ? _value.chargeImage
@@ -83,6 +90,14 @@ class _$MapStateCopyWithImpl<$Res, $Val extends MapState>
           ? _value.chargePosition
           : chargePosition // ignore: cast_nullable_to_non_nullable
               as List<int>,
+      mowerImage: freezed == mowerImage
+          ? _value.mowerImage
+          : mowerImage // ignore: cast_nullable_to_non_nullable
+              as Image?,
+      mowerPosition: freezed == mowerPosition
+          ? _value.mowerPosition
+          : mowerPosition // ignore: cast_nullable_to_non_nullable
+              as Position?,
       currentScale: null == currentScale
           ? _value.currentScale
           : currentScale // ignore: cast_nullable_to_non_nullable
@@ -108,6 +123,18 @@ class _$MapStateCopyWithImpl<$Res, $Val extends MapState>
 
   @override
   @pragma('vm:prefer-inline')
+  $PositionCopyWith<$Res>? get mowerPosition {
+    if (_value.mowerPosition == null) {
+      return null;
+    }
+
+    return $PositionCopyWith<$Res>(_value.mowerPosition!, (value) {
+      return _then(_value.copyWith(mowerPosition: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $WallDataCopyWith<$Res>? get currentWall {
     if (_value.currentWall == null) {
       return null;
@@ -127,15 +154,19 @@ abstract class _$$_MapStateCopyWith<$Res> implements $MapStateCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {Image? image,
+      {Image? map,
       Image? chargeImage,
       List<int> chargePosition,
+      Image? mowerImage,
+      Position? mowerPosition,
       double currentScale,
       Offset dragViewOffset,
       MapMode mapMode,
       List<WallData>? walls,
       WallData? currentWall});
 
+  @override
+  $PositionCopyWith<$Res>? get mowerPosition;
   @override
   $WallDataCopyWith<$Res>? get currentWall;
 }
@@ -151,9 +182,11 @@ class __$$_MapStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = freezed,
+    Object? map = freezed,
     Object? chargeImage = freezed,
     Object? chargePosition = null,
+    Object? mowerImage = freezed,
+    Object? mowerPosition = freezed,
     Object? currentScale = null,
     Object? dragViewOffset = null,
     Object? mapMode = null,
@@ -161,9 +194,9 @@ class __$$_MapStateCopyWithImpl<$Res>
     Object? currentWall = freezed,
   }) {
     return _then(_$_MapState(
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
+      map: freezed == map
+          ? _value.map
+          : map // ignore: cast_nullable_to_non_nullable
               as Image?,
       chargeImage: freezed == chargeImage
           ? _value.chargeImage
@@ -173,6 +206,14 @@ class __$$_MapStateCopyWithImpl<$Res>
           ? _value._chargePosition
           : chargePosition // ignore: cast_nullable_to_non_nullable
               as List<int>,
+      mowerImage: freezed == mowerImage
+          ? _value.mowerImage
+          : mowerImage // ignore: cast_nullable_to_non_nullable
+              as Image?,
+      mowerPosition: freezed == mowerPosition
+          ? _value.mowerPosition
+          : mowerPosition // ignore: cast_nullable_to_non_nullable
+              as Position?,
       currentScale: null == currentScale
           ? _value.currentScale
           : currentScale // ignore: cast_nullable_to_non_nullable
@@ -201,9 +242,11 @@ class __$$_MapStateCopyWithImpl<$Res>
 
 class _$_MapState implements _MapState {
   const _$_MapState(
-      {this.image,
-      required this.chargeImage,
+      {this.map,
+      this.chargeImage,
       required final List<int> chargePosition,
+      this.mowerImage,
+      this.mowerPosition,
       required this.currentScale,
       required this.dragViewOffset,
       required this.mapMode,
@@ -213,7 +256,7 @@ class _$_MapState implements _MapState {
         _walls = walls;
 
   @override
-  final Image? image;
+  final Image? map;
   @override
   final Image? chargeImage;
   final List<int> _chargePosition;
@@ -224,6 +267,10 @@ class _$_MapState implements _MapState {
     return EqualUnmodifiableListView(_chargePosition);
   }
 
+  @override
+  final Image? mowerImage;
+  @override
+  final Position? mowerPosition;
   @override
   final double currentScale;
   @override
@@ -245,7 +292,7 @@ class _$_MapState implements _MapState {
 
   @override
   String toString() {
-    return 'MapState(image: $image, chargeImage: $chargeImage, chargePosition: $chargePosition, currentScale: $currentScale, dragViewOffset: $dragViewOffset, mapMode: $mapMode, walls: $walls, currentWall: $currentWall)';
+    return 'MapState(map: $map, chargeImage: $chargeImage, chargePosition: $chargePosition, mowerImage: $mowerImage, mowerPosition: $mowerPosition, currentScale: $currentScale, dragViewOffset: $dragViewOffset, mapMode: $mapMode, walls: $walls, currentWall: $currentWall)';
   }
 
   @override
@@ -253,11 +300,15 @@ class _$_MapState implements _MapState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MapState &&
-            (identical(other.image, image) || other.image == image) &&
+            (identical(other.map, map) || other.map == map) &&
             (identical(other.chargeImage, chargeImage) ||
                 other.chargeImage == chargeImage) &&
             const DeepCollectionEquality()
                 .equals(other._chargePosition, _chargePosition) &&
+            (identical(other.mowerImage, mowerImage) ||
+                other.mowerImage == mowerImage) &&
+            (identical(other.mowerPosition, mowerPosition) ||
+                other.mowerPosition == mowerPosition) &&
             (identical(other.currentScale, currentScale) ||
                 other.currentScale == currentScale) &&
             (identical(other.dragViewOffset, dragViewOffset) ||
@@ -271,9 +322,11 @@ class _$_MapState implements _MapState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      image,
+      map,
       chargeImage,
       const DeepCollectionEquality().hash(_chargePosition),
+      mowerImage,
+      mowerPosition,
       currentScale,
       dragViewOffset,
       mapMode,
@@ -289,9 +342,11 @@ class _$_MapState implements _MapState {
 
 abstract class _MapState implements MapState {
   const factory _MapState(
-      {final Image? image,
-      required final Image? chargeImage,
+      {final Image? map,
+      final Image? chargeImage,
       required final List<int> chargePosition,
+      final Image? mowerImage,
+      final Position? mowerPosition,
       required final double currentScale,
       required final Offset dragViewOffset,
       required final MapMode mapMode,
@@ -299,11 +354,15 @@ abstract class _MapState implements MapState {
       final WallData? currentWall}) = _$_MapState;
 
   @override
-  Image? get image;
+  Image? get map;
   @override
   Image? get chargeImage;
   @override
   List<int> get chargePosition;
+  @override
+  Image? get mowerImage;
+  @override
+  Position? get mowerPosition;
   @override
   double get currentScale;
   @override
