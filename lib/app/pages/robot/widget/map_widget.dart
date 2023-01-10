@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:diagnosis_tool/domain/entities/robot_status_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'map_provider.dart';
@@ -12,7 +14,6 @@ class MapWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final map = ref.watch(mapProvider.select((value) => value.map));
     final chargeImage =
         ref.watch(mapProvider.select((value) => value.chargeImage));
@@ -101,34 +102,40 @@ class MapWidget extends ConsumerWidget {
 }
 
 class MapPainter extends CustomPainter {
-  ui.Image? map;
-  ui.Image? charge;
-  List<int> chargePosition = [0, 0];
-  double scale = 1;
-  Paint painter = Paint();
-  double defaultScale = 0.5;
-  ui.Image? mower;
-  Position? mowerPosition;
-  Rect dstRect = Rect.zero;
+  ui.Image? mapImage;
+  ui.Image? chargeImage;
+  ui.Image? mowerImage;
 
-  MapPainter(this.map, this.charge, this.chargePosition, this.scale, this.mower,
-      this.mowerPosition)
+  List<int>? chargePosition;
+  Position? mowerPosition;
+
+  double scale = 1;
+  double defaultScale = 0.5;
+
+  Rect dstRect = Rect.zero;
+  Paint painter = Paint();
+
+
+  MapPainter(this.mapImage, this.chargeImage,this.chargePosition, this.scale, this.mowerImage, this.mowerPosition)
       : super();
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (map != null) {
-      canvas.drawImage(map!, Offset.zero, Paint());
+    if (mapImage != null) {
+      canvas.drawImage(mapImage!, Offset.zero, Paint());
     }
     final dstScale = defaultScale / scale;
-    if (charge != null) {
-      final width = charge!.width.toDouble();
-      final height = charge!.height.toDouble();
+    print(chargePosition);
+    print(chargeImage);
+
+    if (chargeImage != null && chargePosition != null) {
+      final width = chargeImage!.width.toDouble();
+      final height = chargeImage!.height.toDouble();
       Size imgSize = Size(width, height);
 
       dstRect = Rect.fromCenter(
-          center: Offset(chargePosition[0].roundToDouble(),
-              chargePosition[1].roundToDouble()),
+          center: Offset(chargePosition![0].roundToDouble(),
+              chargePosition![1].roundToDouble()),
           width: width * dstScale,
           height: height * dstScale);
 
@@ -141,18 +148,18 @@ class MapPainter extends CustomPainter {
       // 获得一个绘制区域内，指定大小的，居中位置处的 Rect
       // Rect outputRect =
       //     Alignment.center.inscribe(fittedSizes.destination, dstRect);
-      canvas.drawImageRect(charge!, inputRect, dstRect, painter);
+      canvas.drawImageRect(chargeImage!, inputRect, dstRect, painter);
     }
 
-    final momer = mower;
+    final mower = mowerImage;
     final x = mowerPosition?.x;
     final y = mowerPosition?.y;
     final z = mowerPosition?.z;
     final w = mowerPosition?.w;
 
-    if (momer != null && x != null && y != null && z != null && w != null) {
-      final width = mower!.width.toDouble();
-      final height = mower!.height.toDouble();
+    if (mower != null && x != null && y != null && z != null && w != null) {
+      final width = mower.width.toDouble();
+      final height = mower.height.toDouble();
       Size imgSize = Size(width, height);
 
       dstRect = Rect.fromCenter(
@@ -169,7 +176,7 @@ class MapPainter extends CustomPainter {
       // 获得一个绘制区域内，指定大小的，居中位置处的 Rect
       // Rect outputRect =
       //     Alignment.center.inscribe(fittedSizes.destination, dstRect);
-      canvas.drawImageRect(momer, inputRect, dstRect, painter);
+      canvas.drawImageRect(mower, inputRect, dstRect, painter);
     }
   }
 
