@@ -1,0 +1,160 @@
+{
+  "properties": [
+    {
+      "identifier": "status",
+      "name": "状态",
+      "desc": "工作状态",
+      "required": true,
+      "accessMode": "rw",
+      "define": {
+        "type": "enum",
+        "mapping": {
+          "0": "locked",
+          "1": "standby",
+          "2": "mapping",
+          "3": "mowing",
+          "4": "returning",
+          "5": "paused",
+          "6": "positioning",
+          "7": "sleep",
+          "8": "exception",
+          "9": "shutdown",
+          "10": "other"
+        }
+      }
+    },
+    {
+      "identifier": "battery",
+      "name": "电量",
+      "desc": "设备当前电量",
+      "required": true,
+      "accessMode": "r",
+      "define": {
+        "type": "int",
+        "unit": "%",
+        "step": "0",
+        "min": "0",
+        "max": "100",
+        "start": "0"
+      }
+    },
+    {
+      "identifier": "cutter",
+      "name": "刀盘",
+      "desc": "刀盘高度",
+      "required": true,
+      "accessMode": "rw",
+      "define": {
+        "type": "int",
+        "unit": "㎜",
+        "step": "0",
+        "min": "10",
+        "max": "60",
+        "start": "10"
+      }
+    },
+    {
+      "identifier": "velocity",
+      "name": "速度",
+      "desc": "割草机移动速度",
+      "required": true,
+      "accessMode": "rw",
+      "define": {
+        "type": "float",
+        "unit": "m/s",
+        "step": "0",
+        "min": "0",
+        "max": "1",
+        "start": "0.1"
+      }
+    },
+    {
+      "identifier": "rotate",
+      "name": "转速",
+      "desc": "割草机刀盘转速",
+      "required": false,
+      "accessMode": "rw",
+      "define": {
+        "type": "int",
+        "unit": "r/s",
+        "step": "100",
+        "min": "0",
+        "max": "3000",
+        "start": "1000"
+      }
+    },
+    {
+      "identifier": "duration",
+      "name": "时长",
+      "desc": "当前工作时长",
+      "required": false,
+      "accessMode": "r",
+      "define": {
+        "type": "int",
+        "min": "0",
+        "unit": "s",
+        "start": "0"
+      }
+    },
+    {
+      "identifier": "acreage",
+      "name": "面积",
+      "desc": "当前工作面积",
+      "required": false,
+      "accessMode": "r",
+      "define": {
+        "type": "int",
+        "unit": "㎡",
+        "step": "1",
+        "min": "0",
+        "start": "0"
+      }
+    },
+    {
+      "identifier": "position",
+      "name": "位置",
+      "desc": "割草机在当前位置位置",
+      "required": false,
+      "accessMode": "r",
+      "define": {
+        "type": "struct",
+        "mapping": {
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+          }
+        }
+      }
+    },
+    {
+      "identifier": "map",
+      "name": "地图",
+      "desc": "割草机当前多用地图",
+      "required": false,
+      "accessMode": "r",
+      "define": {
+        "type": "text",
+        "mapping": {
+          "map": "",
+          "length": 10240
+        }
+      }
+    },
+    {
+      "identifier": "path",
+      "name": "路径",
+      "desc": "割草机当前割草路径",
+      "required": false,
+      "accessMode": "r",
+      "define": {
+        "type": "text",
+        "mapping": {
+          "path": "",
+          "length": 10240
+        }
+      }
+    }
+  ]
+}

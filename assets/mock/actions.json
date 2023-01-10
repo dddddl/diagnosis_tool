@@ -1,0 +1,88 @@
+{
+  "actions": [
+    {
+      "identifier": "work",
+      "name": "割草机状态",
+      "desc": "用于描述割草机当前运行状态的动作",
+      "required": true,
+      "inputData": [
+        {
+          "identifier": "work",
+          "name": "设置工作模式",
+          "define": {
+            "type": "enum",
+            "mapping": {
+              "0": "mapping",
+              "1": "mowing",
+              "2": "returning",
+              "3": "paused"
+            }
+          }
+        }
+      ],
+      "outputData": [
+        {
+          "identifier": "status",
+          "name": "工作状态",
+          "define": {
+            "type": "enum",
+            "mapping": {
+              "0": "locked",
+              "1": "standby",
+              "2": "mapping",
+              "3": "mowing",
+              "4": "returning",
+              "5": "paused",
+              "6": "positioning",
+              "7": "sleep",
+              "8": "exception",
+              "9": "shutdown",
+              "10": "other"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "identifier": "cutter",
+      "name": "设置刀盘高度",
+      "desc": "用于描述割草机刀盘高度的动作",
+      "required": true,
+      "inputData": [
+        {
+          "identifier": "height",
+          "name": "刀盘高度",
+          "define": {
+            "type": "int",
+            "unit": "㎜",
+            "step": "0",
+            "min": "10",
+            "max": "60",
+            "start": "10"
+          }
+        }
+      ],
+      "outputData": [
+        {
+          "identifier": "time",
+          "name": "开灯时间",
+          "define": {
+            "type": "date"
+          }
+        },
+        {
+          "identifier": "height",
+          "name": "刀盘高度",
+          "define": {
+            "type": "int",
+            "unit": "㎜",
+            "step": "0",
+            "min": "10",
+            "max": "60",
+            "start": "10"
+          }
+        }
+      ]
+    }
+  ]
+}

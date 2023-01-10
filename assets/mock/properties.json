@@ -1,0 +1,225 @@
+{
+  "schema": "",
+  "profile": {
+    "version": "1.0",
+    "productKey": "xxxxxxxxx"
+  },
+  "properties": [
+    {
+      "identifier": "height",
+      "name": "割草高度",
+      "desc": "割草高度",
+      "required": true,
+      "accessMode": "rw",
+      "define": {
+        "type": "int",
+        "specs": {
+          "min": "10",
+          "max": "60",
+          "unit": "mm",
+          "step": "10",
+          "start": "20"
+        }
+      }
+    },
+    {
+      "identifier": "velocity",
+      "name": "速度",
+      "desc": "行驶速度",
+      "required": true,
+      "accessMode": "rw",
+      "define": {
+        "type": "float",
+        "specs": {
+          "min": "0",
+          "max": "1",
+          "unit": "m/s",
+          "step": "0.1",
+          "start": "0"
+        }
+      }
+    },
+    {
+      "identifier": "rotation_rate",
+      "name": "转速",
+      "desc": "刀盘转速",
+      "mode": "rw",
+      "define": {
+        "type": "int",
+        "specs": {
+          "min": "0",
+          "max": "20",
+          "unit": "r/s",
+          "step": "1",
+          "start": "0"
+        }
+      }
+    },
+    {
+      "identifier": "power",
+      "name": "电量",
+      "desc": "电池剩余电量",
+      "mode": "r",
+      "define": {
+        "type": "int",
+        "specs": {
+          "min": "0",
+          "max": "100",
+          "unit": "%",
+          "step": "1",
+          "start": "0"
+        }
+      }
+    }
+  ],
+  "events": [
+    {
+      "identifier": "post",
+      "name": "propertiesPost",
+      "desc": "属性上报",
+      "type": "info",
+      "required": false,
+      "outputData": [
+        {
+          "identifier": "velocity",
+          "name": "速度",
+          "define": {
+            "type": "float",
+            "specs": {
+              "min": "0",
+              "max": "2",
+              "unit": "m/s",
+              "step": "0.1",
+              "start": "0"
+            }
+          }
+        },
+        {
+          "identifier": "rotation_rate",
+          "name": "转速",
+          "define": {
+            "type": "int",
+            "specs": {
+              "min": "0",
+              "max": "20",
+              "unit": "r/s",
+              "step": "1",
+              "start": "0"
+            }
+          }
+        },
+        {
+          "identifier": "power",
+          "name": "电量",
+          "define": {
+            "type": "int",
+            "specs": {
+              "min": "0",
+              "max": "100",
+              "unit": "%",
+              "step": "1",
+              "start": "0"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "identifier": "status",
+      "name": "DeviceStatus",
+      "desc": "Report the device status",
+      "type": "info",
+      "required": false,
+      "outputData": [
+        {
+          "id": "status",
+          "name": "running_state",
+          "desc": "Report current device running state",
+          "define": {
+            "type": "enum",
+            "specs": {
+              "0": "关机",
+              "1": "建图",
+              "2": "割草",
+              "3": "回归",
+              "4": "暂停",
+              "5": "待机",
+              "6": "定位中",
+              "7": "锁定",
+              "8": "异常"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "low_voltage",
+      "name": "LowVoltage",
+      "desc": "Alert for device voltage is low",
+      "type": "alert",
+      "required": false,
+      "outputData": [
+        {
+          "id": "voltage",
+          "name": "Voltage",
+          "desc": "Current voltage",
+          "define": {
+            "type": "float",
+            "specs": {
+              "unit": "V",
+              "step": "1",
+              "min": "0.0",
+              "max": "17.5",
+              "start": "1"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "services": [
+    {
+      "identifier": "set",
+      "name": "set",
+      "required": true,
+      "callType": "async",
+      "desc": "属性设置",
+      "method": "",
+      "inputData": [
+        {
+          "identifier": "startMapping",
+          "name": "启动建图",
+          "define": {
+            "type": "text",
+            "specs": {
+              "length": "255"
+            }
+          }
+        },
+        {
+          "identifier": "startMowing",
+          "name": "启动割草",
+          "define": {
+            "type": "text",
+            "specs": {
+              "length": "255"
+            }
+          }
+        },
+        {
+          "identifier": "startReturn",
+          "name": "启动回归",
+          "define": {
+            "type": "text",
+            "specs": {
+              "length": "255"
+            }
+          }
+        }
+      ],
+      "outputData": [
+
+      ]
+    }
+  ]
+}

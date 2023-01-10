@@ -1,0 +1,114 @@
+{
+  "events": [
+    {
+      "identifier": "status_report",
+      "name": "设备状态",
+      "desc": "上报设备工作状态",
+      "required": false,
+      "eventType": "info",
+      "outputData": [
+        {
+          "identifier": "battery",
+          "name": "Battery",
+          "desc": "Current battery",
+          "define": {
+            "type": "int",
+            "unit": "%",
+            "step": "0",
+            "min": "0",
+            "max": "100",
+            "start": "0"
+          }
+        },
+        {
+          "identifier": "status",
+          "name": "running_state",
+          "desc": "Report current device running state",
+          "define": {
+            "type": "enum",
+            "mapping": {
+              "0": "locked",
+              "1": "standby",
+              "2": "mapping",
+              "3": "mowing",
+              "4": "returning",
+              "5": "paused",
+              "6": "positioning",
+              "7": "sleep",
+              "8": "exception",
+              "9": "shutdown",
+              "10": "other"
+            }
+          }
+        },
+        {
+          "identifier": "cutter",
+          "name": "Cutter",
+          "desc": "Current cutter",
+          "define": {
+            "type": "int",
+            "unit": "㎜",
+            "step": "0",
+            "min": "10",
+            "max": "60",
+            "start": "10"
+          }
+        }
+      ]
+    },
+    {
+      "identifier": "low_battery",
+      "name": "LowBattery",
+      "desc": "Alert for device battery is low",
+      "eventType": "alert",
+      "required": false,
+      "outputData": [
+        {
+          "id": "battery",
+          "name": "Battery",
+          "desc": "Current battery",
+          "define": {
+            "type": "int",
+            "mapping": {
+              "min": "0",
+              "max": "100",
+              "unit": "%"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "identifier": "hardware_error",
+      "name": "Hardware_fault",
+      "desc": "Report hardware fault",
+      "eventType": "error",
+      "required": false,
+      "outputData": [
+        {
+          "id": "name",
+          "name": "Name",
+          "desc": "Name like: memory ...",
+          "define": {
+            "type": "text",
+            "min": "0",
+            "max": "64"
+          }
+        },
+        {
+          "id": "error_code",
+          "name": "Error_Code",
+          "desc": "Error code for fault",
+          "define": {
+            "type": "int",
+            "unit": "",
+            "step": "1",
+            "min": "0",
+            "max": "2000",
+            "start": "1"
+          }
+        }
+      ]
+    }
+  ]
+}
