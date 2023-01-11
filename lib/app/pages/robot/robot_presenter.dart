@@ -1,8 +1,10 @@
+import 'package:diagnosis_tool/app/di/logger_provider.dart';
 import 'package:diagnosis_tool/data/mqtt/mqtt_client.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
 import 'package:diagnosis_tool/domain/presenter.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_map_usecase.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_usecase.dart';
+import 'package:diagnosis_tool/iot/things/entities/control.dart';
 
 import '../../../domain/entities/robot_status_entity.dart';
 
@@ -14,6 +16,8 @@ class RobotPresenter extends Presenter {
   RobotUseCase robotUseCase;
   SubscribeParams? topics;
 
+  String? robotId;
+
   RobotPresenter(repository, logger)
       : robotUseCase = RobotUseCase(repository, logger);
 
@@ -23,11 +27,33 @@ class RobotPresenter extends Presenter {
   }
 
   void getRobotState(String robotId) {
+    this.robotId = robotId;
     _addSubscribeParams(robotId);
     robotUseCase.execute(
         _RobotUseCaseObserver(this), RobotUseCaseParams(robotId));
+  }
 
+  void charge() {
+    Control control = Control(ControlParams(1, 0));
+    print(control.toString());
 
+    MqttClient.instance.pubMsg(
+        PublishParams('/app/up/$robotId', control.toString()));
+  }
+
+  void mower() {
+    MqttClient.instance.pubMsg(
+        PublishParams('/app/up/$robotId', '11111111111111111111111111111'));
+  }
+
+  void map() {
+    MqttClient.instance.pubMsg(
+        PublishParams('/app/up/$robotId', '11111111111111111111111111111'));
+  }
+
+  void pause() {
+    MqttClient.instance.pubMsg(
+        PublishParams('/app/up/$robotId', '11111111111111111111111111111'));
   }
 
   Future<void> _addSubscribeParams(String topic) async {
@@ -68,5 +94,3 @@ class _RobotUseCaseObserver extends Observer<RobotUseCaseResponse> {
     presenter.onNext?.call(response!.robotState);
   }
 }
-
-

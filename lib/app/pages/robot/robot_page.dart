@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'widget/control_widget.dart';
 import 'widget/map_widget.dart';
 import 'widget/machine_state_widget.dart';
 
@@ -25,6 +26,8 @@ class RobotPage extends HookConsumerWidget {
       return null;
     }, const []);
 
+    print("robot page build");
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Robot'),
@@ -36,6 +39,7 @@ class RobotPage extends HookConsumerWidget {
             children: const [
               MapWidget(),
               MachineStateWidget(),
+              ControlWidget(),
             ],
             // MapWidget(),
           ),

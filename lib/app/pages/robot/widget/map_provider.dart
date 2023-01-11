@@ -53,6 +53,9 @@ class MapState with _$MapState {
 
 final mapProvider =
     StateNotifierProvider.autoDispose<MapStateNotifier, MapState>((ref) {
+
+      print("mapProvider craete");
+
   return MapStateNotifier(ref.read(logger), ref.read(robotIdProvider));
 });
 

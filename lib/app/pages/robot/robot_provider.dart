@@ -68,4 +68,32 @@ class RobotStateNotifier extends Controller<RobotViewState> {
     super.dispose();
     presenter.dispose();
   }
+
+  charge(bool charging) {
+    if (charging) {
+      pause();
+    } else {
+      presenter.charge();
+    }
+  }
+
+  mower(bool mowing) {
+    if (mowing) {
+      pause();
+    } else {
+      presenter.mower();
+    }
+  }
+
+  map(bool mapping) {
+    if (mapping) {
+      pause();
+    } else {
+      presenter.map();
+    }
+  }
+
+  pause() {
+    presenter.pause();
+  }
 }

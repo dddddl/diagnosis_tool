@@ -14,24 +14,20 @@ class MapWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final map = ref.watch(mapProvider.select((value) => value.map));
-    final chargeImage =
-        ref.watch(mapProvider.select((value) => value.chargeImage));
-    final chargePosition =
-        ref.watch(mapProvider.select((value) => value.chargePosition));
-    final mowerImage =
-        ref.watch(mapProvider.select((value) => value.mowerImage));
-    final mowerPosition =
-        ref.watch(mapProvider.select((value) => value.mowerPosition));
-    final left =
-        ref.watch(mapProvider.select((value) => value.dragViewOffset)).dx;
-    final top =
-        ref.watch(mapProvider.select((value) => value.dragViewOffset)).dy;
+    final mapState = ref.watch(mapProvider);
+    print("map widget build");
+    final map = mapState.map;
+    final chargeImage = mapState.chargeImage;
+    final chargePosition = mapState.chargePosition;
+    final mowerImage = mapState.mowerImage;
+    final mowerPosition = mapState.mowerPosition;
+    final left = mapState.dragViewOffset.dx;
+    final top = mapState.dragViewOffset.dy;
     final size = Size(
         (map?.width ?? 0).roundToDouble(), (map?.height ?? 0).roundToDouble());
-
-    final scale = ref.watch(mapProvider.select((value) => value.currentScale));
-
+    final scale = mapState.currentScale;
+    final walls = mapState.walls;
+    final currentWall = mapState.currentWall;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onScaleStart: (d) => ref.read(mapProvider.notifier).handleScaleStart(d),
@@ -44,15 +40,17 @@ class MapWidget extends ConsumerWidget {
             top: top,
             child: Transform.scale(
               scale: scale,
-              child: CustomPaint(
-                size: size,
-                painter: MapPainter(
-                  map,
-                  chargeImage,
-                  chargePosition,
-                  scale,
-                  mowerImage,
-                  mowerPosition,
+              child: RepaintBoundary(
+                child: CustomPaint(
+                  size: size,
+                  painter: MapPainter(
+                    map,
+                    chargeImage,
+                    chargePosition,
+                    scale,
+                    mowerImage,
+                    mowerPosition,
+                  ),
                 ),
               ),
             ),
@@ -64,37 +62,34 @@ class MapWidget extends ConsumerWidget {
               scale: scale,
               child: CustomPaint(
                 size: size,
-                painter: WallPainter(
-                    ref.watch(mapProvider.select((value) => value.walls)),
-                    currentWall: ref.watch(
-                        mapProvider.select((value) => value.currentWall))),
+                painter: WallPainter(walls, currentWall: currentWall),
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Row(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    ref.read(mapProvider.notifier).wallMode();
-                  },
-                  child: const Text('虚拟墙'),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('禁区'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    ref.read(mapProvider.notifier).normalMode();
-                  },
-                  child: const Text('普通'),
-                ),
-              ],
-            ),
-          ),
+          // Positioned(
+          //   bottom: 0,
+          //   right: 0,
+          //   child: Row(
+          //     children: [
+          //       TextButton(
+          //         onPressed: () {
+          //           ref.read(mapProvider.notifier).wallMode();
+          //         },
+          //         child: const Text('虚拟墙'),
+          //       ),
+          //       TextButton(
+          //         onPressed: () {},
+          //         child: const Text('禁区'),
+          //       ),
+          //       TextButton(
+          //         onPressed: () {
+          //           ref.read(mapProvider.notifier).normalMode();
+          //         },
+          //         child: const Text('普通'),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -115,8 +110,8 @@ class MapPainter extends CustomPainter {
   Rect dstRect = Rect.zero;
   Paint painter = Paint();
 
-
-  MapPainter(this.mapImage, this.chargeImage,this.chargePosition, this.scale, this.mowerImage, this.mowerPosition)
+  MapPainter(this.mapImage, this.chargeImage, this.chargePosition, this.scale,
+      this.mowerImage, this.mowerPosition)
       : super();
 
   @override
@@ -125,8 +120,7 @@ class MapPainter extends CustomPainter {
       canvas.drawImage(mapImage!, Offset.zero, Paint());
     }
     final dstScale = defaultScale / scale;
-    print(chargePosition);
-    print(chargeImage);
+    print("chargePosition:$chargePosition");
 
     if (chargeImage != null && chargePosition != null) {
       final width = chargeImage!.width.toDouble();
@@ -182,6 +176,11 @@ class MapPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(MapPainter oldDelegate) {
-    return false;
+    return oldDelegate.mapImage != mapImage ||
+        oldDelegate.chargeImage != chargeImage ||
+        oldDelegate.chargePosition != chargePosition ||
+        oldDelegate.mowerImage != mowerImage ||
+        oldDelegate.mowerPosition != mowerPosition ||
+        oldDelegate.scale != scale;
   }
 }
