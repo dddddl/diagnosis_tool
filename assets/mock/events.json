@@ -37,7 +37,8 @@
               "7": "sleep",
               "8": "exception",
               "9": "shutdown",
-              "10": "other"
+              "10": "emergency_stop",
+              "11": "other"
             }
           }
         },
@@ -52,6 +53,55 @@
             "min": "10",
             "max": "60",
             "start": "10"
+          }
+        }
+      ]
+    },
+    {
+      "identifier": "map_report",
+      "name": "地图变更",
+      "desc": "上报设备地图信息",
+      "required": false,
+      "eventType": "info",
+      "outputData": [
+        {
+          "identifier": "position",
+          "name": "位置",
+          "desc": "割草机在当前位置位置",
+          "define": {
+            "type": "struct",
+            "mapping": {
+              "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 0.0
+              }
+            }
+          }
+        },
+        {
+          "identifier": "map",
+          "name": "地图",
+          "desc": "割草机当前使用地图",
+          "define": {
+            "type": "text",
+            "mapping": {
+              "map": "",
+              "length": 10240
+            }
+          }
+        },
+        {
+          "identifier": "path",
+          "name": "路径",
+          "desc": "割草机当前割草路径",
+          "define": {
+            "type": "text",
+            "mapping": {
+              "path": "",
+              "length": 10240
+            }
           }
         }
       ]
