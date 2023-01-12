@@ -50,7 +50,6 @@ class RobotStateNotifier extends Controller<RobotViewState> {
     presenter.onNext = (next) {
       if (next is RobotState) {
         state = state.copyWith(robotState: next);
-        logger.i(next.toString());
       } else {}
     };
 

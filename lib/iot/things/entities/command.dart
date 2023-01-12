@@ -20,4 +20,5 @@ class Command<T> with _$Command<T> {
   factory Command.fromJson(
       Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
       _$CommandFromJson(json, fromJsonT);
+
 }

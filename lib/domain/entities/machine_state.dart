@@ -19,6 +19,8 @@ enum MachineState {
   exception,
   // 关机
   shutdown,
+  // 急停
+  emergency_stop,
   // 未知 defalut
   other,
 }

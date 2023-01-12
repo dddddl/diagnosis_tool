@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:typed_data';
@@ -69,6 +70,8 @@ class MapStateNotifier extends StateNotifier<MapState> {
   Function? onComplete;
   Function? error;
 
+  StreamSubscription<Position>? positionStreamSub;
+
   MapStateNotifier(this.logger, this.robotId)
       : mapDataHandler = MapDataHandler(logger),
         robotMapUseCase = RobotMapUseCase(logger),
@@ -84,8 +87,7 @@ class MapStateNotifier extends StateNotifier<MapState> {
     final chargeImage =
         await mapDataHandler.loadImage('assets/images/ic_charge.png', false);
 
-    eventBus.on<Position>().listen((event) {
-      logger.i(event);
+    positionStreamSub = eventBus.on<Position>().listen((event) {
       state = state.copyWith(mowerPosition: event, mowerImage: chargeImage);
     });
   }
@@ -110,10 +112,6 @@ class MapStateNotifier extends StateNotifier<MapState> {
         logger.d('map data is null');
         return;
       }
-
-      logger.i(next.mapStartPose);
-      logger.i(next.width);
-      logger.i(next.height);
 
       final mapImage = await mapDataHandler.parseIntListMapData(next.mapData!);
       List<int> chargePosition = mapDataHandler.obtainChargePosition();
@@ -199,6 +197,12 @@ class MapStateNotifier extends StateNotifier<MapState> {
 
   void normalMode() {
     state = state.copyWith(mapMode: MapMode.normal);
+  }
+
+  @override
+  void dispose() {
+    positionStreamSub?.cancel();
+    super.dispose();
   }
 }
 

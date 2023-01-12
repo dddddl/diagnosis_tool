@@ -13,8 +13,16 @@ abstract class CmdConfig {
 }
 
 abstract class ControlConfig {
-  static const int mapping = 0;
-  static const int mowing = 1;
-  static const int returning = 2;
-  static const int paused = 3;
+  // static const int locked = 0;
+  // static const int standby = 1;
+  static const int mapping = 2;
+  static const int mowing = 3;
+  static const int returning = 4;
+  static const int paused = 5;
+  // static const int positioning = 6;
+  // static const int sleep = 7;
+  // static const int exception = 8;
+  // static const int shutdown = 9;
+  // static const int emergency_stop = 10;
+  // static const int other = 11;
 }

@@ -120,7 +120,6 @@ class MapPainter extends CustomPainter {
       canvas.drawImage(mapImage!, Offset.zero, Paint());
     }
     final dstScale = defaultScale / scale;
-    print("chargePosition:$chargePosition");
 
     if (chargeImage != null && chargePosition != null) {
       final width = chargeImage!.width.toDouble();

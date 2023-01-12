@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
 import 'package:diagnosis_tool/data/mqtt/mqtt_client.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
@@ -8,6 +10,7 @@ import 'package:diagnosis_tool/iot/things/const.dart';
 import 'package:diagnosis_tool/iot/things/entities/command.dart';
 import 'package:diagnosis_tool/iot/things/entities/control.dart';
 import 'package:diagnosis_tool/iot/utils/short_uuid.dart';
+import 'package:logger/logger.dart';
 
 import '../../../domain/entities/robot_status_entity.dart';
 
@@ -20,8 +23,9 @@ class RobotPresenter extends Presenter {
   SubscribeParams? topics;
 
   String? robotId;
+  Logger logger;
 
-  RobotPresenter(repository, logger)
+  RobotPresenter(repository, this.logger)
       : robotUseCase = RobotUseCase(repository, logger);
 
   void getRobot(String robotId) {
@@ -62,15 +66,17 @@ class RobotPresenter extends Presenter {
     final json = command.toJson((p0) => p0.toJson());
 
     MqttClient.instance
-        .pubMsg(PublishParams('/app/up/$robotId', json.toString()));
+        .pubMsg(PublishParams('/mower/down/$robotId', jsonEncode(json)));
   }
 
   Future<void> _addSubscribeParams(String topic) async {
     bool connect = await MqttClient.instance.connectWithPort();
-    topics = SubscribeParams(['/app/down/$topic']);
+    topics = SubscribeParams(['/app/down/$topic', '/mower/up/$topic']);
     if (connect) {
       MqttClient.instance.subscribeMsg(topics!);
       MqttClient.instance.listen(topics!);
+    } else {
+      logger.e('Mqtt client not connected');
     }
   }
 

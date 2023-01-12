@@ -23,14 +23,14 @@ class ControlWidget extends ConsumerWidget {
                 onPressed: () {
                   ref
                       .read(robotProvider.notifier)
-                      .charge(machineState == MachineState.returning);
+                      .charge(machineState.robotState.machineState == MachineState.returning);
                 },
                 shape: const CircleBorder(),
                 elevation: 2.0,
                 fillColor: Colors.green,
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
-                  machineState == MachineState.returning ? '回充中' : '回充',
+                  machineState.robotState.machineState == MachineState.returning ? '回充中' : '回充',
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
@@ -43,14 +43,14 @@ class ControlWidget extends ConsumerWidget {
                 onPressed: () {
                   ref
                       .read(robotProvider.notifier)
-                      .mower(machineState == MachineState.mowing);
+                      .mower(machineState.robotState.machineState == MachineState.mowing);
                 },
                 shape: const CircleBorder(),
                 elevation: 2.0,
                 fillColor: Colors.green,
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
-                  machineState == MachineState.mowing ? '暂停' : '割草',
+                  machineState.robotState.machineState == MachineState.mowing ? '暂停' : '割草',
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
@@ -61,14 +61,14 @@ class ControlWidget extends ConsumerWidget {
                 onPressed: () {
                   ref
                       .read(robotProvider.notifier)
-                      .map(machineState == MachineState.mapping);
+                      .map(machineState.robotState.machineState == MachineState.mapping);
                 },
                 shape: const CircleBorder(),
                 elevation: 2.0,
                 fillColor: Colors.green,
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
-                  machineState == MachineState.mapping ? '建图中' : '建图',
+                  machineState.robotState.machineState == MachineState.mapping ? '建图中' : '建图',
                   style: const TextStyle(color: Colors.white),
                 ),
               ),

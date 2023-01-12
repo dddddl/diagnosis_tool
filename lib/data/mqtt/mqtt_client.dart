@@ -6,6 +6,7 @@ import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/domain/composite_subscription.dart';
 import 'package:diagnosis_tool/domain/composite_subscription_map.dart';
 import 'package:diagnosis_tool/domain/entities/mqtt_entity.dart';
+import 'package:diagnosis_tool/domain/entities/thing_cmd_entity.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
 import 'package:diagnosis_tool/iot/utils/log_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -134,7 +135,8 @@ class MqttClient {
       String topic = params.topic;
       final builder = MqttClientPayloadBuilder();
       builder.addString(params.message);
-      LogUtils.log('sending message to topic: $topic  message: ${params.message}');
+      LogUtils.log(
+          'sending message to topic: $topic  message: ${params.message}');
       // Important: AWS IoT Core can only handle QOS of 0 or 1. QOS 2 (exactlyOnce) will fail!
       _client?.publishMessage(topic, MqttQos.atMostOnce, builder.payload!);
     } else {
@@ -155,8 +157,10 @@ class MqttClient {
 
   void unsubscribeMsg(SubscribeParams params) {
     _disposeSubscription(params);
-    for (var element in params.topics) {
-      _client?.unsubscribe(element);
+    if (_client?.connectionStatus?.state == MqttConnectionState.connected) {
+      for (var element in params.topics) {
+        _client?.unsubscribe(element);
+      }
     }
   }
 
@@ -165,15 +169,24 @@ class MqttClient {
         _client?.connectionStatus?.state == MqttConnectionState.connected) {
       final subscription =
           _client?.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-        LogUtils.log('topic is <${c[0].topic}>');
         if (params.topics.contains(c[0].topic)) {
           final recMess = c[0].payload as MqttPublishMessage;
           final pt =
               MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-
-          MqttEntity entity = MqttEntity.fromJson(json.decode(pt));
-
-          mapMqttEntityToCmd(entity);
+          try {
+            // 老协议、cmd为string
+            MqttEntity entity = MqttEntity.fromJson(json.decode(pt));
+            mapMqttEntityToCmd(entity);
+          } catch (e) {
+            try {
+              LogUtils.log('topic is <${c[0].topic}>  content： $pt');
+              // 新协议、cmd为json
+              ThingCmdEntity entity = ThingCmdEntity.fromJson(json.decode(pt));
+              mapThingCmdEntityToCmd(entity);
+            } catch (e) {
+              LogUtils.log('topic is <${c[0].topic}>  content： $pt');
+            }
+          }
         }
       });
 
