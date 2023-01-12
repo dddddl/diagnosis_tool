@@ -4,7 +4,10 @@ import 'package:diagnosis_tool/domain/observer.dart';
 import 'package:diagnosis_tool/domain/presenter.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_map_usecase.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_usecase.dart';
+import 'package:diagnosis_tool/iot/things/const.dart';
+import 'package:diagnosis_tool/iot/things/entities/command.dart';
 import 'package:diagnosis_tool/iot/things/entities/control.dart';
+import 'package:diagnosis_tool/iot/utils/short_uuid.dart';
 
 import '../../../domain/entities/robot_status_entity.dart';
 
@@ -34,26 +37,32 @@ class RobotPresenter extends Presenter {
   }
 
   void charge() {
-    Control control = Control(ControlParams(1, 0));
-    print(control.toString());
-
-    MqttClient.instance.pubMsg(
-        PublishParams('/app/up/$robotId', control.toString()));
+    sendMsg(CmdConfig.control, ControlConfig.returning);
   }
 
   void mower() {
-    MqttClient.instance.pubMsg(
-        PublishParams('/app/up/$robotId', '11111111111111111111111111111'));
+    sendMsg(CmdConfig.control, ControlConfig.mowing);
   }
 
   void map() {
-    MqttClient.instance.pubMsg(
-        PublishParams('/app/up/$robotId', '11111111111111111111111111111'));
+    sendMsg(CmdConfig.control, ControlConfig.mapping);
   }
 
   void pause() {
-    MqttClient.instance.pubMsg(
-        PublishParams('/app/up/$robotId', '11111111111111111111111111111'));
+    sendMsg(CmdConfig.control, ControlConfig.paused);
+  }
+
+  void sendMsg(int cmd, int status) {
+    Command command = Command<ControlParams>(
+        cmd: cmd,
+        uuid: ShortUuid.generateShortUuid(),
+        timeStamps: DateTime.now().millisecondsSinceEpoch,
+        params: ControlParams(status: status));
+
+    final json = command.toJson((p0) => p0.toJson());
+
+    MqttClient.instance
+        .pubMsg(PublishParams('/app/up/$robotId', json.toString()));
   }
 
   Future<void> _addSubscribeParams(String topic) async {

@@ -131,12 +131,10 @@ class MqttClient {
 
   void pubMsg(PublishParams params) {
     if (_client?.connectionStatus?.state == MqttConnectionState.connected) {
-      LogUtils.log('MQTT client connected to AWS IoT');
-
-      // Publish to a topic of your choice
       String topic = params.topic;
       final builder = MqttClientPayloadBuilder();
       builder.addString(params.message);
+      LogUtils.log('sending message to topic: $topic  message: ${params.message}');
       // Important: AWS IoT Core can only handle QOS of 0 or 1. QOS 2 (exactlyOnce) will fail!
       _client?.publishMessage(topic, MqttQos.atMostOnce, builder.payload!);
     } else {

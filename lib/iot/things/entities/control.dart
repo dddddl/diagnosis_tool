@@ -1,24 +1,22 @@
 import 'package:diagnosis_tool/iot/utils/short_uuid.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'control.freezed.dart';
+
+part 'control.g.dart';
 
 
-class Command<T>  {
-  int cmd = 3;
-  String uuid = ShortUuid.generateShortUuid();
-  int timeStamps = DateTime.now().millisecondsSinceEpoch;
-  T params;
+@freezed
+class ControlParams with _$ControlParams {
+  // int status;
+  // int velocity;
 
-  Command(this.params);
+  const factory ControlParams({
+    required int status,
+  }) = _ControlParams;
 
+  factory ControlParams.fromJson(Map<String, dynamic> json) =>
+      _$ControlParamsFromJson(json);
 
 }
 
-class Control extends Command<ControlParams> {
-  Control(super.params);
-}
-
-class ControlParams {
-  int status;
-  int velocity;
-
-  ControlParams(this.status, this.velocity);
-}
