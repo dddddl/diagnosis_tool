@@ -16,6 +16,10 @@ class MapWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mapState = ref.watch(mapProvider);
     print("map widget build");
+    final size1 = MediaQuery.of(context).size;
+    final width = size1.width;
+    final height = size1.height;
+    print('width is $width; height is $height');
     final map = mapState.map;
     final chargeImage = mapState.chargeImage;
     final chargePosition = mapState.chargePosition;

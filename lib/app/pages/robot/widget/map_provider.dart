@@ -54,8 +54,7 @@ class MapState with _$MapState {
 
 final mapProvider =
     StateNotifierProvider.autoDispose<MapStateNotifier, MapState>((ref) {
-
-      print("mapProvider craete");
+  print("mapProvider craete");
 
   return MapStateNotifier(ref.read(logger), ref.read(robotIdProvider));
 });
@@ -72,14 +71,17 @@ class MapStateNotifier extends StateNotifier<MapState> {
 
   StreamSubscription<Position>? positionStreamSub;
 
+  final screenWidth = window.physicalSize.width / window.devicePixelRatio;
+  final screenHeight = window.physicalSize.height / window.devicePixelRatio;
+
   MapStateNotifier(this.logger, this.robotId)
       : mapDataHandler = MapDataHandler(logger),
         robotMapUseCase = RobotMapUseCase(logger),
         super(MapState.initial()) {
     robotMapUseCase.execute(
         _RobotMapUseCaseObserver(this), RobotMapUseCaseParams(robotId));
-    // _loadMap();
-    _listenMap();
+    _loadMap();
+    // _listenMap();
     _listenPosition();
   }
 
@@ -100,9 +102,11 @@ class MapStateNotifier extends StateNotifier<MapState> {
         await mapDataHandler.loadImage('assets/images/ic_charge.png', false);
 
     state = state.copyWith(
-        map: mapImage,
-        chargeImage: chargeImage,
-        chargePosition: chargePosition);
+      map: mapImage,
+      chargeImage: chargeImage,
+      chargePosition: chargePosition,
+      dragViewOffset: Offset((screenWidth - mapImage.width) / 2, 100),
+    );
   }
 
   Future<void> _listenMap() async {
@@ -117,11 +121,12 @@ class MapStateNotifier extends StateNotifier<MapState> {
       List<int> chargePosition = mapDataHandler.obtainChargePosition();
       final chargeImage =
           await mapDataHandler.loadImage('assets/images/ic_charge.png', false);
-
       state = state.copyWith(
-          map: mapImage,
-          chargeImage: chargeImage,
-          chargePosition: chargePosition);
+        map: mapImage,
+        chargeImage: chargeImage,
+        chargePosition: chargePosition,
+        dragViewOffset: Offset((screenWidth - mapImage.width) / 2, 100),
+      );
     };
   }
 
