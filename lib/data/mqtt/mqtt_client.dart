@@ -92,7 +92,7 @@ class MqttClient {
       return true;
     }
     var uuid = Uuid();
-    _client = MqttServerClient.withPort('10.9.9.46', uuid.v1(), 1883);
+    _client = MqttServerClient.withPort('robot.china-dongcheng.com', uuid.v1(), 15479);
 
     _client?.keepAlivePeriod = 20;
     // Set the protocol to V3.1.1 for AWS IoT Core, if you fail to do this you will not receive a connect ack with the response code
@@ -110,7 +110,7 @@ class MqttClient {
 
     final connMess = MqttConnectMessage()
         // .withClientIdentifier('<your_client_id>')
-        .authenticateAs('admin', '123456')
+        // .authenticateAs('admin', '123456')
         .withWillTopic('willtopic')
         .withWillMessage('Will message')
         .startClean();
