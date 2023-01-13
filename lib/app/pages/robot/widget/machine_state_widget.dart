@@ -4,39 +4,82 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../robot_provider.dart';
+import 'control_widget.dart';
 
 class MachineStateWidget extends ConsumerWidget {
   const MachineStateWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    RobotState robotState = ref.watch(robotProvider.select((value) => value.robotState));
+    RobotState robotState =
+        ref.watch(robotProvider.select((value) => value.robotState));
 
     return Positioned(
       bottom: 0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-              '名称: ${robotState.name}'),
-          Text(
-              '当前状态: ${robotState.machineState}'),
-          Text(
-              '电量:  ${robotState.power}%'),
-          Text(
-              '最近上线时间:  ${robotState.timestamp}'),
-          Text(
-              '今日累计割草面积:  ${robotState.acreage} m²'),
-          Text(
-              '今日累计割草时长:  ${robotState.duration} min'),
-          Text(
-              '行驶速度:  ${robotState.moveSpeed} m/s'),
-          Text(
-              '电机转速:  ${robotState.motorRotateSpeed} r/s'),
-          Text(
-              '当前位置信息:  ${robotState.position}'),
-        ],
-      ),
+      child: Container(
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.blueAccent],
+              )),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                height: 70,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(width: 24),
+                        Text('状态：${robotState.machineState ?? '无'}',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold)),
+                        const Spacer(),
+                        Text('电量：${robotState.power ?? 0}%',
+                            style: const TextStyle(color: Colors.white)),
+                        const SizedBox(width: 24),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(width: 24),
+                        Text('${robotState.duration ?? 0}min',
+                            style: const TextStyle(color: Colors.white70)),
+                        const SizedBox(width: 24),
+                        Text('${robotState.acreage ?? 0}m²',
+                            style: const TextStyle(color: Colors.white70)),
+                        const SizedBox(width: 24),
+                        Text('${robotState.motorRotateSpeed ?? 0}r/s',
+                            style: const TextStyle(color: Colors.white70)),
+                        const SizedBox(width: 24),
+                        Text('${robotState.moveSpeed ?? 0}m/s',
+                            style: const TextStyle(color: Colors.white70)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 100,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20)),
+                    color: Colors.white),
+                child: const ControlWidget(),
+              ),
+            ],
+          )),
     );
   }
 }

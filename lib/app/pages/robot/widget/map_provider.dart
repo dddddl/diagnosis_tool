@@ -80,8 +80,8 @@ class MapStateNotifier extends StateNotifier<MapState> {
         super(MapState.initial()) {
     robotMapUseCase.execute(
         _RobotMapUseCaseObserver(this), RobotMapUseCaseParams(robotId));
-    _loadMap();
-    // _listenMap();
+    // _loadMap();
+    _listenMap();
     _listenPosition();
   }
 

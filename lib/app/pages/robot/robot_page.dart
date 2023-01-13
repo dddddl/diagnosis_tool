@@ -26,11 +26,10 @@ class RobotPage extends HookConsumerWidget {
       return null;
     }, const []);
 
-    print("robot page build");
-
     return Scaffold(
         appBar: AppBar(
-          title: Text('Robot'),
+          title: Text(mac),
+          elevation: 0,
         ),
         body: Container(
           color: const Color(0xFFF5F5F5),
@@ -39,7 +38,6 @@ class RobotPage extends HookConsumerWidget {
             children: const [
               MapWidget(),
               MachineStateWidget(),
-              ControlWidget(),
             ],
             // MapWidget(),
           ),
