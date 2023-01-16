@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
 import 'package:diagnosis_tool/data/mqtt/mqtt_client.dart';
+import 'package:diagnosis_tool/domain/entities/mqtt_entity.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
 import 'package:diagnosis_tool/domain/presenter.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_map_usecase.dart';
@@ -69,12 +70,24 @@ class RobotPresenter extends Presenter {
         .pubMsg(PublishParams('/mower/down/$robotId', jsonEncode(json)));
   }
 
+  void _requestMap() {
+    MqttEntity entity = MqttEntity(
+        cmd: "map",
+        subcmd: "upload",
+        uuid: ShortUuid.generateShortUuid(),
+        data: '');
+
+    MqttClient.instance
+        .pubMsg(PublishParams('/app/up/$robotId', jsonEncode(entity.toJson())));
+  }
+
   Future<void> _addSubscribeParams(String topic) async {
     bool connect = await MqttClient.instance.connectWithPort();
     topics = SubscribeParams(['/app/down/$topic', '/mower/up/$topic']);
     if (connect) {
       MqttClient.instance.subscribeMsg(topics!);
       MqttClient.instance.listen(topics!);
+      _requestMap();
     } else {
       logger.e('Mqtt client not connected');
     }
