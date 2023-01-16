@@ -29,7 +29,8 @@ mixin _$RobotState {
   int? get duration => throw _privateConstructorUsedError;
   double? get moveSpeed => throw _privateConstructorUsedError;
   double? get motorRotateSpeed => throw _privateConstructorUsedError;
-  Position? get position => throw _privateConstructorUsedError;
+  Position? get path => throw _privateConstructorUsedError;
+  List<Position> get position => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,9 +54,10 @@ abstract class $RobotStateCopyWith<$Res> {
       int? duration,
       double? moveSpeed,
       double? motorRotateSpeed,
-      Position? position});
+      Position? path,
+      List<Position> position});
 
-  $PositionCopyWith<$Res>? get position;
+  $PositionCopyWith<$Res>? get path;
 }
 
 /// @nodoc
@@ -80,7 +82,8 @@ class _$RobotStateCopyWithImpl<$Res, $Val extends RobotState>
     Object? duration = freezed,
     Object? moveSpeed = freezed,
     Object? motorRotateSpeed = freezed,
-    Object? position = freezed,
+    Object? path = freezed,
+    Object? position = null,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -119,22 +122,26 @@ class _$RobotStateCopyWithImpl<$Res, $Val extends RobotState>
           ? _value.motorRotateSpeed
           : motorRotateSpeed // ignore: cast_nullable_to_non_nullable
               as double?,
-      position: freezed == position
+      path: freezed == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as Position?,
+      position: null == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
-              as Position?,
+              as List<Position>,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $PositionCopyWith<$Res>? get position {
-    if (_value.position == null) {
+  $PositionCopyWith<$Res>? get path {
+    if (_value.path == null) {
       return null;
     }
 
-    return $PositionCopyWith<$Res>(_value.position!, (value) {
-      return _then(_value.copyWith(position: value) as $Val);
+    return $PositionCopyWith<$Res>(_value.path!, (value) {
+      return _then(_value.copyWith(path: value) as $Val);
     });
   }
 }
@@ -157,10 +164,11 @@ abstract class _$$_RobotStateCopyWith<$Res>
       int? duration,
       double? moveSpeed,
       double? motorRotateSpeed,
-      Position? position});
+      Position? path,
+      List<Position> position});
 
   @override
-  $PositionCopyWith<$Res>? get position;
+  $PositionCopyWith<$Res>? get path;
 }
 
 /// @nodoc
@@ -183,7 +191,8 @@ class __$$_RobotStateCopyWithImpl<$Res>
     Object? duration = freezed,
     Object? moveSpeed = freezed,
     Object? motorRotateSpeed = freezed,
-    Object? position = freezed,
+    Object? path = freezed,
+    Object? position = null,
   }) {
     return _then(_$_RobotState(
       name: freezed == name
@@ -222,10 +231,14 @@ class __$$_RobotStateCopyWithImpl<$Res>
           ? _value.motorRotateSpeed
           : motorRotateSpeed // ignore: cast_nullable_to_non_nullable
               as double?,
-      position: freezed == position
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
+      path: freezed == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
               as Position?,
+      position: null == position
+          ? _value._position
+          : position // ignore: cast_nullable_to_non_nullable
+              as List<Position>,
     ));
   }
 }
@@ -243,7 +256,9 @@ class _$_RobotState implements _RobotState {
       this.duration,
       this.moveSpeed,
       this.motorRotateSpeed,
-      this.position});
+      this.path,
+      required final List<Position> position})
+      : _position = position;
 
   factory _$_RobotState.fromJson(Map<String, dynamic> json) =>
       _$$_RobotStateFromJson(json);
@@ -267,11 +282,18 @@ class _$_RobotState implements _RobotState {
   @override
   final double? motorRotateSpeed;
   @override
-  final Position? position;
+  final Position? path;
+  final List<Position> _position;
+  @override
+  List<Position> get position {
+    if (_position is EqualUnmodifiableListView) return _position;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_position);
+  }
 
   @override
   String toString() {
-    return 'RobotState(name: $name, state: $state, machineState: $machineState, power: $power, timestamp: $timestamp, acreage: $acreage, duration: $duration, moveSpeed: $moveSpeed, motorRotateSpeed: $motorRotateSpeed, position: $position)';
+    return 'RobotState(name: $name, state: $state, machineState: $machineState, power: $power, timestamp: $timestamp, acreage: $acreage, duration: $duration, moveSpeed: $moveSpeed, motorRotateSpeed: $motorRotateSpeed, path: $path, position: $position)';
   }
 
   @override
@@ -293,14 +315,25 @@ class _$_RobotState implements _RobotState {
                 other.moveSpeed == moveSpeed) &&
             (identical(other.motorRotateSpeed, motorRotateSpeed) ||
                 other.motorRotateSpeed == motorRotateSpeed) &&
-            (identical(other.position, position) ||
-                other.position == position));
+            (identical(other.path, path) || other.path == path) &&
+            const DeepCollectionEquality().equals(other._position, _position));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, state, machineState, power,
-      timestamp, acreage, duration, moveSpeed, motorRotateSpeed, position);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      state,
+      machineState,
+      power,
+      timestamp,
+      acreage,
+      duration,
+      moveSpeed,
+      motorRotateSpeed,
+      path,
+      const DeepCollectionEquality().hash(_position));
 
   @JsonKey(ignore: true)
   @override
@@ -327,7 +360,8 @@ abstract class _RobotState implements RobotState {
       final int? duration,
       final double? moveSpeed,
       final double? motorRotateSpeed,
-      final Position? position}) = _$_RobotState;
+      final Position? path,
+      required final List<Position> position}) = _$_RobotState;
 
   factory _RobotState.fromJson(Map<String, dynamic> json) =
       _$_RobotState.fromJson;
@@ -351,7 +385,9 @@ abstract class _RobotState implements RobotState {
   @override
   double? get motorRotateSpeed;
   @override
-  Position? get position;
+  Position? get path;
+  @override
+  List<Position> get position;
   @override
   @JsonKey(ignore: true)
   _$$_RobotStateCopyWith<_$_RobotState> get copyWith =>

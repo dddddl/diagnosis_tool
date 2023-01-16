@@ -18,7 +18,8 @@ class RobotState with _$RobotState {
     int? duration,
     double? moveSpeed,
     double? motorRotateSpeed,
-    Position? position,
+    Position? path,
+    required List<Position> position,
   }) = _RobotState;
 
   factory RobotState.fromJson(Map<String, dynamic> json) =>
@@ -33,7 +34,8 @@ class RobotState with _$RobotState {
         duration: null,
         moveSpeed: null,
         motorRotateSpeed: null,
-        position: null,
+        position: [],
+        path: null,
       );
 }
 
@@ -49,4 +51,3 @@ class Position with _$Position {
   factory Position.fromJson(Map<String, dynamic> json) =>
       _$PositionFromJson(json);
 }
-

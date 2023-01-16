@@ -18,9 +18,12 @@ _$_RobotState _$$_RobotStateFromJson(Map<String, dynamic> json) =>
       duration: json['duration'] as int?,
       moveSpeed: (json['moveSpeed'] as num?)?.toDouble(),
       motorRotateSpeed: (json['motorRotateSpeed'] as num?)?.toDouble(),
-      position: json['position'] == null
+      path: json['path'] == null
           ? null
-          : Position.fromJson(json['position'] as Map<String, dynamic>),
+          : Position.fromJson(json['path'] as Map<String, dynamic>),
+      position: (json['position'] as List<dynamic>)
+          .map((e) => Position.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_RobotStateToJson(_$_RobotState instance) =>
@@ -34,6 +37,7 @@ Map<String, dynamic> _$$_RobotStateToJson(_$_RobotState instance) =>
       'duration': instance.duration,
       'moveSpeed': instance.moveSpeed,
       'motorRotateSpeed': instance.motorRotateSpeed,
+      'path': instance.path,
       'position': instance.position,
     };
 
@@ -48,6 +52,7 @@ const _$MachineStateEnumMap = {
   MachineState.sleep: 'sleep',
   MachineState.exception: 'exception',
   MachineState.shutdown: 'shutdown',
+  MachineState.emergency_stop: 'emergency_stop',
   MachineState.other: 'other',
 };
 

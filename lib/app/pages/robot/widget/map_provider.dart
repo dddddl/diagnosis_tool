@@ -11,6 +11,7 @@ import 'package:diagnosis_tool/domain/entities/robot_map_entity.dart';
 import 'package:diagnosis_tool/domain/entities/robot_status_entity.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_map_usecase.dart';
+import 'package:diagnosis_tool/iot/utils/minilzo.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -31,6 +32,7 @@ class MapState with _$MapState {
     required List<int> chargePosition,
     Image? mowerImage,
     Position? mowerPosition,
+    required List<Position> mowerPath,
     required double currentScale,
     required Offset dragViewOffset,
     required MapMode mapMode,
@@ -44,6 +46,7 @@ class MapState with _$MapState {
         chargePosition: [0, 0],
         mowerImage: null,
         mowerPosition: null,
+        mowerPath: [],
         currentScale: 1.0,
         dragViewOffset: Offset.zero,
         mapMode: MapMode.normal,
@@ -70,6 +73,7 @@ class MapStateNotifier extends StateNotifier<MapState> {
   Function? error;
 
   StreamSubscription<Position>? positionStreamSub;
+  StreamSubscription<List<Position>>? pathStreamSub;
 
   final screenWidth = window.physicalSize.width / window.devicePixelRatio;
   final screenHeight = window.physicalSize.height / window.devicePixelRatio;
@@ -83,6 +87,7 @@ class MapStateNotifier extends StateNotifier<MapState> {
     // _loadMap();
     _listenMap();
     _listenPosition();
+    _listenPath();
   }
 
   Future<void> _listenPosition() async {
@@ -94,8 +99,21 @@ class MapStateNotifier extends StateNotifier<MapState> {
     });
   }
 
+  Future<void> _listenPath() async {
+    pathStreamSub = eventBus.on<List<Position>>().listen((event) {
+      state = state.copyWith(mowerPath: [...state.mowerPath, ...event]);
+    });
+  }
+
   Future<void> _loadMap() async {
     ByteData mapData = await rootBundle.load('assets/mock/origin_slam_map.txt');
+
+    // MiniLZO lzo = MiniLZO();
+    // lzo.setReturnNewBuffers(true);
+    // lzo.setBlockSize(128 * 1024);
+    // final result = lzo.decompress(mapData.buffer.asUint8List());
+    // print('result $result');
+
     final mapImage = await mapDataHandler.parseMapData(mapData);
     List<int> chargePosition = mapDataHandler.obtainChargePosition();
     final chargeImage =
@@ -207,6 +225,7 @@ class MapStateNotifier extends StateNotifier<MapState> {
   @override
   void dispose() {
     positionStreamSub?.cancel();
+    pathStreamSub?.cancel();
     super.dispose();
   }
 }
