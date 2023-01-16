@@ -12,7 +12,6 @@ EventBus eventBus = EventBus();
 void mapMqttEntityToCmd(MqttEntity mqttEntity) {
   if (mqttEntity.cmd == "data") {
     RobotState robotState = RobotState.fromJson(mqttEntity.data);
-    print("robotState: $robotState");
     eventBus.fire(mapRobotStateToMachine(robotState));
     eventBus.fire(robotState.position);
     eventBus.fire(robotState.path);

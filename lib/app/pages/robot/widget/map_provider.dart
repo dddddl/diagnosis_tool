@@ -100,6 +100,10 @@ class MapStateNotifier extends StateNotifier<MapState> {
   }
 
   Future<void> _listenPath() async {
+    final chargeImage =
+        await mapDataHandler.loadImage('assets/images/ic_mower.png', false);
+    state = state.copyWith(mowerImage: chargeImage);
+
     pathStreamSub = eventBus.on<List<Position>>().listen((event) {
       state = state.copyWith(mowerPath: [...state.mowerPath, ...event]);
     });

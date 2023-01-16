@@ -58,7 +58,7 @@ class MapWidget extends ConsumerWidget {
                 child: RepaintBoundary(
                   child: CustomPaint(
                     size: size,
-                    painter: MowerPainter(scale, mowerImage, mowerPosition, mowerPath),
+                    painter: MowerPainter(scale, mowerImage,  mowerPath),
                   ),
                 )),
           ),
