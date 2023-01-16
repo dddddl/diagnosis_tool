@@ -230,6 +230,7 @@ class MapStateNotifier extends StateNotifier<MapState> {
   void dispose() {
     positionStreamSub?.cancel();
     pathStreamSub?.cancel();
+    robotMapUseCase.dispose();
     super.dispose();
   }
 }
