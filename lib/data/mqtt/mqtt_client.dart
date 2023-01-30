@@ -14,61 +14,6 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:uuid/uuid.dart';
 
-void main() {
-  MqttClient.instance.connectWithPort().then((value) {
-    if (value) {
-      MqttClient.instance
-          .subscribeMsg(SubscribeParams(['/test/topic', '/test/topic2']));
-      MqttClient.instance.execute(_test(), SubscribeParams(['/test/topic']));
-      SubscribeParams test2 = SubscribeParams(['/test/topic2']);
-      MqttClient.instance.execute(_test1(), SubscribeParams(['/test/topic2']));
-      MqttClient.instance.unsubscribeMsg(SubscribeParams(['/test/topic2']));
-      MqttClient.instance.pubMsg(
-          PublishParams('/test/topic', '11111111111111111111111111111'));
-      MqttClient.instance.pubMsg(
-          PublishParams('/test/topic2', '22222222222222222222222222222'));
-
-      SubscribeParams params = SubscribeParams(['/test/topic']);
-      SubscribeParams params1 = SubscribeParams(['/test/topic']);
-      LogUtils.log(params == params1);
-    }
-  });
-}
-
-class _test1 extends Observer<String> {
-  @override
-  void onComplete() {
-    LogUtils.log('_test1 onComplete');
-  }
-
-  @override
-  void onError(e) {
-    LogUtils.log(e);
-  }
-
-  @override
-  void onNext(String? response) {
-    LogUtils.log('_test1 onNext: $response');
-  }
-}
-
-class _test extends Observer<String> {
-  @override
-  void onComplete() {
-    LogUtils.log('_test1 onComplete');
-  }
-
-  @override
-  void onError(e) {
-    LogUtils.log(e);
-  }
-
-  @override
-  void onNext(String? response) {
-    LogUtils.log('onNext: $response');
-  }
-}
-
 class MqttClient {
   MqttClient._() {
     _disposables = CompositeSubscriptionMap<SubscribeParams>();

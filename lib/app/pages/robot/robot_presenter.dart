@@ -67,7 +67,7 @@ class RobotPresenter extends Presenter {
     final json = command.toJson((p0) => p0.toJson());
 
     MqttClient.instance
-        .pubMsg(PublishParams('/mower/down/$robotId', jsonEncode(json)));
+        .pubMsg(PublishParams('/thing/down/property/1/$robotId', jsonEncode(json)));
   }
 
   void _requestMap() {
@@ -83,7 +83,7 @@ class RobotPresenter extends Presenter {
 
   Future<void> _addSubscribeParams(String topic) async {
     bool connect = await MqttClient.instance.connectWithPort();
-    topics = SubscribeParams(['/app/down/$topic', '/mower/up/$topic']);
+    topics = SubscribeParams(['/app/down/$topic', '/thing/up/property/1/$topic']);
     if (connect) {
       MqttClient.instance.subscribeMsg(topics!);
       MqttClient.instance.listen(topics!);

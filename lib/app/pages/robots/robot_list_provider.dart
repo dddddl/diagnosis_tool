@@ -33,20 +33,6 @@ class RobotListProvider extends Controller<RobotListState> {
 
   @override
   void init() {
-    String result = 'b8:d6:1a:a0:01:5c';
-    SharedPreferences.getInstance().then((prefs) {
-      List<String>? localRobots = prefs.getStringList(Constants.localRobots);
-      localRobots ??= [];
-      if (!localRobots.contains(result)) {
-        localRobots.add(result);
-      } else {
-        localRobots.remove(result);
-        localRobots.add(result);
-      }
-
-      prefs.setStringList(Constants.localRobots, localRobots);
-    });
-
     presenter.onNext = (List<Robot>? robots) {
       state = state.copyWith(robots: robots);
     };
