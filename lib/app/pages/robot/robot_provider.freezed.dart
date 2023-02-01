@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$RobotViewState {
   RobotState get robotState => throw _privateConstructorUsedError;
+  bool get mqttConnected => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RobotViewStateCopyWith<RobotViewState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $RobotViewStateCopyWith<$Res> {
           RobotViewState value, $Res Function(RobotViewState) then) =
       _$RobotViewStateCopyWithImpl<$Res, RobotViewState>;
   @useResult
-  $Res call({RobotState robotState});
+  $Res call({RobotState robotState, bool mqttConnected});
 
   $RobotStateCopyWith<$Res> get robotState;
 }
@@ -48,12 +49,17 @@ class _$RobotViewStateCopyWithImpl<$Res, $Val extends RobotViewState>
   @override
   $Res call({
     Object? robotState = null,
+    Object? mqttConnected = null,
   }) {
     return _then(_value.copyWith(
       robotState: null == robotState
           ? _value.robotState
           : robotState // ignore: cast_nullable_to_non_nullable
               as RobotState,
+      mqttConnected: null == mqttConnected
+          ? _value.mqttConnected
+          : mqttConnected // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -74,7 +80,7 @@ abstract class _$$_RobotViewStateCopyWith<$Res>
       __$$_RobotViewStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({RobotState robotState});
+  $Res call({RobotState robotState, bool mqttConnected});
 
   @override
   $RobotStateCopyWith<$Res> get robotState;
@@ -92,12 +98,17 @@ class __$$_RobotViewStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? robotState = null,
+    Object? mqttConnected = null,
   }) {
     return _then(_$_RobotViewState(
       robotState: null == robotState
           ? _value.robotState
           : robotState // ignore: cast_nullable_to_non_nullable
               as RobotState,
+      mqttConnected: null == mqttConnected
+          ? _value.mqttConnected
+          : mqttConnected // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -105,14 +116,18 @@ class __$$_RobotViewStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_RobotViewState implements _RobotViewState {
-  const _$_RobotViewState({required this.robotState});
+  const _$_RobotViewState(
+      {required this.robotState, this.mqttConnected = false});
 
   @override
   final RobotState robotState;
+  @override
+  @JsonKey()
+  final bool mqttConnected;
 
   @override
   String toString() {
-    return 'RobotViewState(robotState: $robotState)';
+    return 'RobotViewState(robotState: $robotState, mqttConnected: $mqttConnected)';
   }
 
   @override
@@ -121,11 +136,13 @@ class _$_RobotViewState implements _RobotViewState {
         (other.runtimeType == runtimeType &&
             other is _$_RobotViewState &&
             (identical(other.robotState, robotState) ||
-                other.robotState == robotState));
+                other.robotState == robotState) &&
+            (identical(other.mqttConnected, mqttConnected) ||
+                other.mqttConnected == mqttConnected));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, robotState);
+  int get hashCode => Object.hash(runtimeType, robotState, mqttConnected);
 
   @JsonKey(ignore: true)
   @override
@@ -135,11 +152,14 @@ class _$_RobotViewState implements _RobotViewState {
 }
 
 abstract class _RobotViewState implements RobotViewState {
-  const factory _RobotViewState({required final RobotState robotState}) =
-      _$_RobotViewState;
+  const factory _RobotViewState(
+      {required final RobotState robotState,
+      final bool mqttConnected}) = _$_RobotViewState;
 
   @override
   RobotState get robotState;
+  @override
+  bool get mqttConnected;
   @override
   @JsonKey(ignore: true)
   _$$_RobotViewStateCopyWith<_$_RobotViewState> get copyWith =>

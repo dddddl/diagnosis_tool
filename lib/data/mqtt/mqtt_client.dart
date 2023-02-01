@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/domain/composite_subscription.dart';
 import 'package:diagnosis_tool/domain/composite_subscription_map.dart';
+import 'package:diagnosis_tool/domain/entities/app_mqtt_connect_status.dart';
 import 'package:diagnosis_tool/domain/entities/mqtt_entity.dart';
 import 'package:diagnosis_tool/domain/entities/thing_cmd_entity.dart';
 import 'package:diagnosis_tool/domain/observer.dart';
@@ -161,11 +162,13 @@ class MqttClient {
   // 连接成功
   void onConnected() {
     LogUtils.log('Connected');
+    eventBus.fire(AppMqttConnectStatus(true));
   }
 
 // 连接断开
   void onDisconnected() {
     LogUtils.log('Disconnected');
+    eventBus.fire(AppMqttConnectStatus(false));
   }
 
 // 订阅主题成功

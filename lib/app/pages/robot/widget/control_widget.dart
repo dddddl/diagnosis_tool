@@ -9,6 +9,8 @@ class ControlWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final machineState = ref.watch(robotProvider);
+    final mqttConnected =
+        ref.watch(robotProvider.select((value) => value.mqttConnected));
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -18,6 +20,15 @@ class ControlWidget extends ConsumerWidget {
               ref.read(robotProvider.notifier).charge(
                   machineState.robotState.machineState ==
                       MachineState.returning);
+
+              if (!ref.watch(
+                  robotProvider.select((value) => value.mqttConnected))) {
+                SnackBar snackBar = const SnackBar(
+                  content: Text('发送失败'),
+                  duration: Duration(seconds: 1),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
             },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -28,7 +39,8 @@ class ControlWidget extends ConsumerWidget {
               machineState.robotState.machineState == MachineState.returning
                   ? '回充中'
                   : '回充',
-              style: const TextStyle(color: Colors.black45),
+              style: TextStyle(
+                  color: mqttConnected ? Colors.black : Colors.black45),
             ),
           ),
         ),
@@ -37,6 +49,15 @@ class ControlWidget extends ConsumerWidget {
             onPressed: () {
               ref.read(robotProvider.notifier).mower(
                   machineState.robotState.machineState == MachineState.mowing);
+
+              if (!ref.watch(
+                  robotProvider.select((value) => value.mqttConnected))) {
+                SnackBar snackBar = const SnackBar(
+                  content: Text('发送失败'),
+                  duration: Duration(seconds: 1),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
             },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -47,7 +68,8 @@ class ControlWidget extends ConsumerWidget {
               machineState.robotState.machineState == MachineState.mowing
                   ? '暂停'
                   : '割草',
-              style: const TextStyle(color: Colors.black45),
+              style: TextStyle(
+                  color: mqttConnected ? Colors.black : Colors.black45),
             ),
           ),
         ),
