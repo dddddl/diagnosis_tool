@@ -213,6 +213,9 @@ class WiFiConsumerState extends ConsumerState {
                           return;
                         }
 
+                        // 保存Wifi名和密码
+                        ref.read(wifiProvider.notifier).saveWifiInfo();
+
                         context.replaceNamed(AppRoute.transport.name,
                             queryParams: {
                               'ssid': _ssidController.text,

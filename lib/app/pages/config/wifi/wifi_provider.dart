@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
+import 'package:diagnosis_tool/data/constants.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/src/logger.dart';
 import 'package:network_info_plus/network_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'wifi_provider.freezed.dart';
 
@@ -40,6 +42,19 @@ class WifiStateNotifier extends StateNotifier<WifiState> {
 
   void setSsid(String ssid) {
     state = state.copyWith(ssid: ssid);
+
+    SharedPreferences.getInstance().then((prefs) {
+      List<String>? localWiFiPwd =
+          prefs.getStringList(Constants.localWiFiAndPwd);
+      localWiFiPwd ??= [];
+      // 如果存在内容相似的wifi名，则获取密码
+      for (var element in localWiFiPwd) {
+        if (element.contains(state.ssid! + Constants.split)) {
+          state = state.copyWith(password: element.split(Constants.split)[1]);
+          return;
+        }
+      }
+    });
   }
 
   void setPassword(String password) {
@@ -50,7 +65,28 @@ class WifiStateNotifier extends StateNotifier<WifiState> {
     state = state.copyWith(obscureText: obscureText);
   }
 
-  // 获取当前连接的wifi ssid
+  void saveWifiInfo() {
+    SharedPreferences.getInstance().then((prefs) {
+      List<String>? localWiFiPwd =
+          prefs.getStringList(Constants.localWiFiAndPwd);
+      localWiFiPwd ??= [];
+
+      if (localWiFiPwd
+          .contains(state.ssid! + Constants.split + state.password!)) {
+        return;
+      }
+
+      // 如果存在内容相似的wifi密码，则删除
+      localWiFiPwd.removeWhere((element) {
+        return element.contains(state.ssid! + Constants.split);
+      });
+      localWiFiPwd.add(state.ssid! + Constants.split + state.password!);
+
+      prefs.setStringList(Constants.localWiFiAndPwd, localWiFiPwd);
+    });
+  }
+
+// 获取当前连接的wifi ssid
   void listenWiFiState() async {
     connectivitySubscription = Connectivity()
         .onConnectivityChanged
@@ -60,12 +96,10 @@ class WifiStateNotifier extends StateNotifier<WifiState> {
 
         String? wifiName = await getWifiName() ?? '';
         logger.i(wifiName);
-        state = state.copyWith(ssid: wifiName.replaceAll('"', ''));
+        setSsid(wifiName.replaceAll('"', ''));
       } else {
         logger.i('Not connected to WiFi');
-        state = state.copyWith(
-          ssid: null,
-        );
+        setSsid('');
       }
     });
   }
@@ -78,17 +112,17 @@ class WifiStateNotifier extends StateNotifier<WifiState> {
     return isWifiConnected() && isPasswordValid();
   }
 
-  // wifi名是否合法
+// wifi名是否合法
   bool isWifiConnected() {
     return state.ssid != null;
   }
 
-  // 密码是否合法
+// 密码是否合法
   bool isPasswordValid() {
     return state.password != null && state.password!.length >= 8;
   }
 
-  // 是否输入密码
+// 是否输入密码
   bool isPasswordEmpty() {
     return state.password == null || state.password!.isEmpty;
   }

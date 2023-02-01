@@ -4,4 +4,7 @@ abstract class Constants {
   static const String appBuildNumber = '1';
 
   static const String localRobots = 'local_robots';
+  static const String localWiFiAndPwd = 'local_wifi_pwd';
+
+  static String split = "/";
 }
