@@ -19,6 +19,7 @@ class WiFiPage extends ConsumerStatefulWidget {
 class WiFiConsumerState extends ConsumerState {
   late final TextEditingController _ssidController;
   late final TextEditingController _passwordController;
+
   @override
   void initState() {
     super.initState();
@@ -104,7 +105,8 @@ class WiFiConsumerState extends ConsumerState {
                   ),
                   const SizedBox(height: 16),
                   TextField(
-                    obscureText: true,
+                    obscureText: ref.watch(
+                        wifiProvider.select((value) => value.obscureText)),
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -114,6 +116,17 @@ class WiFiConsumerState extends ConsumerState {
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 16),
+                      suffixIcon: IconButton(
+                        icon: ref.watch(wifiProvider
+                                .select((value) => value.obscureText))
+                            ? Icon(Icons.visibility_off)
+                            : Icon(Icons.visibility),
+                        onPressed: () {
+                          ref.read(wifiProvider.notifier).setObscureText(
+                              !ref.watch(wifiProvider
+                                  .select((value) => value.obscureText)));
+                        },
+                      ),
                       hintText: '请输入 WIFI 密码',
                       hintStyle: const TextStyle(
                         color: Colors.grey,
@@ -200,11 +213,11 @@ class WiFiConsumerState extends ConsumerState {
                           return;
                         }
 
-                        context
-                            .replaceNamed(AppRoute.transport.name, queryParams: {
-                          'ssid': _ssidController.text,
-                          'password': _passwordController.text,
-                        });
+                        context.replaceNamed(AppRoute.transport.name,
+                            queryParams: {
+                              'ssid': _ssidController.text,
+                              'password': _passwordController.text,
+                            });
                       },
                       style: ButtonStyle(
                         backgroundColor:

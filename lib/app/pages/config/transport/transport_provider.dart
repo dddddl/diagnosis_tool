@@ -29,6 +29,7 @@ class TransportState with _$TransportState {
     String? ssid,
     String? password,
     int? progress,
+    String? status,
     bool? isFailed,
     bool? isSuccess,
   }) = _TransportState;
@@ -62,6 +63,7 @@ class TransportStateNotifier extends StateNotifier<TransportState> {
   }
 
   Future<void> _startTransport(String? ssid, String? password) async {
+
     String timezone = TimeZoneUtil.createGmtOffsetString(
         true, true, DateTime.now().timeZoneOffset.inMilliseconds);
     String? countryCode = await _deviceInfo?.getPlatformCountryCode();
@@ -97,23 +99,27 @@ class TransportStateNotifier extends StateNotifier<TransportState> {
             progress == ActivatorProgress.CONNECTING
                 ? state = state.copyWith(
                     progress:
-                        (state.progress ?? 0) > 10 ? (state.progress ?? 0) : 10)
+                        (state.progress ?? 0) > 10 ? (state.progress ?? 0) : 10,
+                    status: "连接蓝牙中")
                 : progress == ActivatorProgress.TRANSPORTING
                     ? state = state.copyWith(
                         progress: (state.progress ?? 0) > 30
                             ? (state.progress ?? 0)
-                            : 30)
+                            : 30,
+                        status: "传输数据中")
                     : progress == ActivatorProgress.ROUTER_CONNECTING
                         ? state = state.copyWith(
                             progress: (state.progress ?? 0) > 60
                                 ? (state.progress ?? 0)
-                                : 60)
+                                : 60,
+                            status: "连接路由器中")
                         : progress == ActivatorProgress.REGISTERING
                             ? state = state.copyWith(
                                 progress: (state.progress ?? 0) > 90
                                     ? (state.progress ?? 0)
-                                    : 90)
-                            : state = state.copyWith(progress: 0);
+                                    : 90,
+                                status: "注册设备中")
+                            : state = state.copyWith(progress: 0, status: "扫描蓝牙中");
           },
         ));
   }
@@ -128,10 +134,8 @@ class TransportStateNotifier extends StateNotifier<TransportState> {
       }
 
       if (timer.tick >= _timeout) {
-        Future.delayed(const Duration(seconds: 5), () {
-          state = state.copyWith(isFailed: true);
-          timer.cancel();
-        });
+        state = state.copyWith(isFailed: true);
+        timer.cancel();
       }
     });
   }

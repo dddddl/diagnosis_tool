@@ -11,6 +11,7 @@ _$_TransportState _$$_TransportStateFromJson(Map<String, dynamic> json) =>
       ssid: json['ssid'] as String?,
       password: json['password'] as String?,
       progress: json['progress'] as int?,
+      status: json['status'] as String?,
       isFailed: json['isFailed'] as bool?,
       isSuccess: json['isSuccess'] as bool?,
     );
@@ -20,6 +21,7 @@ Map<String, dynamic> _$$_TransportStateToJson(_$_TransportState instance) =>
       'ssid': instance.ssid,
       'password': instance.password,
       'progress': instance.progress,
+      'status': instance.status,
       'isFailed': instance.isFailed,
       'isSuccess': instance.isSuccess,
     };

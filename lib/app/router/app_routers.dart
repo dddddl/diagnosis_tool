@@ -1,6 +1,7 @@
 import 'package:diagnosis_tool/app/pages/ble_direct_connect/connect_page.dart';
 import 'package:diagnosis_tool/app/pages/config/prepare/prepare_page.dart';
 import 'package:diagnosis_tool/app/pages/config/scan/scan_page.dart';
+import 'package:diagnosis_tool/app/pages/config/success/failed_page.dart';
 import 'package:diagnosis_tool/app/pages/config/success/success_page.dart';
 import 'package:diagnosis_tool/app/pages/config/transport/transport_page.dart';
 import 'package:diagnosis_tool/app/pages/config/wifi/wifi_page.dart';
@@ -20,6 +21,7 @@ enum AppRoute {
   wifi,
   transport,
   success,
+  transportFailed,
   robots,
   robot,
   log,
@@ -77,6 +79,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             name: AppRoute.success.name,
             pageBuilder: (context, state) {
               return CupertinoPage(key: state.pageKey, child: SuccessPage());
+            }),
+        GoRoute(
+            path: '/transportFailed',
+            name: AppRoute.transportFailed.name,
+            pageBuilder: (context, state) {
+              return CupertinoPage(key: state.pageKey, child: FailedPage());
             }),
         GoRoute(
             path: '/robots',

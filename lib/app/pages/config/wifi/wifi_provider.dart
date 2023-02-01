@@ -20,6 +20,7 @@ class WifiState with _$WifiState {
   const factory WifiState({
     String? ssid,
     String? password,
+    @Default(false) bool obscureText,
   }) = _WifiState;
 
   factory WifiState.fromJson(Map<String, dynamic> json) =>
@@ -43,6 +44,10 @@ class WifiStateNotifier extends StateNotifier<WifiState> {
 
   void setPassword(String password) {
     state = state.copyWith(password: password);
+  }
+
+  void setObscureText(bool obscureText) {
+    state = state.copyWith(obscureText: obscureText);
   }
 
   // 获取当前连接的wifi ssid

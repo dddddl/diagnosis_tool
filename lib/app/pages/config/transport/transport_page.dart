@@ -32,11 +32,15 @@ class TransportConsumerState extends ConsumerState<TransportPage> {
   Widget build(BuildContext context) {
     int progress =
         ref.watch(transportProvider.select((value) => value.progress)) ?? 0;
+    String status =
+        ref.watch(transportProvider.select((value) => value.status)) ?? '扫描蓝牙中';
 
     ref.listen<bool>(
         transportProvider.select((value) => value.isFailed ?? false),
         (previous, next) {
-      if (next) {}
+      if (next) {
+        context.replaceNamed(AppRoute.transportFailed.name);
+      }
     });
 
     ref.listen<bool>(
@@ -76,6 +80,14 @@ class TransportConsumerState extends ConsumerState<TransportPage> {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                      )),
+                )),
+            Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Center(
+                  child: Text(status,
+                      style: const TextStyle(
+                        fontSize: 12,
                       )),
                 )),
             const Padding(

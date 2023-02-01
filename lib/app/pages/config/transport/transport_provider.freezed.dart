@@ -23,6 +23,7 @@ mixin _$TransportState {
   String? get ssid => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
   int? get progress => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
   bool? get isFailed => throw _privateConstructorUsedError;
   bool? get isSuccess => throw _privateConstructorUsedError;
 
@@ -42,6 +43,7 @@ abstract class $TransportStateCopyWith<$Res> {
       {String? ssid,
       String? password,
       int? progress,
+      String? status,
       bool? isFailed,
       bool? isSuccess});
 }
@@ -62,6 +64,7 @@ class _$TransportStateCopyWithImpl<$Res, $Val extends TransportState>
     Object? ssid = freezed,
     Object? password = freezed,
     Object? progress = freezed,
+    Object? status = freezed,
     Object? isFailed = freezed,
     Object? isSuccess = freezed,
   }) {
@@ -78,6 +81,10 @@ class _$TransportStateCopyWithImpl<$Res, $Val extends TransportState>
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
               as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
       isFailed: freezed == isFailed
           ? _value.isFailed
           : isFailed // ignore: cast_nullable_to_non_nullable
@@ -102,6 +109,7 @@ abstract class _$$_TransportStateCopyWith<$Res>
       {String? ssid,
       String? password,
       int? progress,
+      String? status,
       bool? isFailed,
       bool? isSuccess});
 }
@@ -120,6 +128,7 @@ class __$$_TransportStateCopyWithImpl<$Res>
     Object? ssid = freezed,
     Object? password = freezed,
     Object? progress = freezed,
+    Object? status = freezed,
     Object? isFailed = freezed,
     Object? isSuccess = freezed,
   }) {
@@ -136,6 +145,10 @@ class __$$_TransportStateCopyWithImpl<$Res>
           ? _value.progress
           : progress // ignore: cast_nullable_to_non_nullable
               as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
       isFailed: freezed == isFailed
           ? _value.isFailed
           : isFailed // ignore: cast_nullable_to_non_nullable
@@ -152,7 +165,12 @@ class __$$_TransportStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TransportState implements _TransportState {
   const _$_TransportState(
-      {this.ssid, this.password, this.progress, this.isFailed, this.isSuccess});
+      {this.ssid,
+      this.password,
+      this.progress,
+      this.status,
+      this.isFailed,
+      this.isSuccess});
 
   factory _$_TransportState.fromJson(Map<String, dynamic> json) =>
       _$$_TransportStateFromJson(json);
@@ -164,13 +182,15 @@ class _$_TransportState implements _TransportState {
   @override
   final int? progress;
   @override
+  final String? status;
+  @override
   final bool? isFailed;
   @override
   final bool? isSuccess;
 
   @override
   String toString() {
-    return 'TransportState(ssid: $ssid, password: $password, progress: $progress, isFailed: $isFailed, isSuccess: $isSuccess)';
+    return 'TransportState(ssid: $ssid, password: $password, progress: $progress, status: $status, isFailed: $isFailed, isSuccess: $isSuccess)';
   }
 
   @override
@@ -183,6 +203,7 @@ class _$_TransportState implements _TransportState {
                 other.password == password) &&
             (identical(other.progress, progress) ||
                 other.progress == progress) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.isFailed, isFailed) ||
                 other.isFailed == isFailed) &&
             (identical(other.isSuccess, isSuccess) ||
@@ -191,8 +212,8 @@ class _$_TransportState implements _TransportState {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, ssid, password, progress, isFailed, isSuccess);
+  int get hashCode => Object.hash(
+      runtimeType, ssid, password, progress, status, isFailed, isSuccess);
 
   @JsonKey(ignore: true)
   @override
@@ -213,6 +234,7 @@ abstract class _TransportState implements TransportState {
       {final String? ssid,
       final String? password,
       final int? progress,
+      final String? status,
       final bool? isFailed,
       final bool? isSuccess}) = _$_TransportState;
 
@@ -225,6 +247,8 @@ abstract class _TransportState implements TransportState {
   String? get password;
   @override
   int? get progress;
+  @override
+  String? get status;
   @override
   bool? get isFailed;
   @override
