@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RobotViewState {
   RobotState get robotState => throw _privateConstructorUsedError;
   bool get mqttConnected => throw _privateConstructorUsedError;
+  String? get log => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RobotViewStateCopyWith<RobotViewState> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $RobotViewStateCopyWith<$Res> {
           RobotViewState value, $Res Function(RobotViewState) then) =
       _$RobotViewStateCopyWithImpl<$Res, RobotViewState>;
   @useResult
-  $Res call({RobotState robotState, bool mqttConnected});
+  $Res call({RobotState robotState, bool mqttConnected, String? log});
 
   $RobotStateCopyWith<$Res> get robotState;
 }
@@ -50,6 +51,7 @@ class _$RobotViewStateCopyWithImpl<$Res, $Val extends RobotViewState>
   $Res call({
     Object? robotState = null,
     Object? mqttConnected = null,
+    Object? log = freezed,
   }) {
     return _then(_value.copyWith(
       robotState: null == robotState
@@ -60,6 +62,10 @@ class _$RobotViewStateCopyWithImpl<$Res, $Val extends RobotViewState>
           ? _value.mqttConnected
           : mqttConnected // ignore: cast_nullable_to_non_nullable
               as bool,
+      log: freezed == log
+          ? _value.log
+          : log // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -80,7 +86,7 @@ abstract class _$$_RobotViewStateCopyWith<$Res>
       __$$_RobotViewStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({RobotState robotState, bool mqttConnected});
+  $Res call({RobotState robotState, bool mqttConnected, String? log});
 
   @override
   $RobotStateCopyWith<$Res> get robotState;
@@ -99,6 +105,7 @@ class __$$_RobotViewStateCopyWithImpl<$Res>
   $Res call({
     Object? robotState = null,
     Object? mqttConnected = null,
+    Object? log = freezed,
   }) {
     return _then(_$_RobotViewState(
       robotState: null == robotState
@@ -109,6 +116,10 @@ class __$$_RobotViewStateCopyWithImpl<$Res>
           ? _value.mqttConnected
           : mqttConnected // ignore: cast_nullable_to_non_nullable
               as bool,
+      log: freezed == log
+          ? _value.log
+          : log // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -117,17 +128,19 @@ class __$$_RobotViewStateCopyWithImpl<$Res>
 
 class _$_RobotViewState implements _RobotViewState {
   const _$_RobotViewState(
-      {required this.robotState, this.mqttConnected = false});
+      {required this.robotState, this.mqttConnected = false, this.log});
 
   @override
   final RobotState robotState;
   @override
   @JsonKey()
   final bool mqttConnected;
+  @override
+  final String? log;
 
   @override
   String toString() {
-    return 'RobotViewState(robotState: $robotState, mqttConnected: $mqttConnected)';
+    return 'RobotViewState(robotState: $robotState, mqttConnected: $mqttConnected, log: $log)';
   }
 
   @override
@@ -138,11 +151,12 @@ class _$_RobotViewState implements _RobotViewState {
             (identical(other.robotState, robotState) ||
                 other.robotState == robotState) &&
             (identical(other.mqttConnected, mqttConnected) ||
-                other.mqttConnected == mqttConnected));
+                other.mqttConnected == mqttConnected) &&
+            (identical(other.log, log) || other.log == log));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, robotState, mqttConnected);
+  int get hashCode => Object.hash(runtimeType, robotState, mqttConnected, log);
 
   @JsonKey(ignore: true)
   @override
@@ -154,12 +168,15 @@ class _$_RobotViewState implements _RobotViewState {
 abstract class _RobotViewState implements RobotViewState {
   const factory _RobotViewState(
       {required final RobotState robotState,
-      final bool mqttConnected}) = _$_RobotViewState;
+      final bool mqttConnected,
+      final String? log}) = _$_RobotViewState;
 
   @override
   RobotState get robotState;
   @override
   bool get mqttConnected;
+  @override
+  String? get log;
   @override
   @JsonKey(ignore: true)
   _$$_RobotViewStateCopyWith<_$_RobotViewState> get copyWith =>

@@ -29,28 +29,8 @@ class HomeStateNotifier extends Controller<HomeState> {
     presenter.getUser('test-uid');
   }
 
-  Future<ByteData> loadAsset() async {
-    return await rootBundle.load('assets/mock/target.bin');
-  }
-
   @override
   Future<void> init() async {
-    ByteData data = await loadAsset();
-
-    // Uint8List dataList = Uint8List.fromList(utf8.encode(data));
-    Uint8List dataList = data.buffer.asUint8List();
-
-    var bytes = GZipEncoder().encode(dataList);
-
-    File logFiles =
-        File('${(await getTemporaryDirectory()).path}/logs/target.gzip');
-    logFiles = await logFiles.create(recursive: true);
-
-    print(logFiles.path);
-    if (bytes != null) {
-      await logFiles.writeAsBytes(bytes);
-    }
-
     presenter.getUserOnNext = (User user) {
       logger.i(user.toString());
     };
