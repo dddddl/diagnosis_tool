@@ -15,6 +15,7 @@ class RobotListPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Robot List'),
+        elevation: 0,
       ),
       body: ListView.builder(
         itemCount: robots.length,

@@ -9,6 +9,7 @@ class FailedPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('添加失败'),
+        elevation: 0,
       ),
       body: Center(
         child: Container(

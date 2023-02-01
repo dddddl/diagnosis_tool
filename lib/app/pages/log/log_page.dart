@@ -13,6 +13,7 @@ class LogPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Log'),
+        elevation: 0,
       ),
       body: Container(),
       floatingActionButton: FloatingActionButton(

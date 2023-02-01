@@ -19,6 +19,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text('调试工具'),
+        elevation: 0,
       ),
       body: Center(
         child: Column(

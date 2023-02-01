@@ -9,6 +9,7 @@ class SuccessPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('添加成功'),
+        elevation: 0,
       ),
       body: Center(
         child: Container(
