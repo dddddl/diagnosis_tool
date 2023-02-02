@@ -1,3 +1,4 @@
+import 'package:diagnosis_tool/app/pages/home/home_provider.dart';
 import 'package:diagnosis_tool/app/pages/home/item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -30,6 +31,9 @@ class HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var state = ref.watch(homeProvider);
+
+
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
