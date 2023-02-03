@@ -174,6 +174,7 @@ class MqttClient {
 // 订阅主题成功
   void onSubscribed(String topic) {
     LogUtils.log('Subscribed topic: $topic');
+    eventBus.fire(AppMqttConnectStatus(true));
   }
 
 // 订阅主题失败
