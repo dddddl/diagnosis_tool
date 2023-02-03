@@ -50,14 +50,12 @@ class RobotStateNotifier extends Controller<RobotViewState> {
 
   @override
   void init() {
-    eventBus.on<AppMqttConnectStatus>().listen((event) {
-      state = state.copyWith(mqttConnected: event.connect);
-    });
-
     presenter.onNext = (next) {
       if (next is RobotState) {
         state = state.copyWith(robotState: next);
-      } else {}
+      } else if (next is AppMqttConnectStatus) {
+        state = state.copyWith(mqttConnected: next.connect);
+      }
     };
 
     presenter.onComplete = () {
