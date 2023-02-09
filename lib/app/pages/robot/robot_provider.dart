@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
 import 'package:diagnosis_tool/app/pages/robot/robot_presenter.dart';
 import 'package:diagnosis_tool/data/helpers/map/map_data_handler.dart';
-import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
+import 'package:diagnosis_tool/data/helpers/map/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/data/repositories/data_robot_repository.dart';
 import 'package:diagnosis_tool/domain/controller.dart';
 import 'package:diagnosis_tool/domain/entities/app_mqtt_connect_status.dart';
@@ -21,6 +21,7 @@ class RobotViewState with _$RobotViewState {
   const factory RobotViewState({
     required RobotState robotState,
     @Default(false) bool mqttConnected,
+    @Default([]) List<String> notifications,
   }) = _RobotViewState;
 
   factory RobotViewState.initial() => RobotViewState(
@@ -55,6 +56,10 @@ class RobotStateNotifier extends Controller<RobotViewState> {
         state = state.copyWith(robotState: next);
       } else if (next is AppMqttConnectStatus) {
         state = state.copyWith(mqttConnected: next.connect);
+      } else if (next is String) {
+        state = state.copyWith(
+          notifications: [...state.notifications, next.toString()],
+        );
       }
     };
 

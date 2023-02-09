@@ -14,7 +14,7 @@ class Command<T> with _$Command<T> {
     required int cmd,
     required String uuid,
     required int timeStamps,
-    required T params,
+    required T param,
   }) = _Command<T>;
 
   factory Command.fromJson(

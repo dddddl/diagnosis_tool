@@ -6,7 +6,7 @@ import 'dart:ui';
 
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
 import 'package:diagnosis_tool/data/helpers/map/map_data_handler.dart';
-import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
+import 'package:diagnosis_tool/data/helpers/map/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/domain/entities/robot_map_entity.dart';
 import 'package:diagnosis_tool/domain/entities/robot_status_entity.dart';
 import 'package:diagnosis_tool/domain/observer.dart';

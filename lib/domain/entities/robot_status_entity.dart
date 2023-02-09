@@ -1,4 +1,4 @@
-import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
+import 'package:diagnosis_tool/data/helpers/map/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/domain/entities/machine_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

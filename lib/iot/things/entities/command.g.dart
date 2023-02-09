@@ -14,7 +14,7 @@ _$_Command<T> _$$_CommandFromJson<T>(
       cmd: json['cmd'] as int,
       uuid: json['uuid'] as String,
       timeStamps: json['timeStamps'] as int,
-      params: fromJsonT(json['params']),
+      param: fromJsonT(json['param']),
     );
 
 Map<String, dynamic> _$$_CommandToJson<T>(
@@ -25,5 +25,5 @@ Map<String, dynamic> _$$_CommandToJson<T>(
       'cmd': instance.cmd,
       'uuid': instance.uuid,
       'timeStamps': instance.timeStamps,
-      'params': toJsonT(instance.params),
+      'param': toJsonT(instance.param),
     };

@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
+import 'package:diagnosis_tool/data/helpers/map/mqtt_entity_mapper.dart';
+import 'package:diagnosis_tool/data/helpers/map/topic_dispatch_mapper.dart';
 import 'package:diagnosis_tool/domain/composite_subscription.dart';
 import 'package:diagnosis_tool/domain/composite_subscription_map.dart';
 import 'package:diagnosis_tool/domain/entities/app_mqtt_connect_status.dart';
@@ -38,7 +39,8 @@ class MqttClient {
       return true;
     }
     var uuid = Uuid();
-    _client = MqttServerClient.withPort('robot.china-dongcheng.com', uuid.v1(), 15479);
+    _client = MqttServerClient.withPort(
+        'robot.china-dongcheng.com', uuid.v1(), 15479);
 
     _client?.keepAlivePeriod = 20;
     // Set the protocol to V3.1.1 for AWS IoT Core, if you fail to do this you will not receive a connect ack with the response code
@@ -119,20 +121,9 @@ class MqttClient {
           final recMess = c[0].payload as MqttPublishMessage;
           final pt =
               MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-          try {
-            // 老协议、cmd为string
-            MqttEntity entity = MqttEntity.fromJson(json.decode(pt));
-            mapMqttEntityToCmd(entity);
-          } catch (e) {
-            try {
-              LogUtils.log('topic is <${c[0].topic}>  content： $pt');
-              // 新协议、cmd为json
-              ThingCmdEntity entity = ThingCmdEntity.fromJson(json.decode(pt));
-              mapThingCmdEntityToCmd(entity);
-            } catch (e) {
-              LogUtils.log('topic is <${c[0].topic}>  content： $pt');
-            }
-          }
+          LogUtils.log('topic: ${c[0].topic}  content: $pt');
+
+          dispatchTopic(c[0].topic, pt);
         }
       });
 

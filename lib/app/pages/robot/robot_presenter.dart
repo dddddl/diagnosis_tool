@@ -7,6 +7,7 @@ import 'package:diagnosis_tool/domain/observer.dart';
 import 'package:diagnosis_tool/domain/presenter.dart';
 import 'package:diagnosis_tool/domain/usecases/mqtt_status_usecase.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_map_usecase.dart';
+import 'package:diagnosis_tool/domain/usecases/robot_notify_usecase.dart';
 import 'package:diagnosis_tool/domain/usecases/robot_usecase.dart';
 import 'package:diagnosis_tool/iot/things/const.dart';
 import 'package:diagnosis_tool/iot/things/entities/command.dart';
@@ -23,6 +24,7 @@ class RobotPresenter extends Presenter {
 
   RobotUseCase robotUseCase;
   MqttStatusUseCase mqttStatusUseCase;
+  RobotNotifyUseCase robotNotifyUseCase;
   SubscribeParams? topics;
 
   String? robotId;
@@ -30,7 +32,8 @@ class RobotPresenter extends Presenter {
 
   RobotPresenter(repository, this.logger)
       : robotUseCase = RobotUseCase(repository, logger),
-        mqttStatusUseCase = MqttStatusUseCase(logger);
+        mqttStatusUseCase = MqttStatusUseCase(logger),
+        robotNotifyUseCase = RobotNotifyUseCase(logger);
 
   void getRobot(String robotId) {
     robotUseCase.execute(
@@ -40,6 +43,7 @@ class RobotPresenter extends Presenter {
   void getRobotState(String robotId) {
     this.robotId = robotId;
     mqttStatusUseCase.execute(_MqttStatusUseCaseObserver(this), null);
+    robotNotifyUseCase.execute(_RobotNotifyUseCaseObserver(this), null);
     robotUseCase.execute(
         _RobotUseCaseObserver(this), RobotUseCaseParams(robotId));
     _addSubscribeParams(robotId);
@@ -66,7 +70,7 @@ class RobotPresenter extends Presenter {
         cmd: cmd,
         uuid: ShortUuid.generateShortUuid(),
         timeStamps: DateTime.now().millisecondsSinceEpoch,
-        params: ControlParams(status: status));
+        param: ControlParams(status: status));
 
     final json = command.toJson((p0) => p0.toJson());
 
@@ -87,8 +91,12 @@ class RobotPresenter extends Presenter {
 
   Future<void> _addSubscribeParams(String topic) async {
     bool connect = await MqttClient.instance.connectWithPort();
-    topics =
-        SubscribeParams(['/app/down/$topic', '/thing/up/property/1/$topic']);
+    topics = SubscribeParams([
+      '/app/down/$topic',
+      '/thing/up/property/1/$topic',
+      '/thing/up/event/1/$topic',
+      '/thing/up/action/1/$topic'
+    ]);
     if (connect) {
       MqttClient.instance.subscribeMsg(topics!);
       MqttClient.instance.listen(topics!);
@@ -102,6 +110,7 @@ class RobotPresenter extends Presenter {
   void dispose() {
     robotUseCase.dispose();
     mqttStatusUseCase.dispose();
+    robotNotifyUseCase.dispose();
     if (topics != null) {
       MqttClient.instance.unsubscribeMsg(topics!);
     }
@@ -147,5 +156,26 @@ class _MqttStatusUseCaseObserver extends Observer<MqttStatusUseCaseResponse> {
   @override
   void onNext(response) {
     presenter.onNext?.call(response!.state);
+  }
+}
+
+class _RobotNotifyUseCaseObserver extends Observer<RobotNotifyUseCaseResponse> {
+  final RobotPresenter presenter;
+
+  _RobotNotifyUseCaseObserver(this.presenter);
+
+  @override
+  void onComplete() {
+    presenter.onComplete?.call();
+  }
+
+  @override
+  void onError(e) {
+    presenter.onError?.call(e);
+  }
+
+  @override
+  void onNext(response) {
+    presenter.onNext?.call(response!.notification);
   }
 }

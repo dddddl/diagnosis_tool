@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:diagnosis_tool/app/di/logger_provider.dart';
-import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
+import 'package:diagnosis_tool/data/helpers/map/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/data/mqtt/mqtt_client.dart';
 import 'package:diagnosis_tool/domain/entities/machine_state.dart';
 import 'package:diagnosis_tool/domain/entities/robot.dart';

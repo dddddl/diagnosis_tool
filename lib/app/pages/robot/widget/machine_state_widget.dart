@@ -14,75 +14,99 @@ class MachineStateWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     RobotState robotState =
         ref.watch(robotProvider.select((value) => value.robotState));
+    List<String> notifications =
+        ref.watch(robotProvider.select((value) => value.notifications));
 
     return Positioned(
-      bottom: 0,
-      child: Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              gradient: LinearGradient(
-                colors: [Colors.blue, Colors.blueAccent],
-              )),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: 70,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const SizedBox(width: 24),
-                        Text(
-                            '状态：${_mapMachineState(robotState.machineState)}',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold)),
-                        const Spacer(),
-                        Text('电量：${robotState.power ?? 0}%',
-                            style: const TextStyle(color: Colors.white)),
-                        const SizedBox(width: 24),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const SizedBox(width: 24),
-                        Text('${robotState.duration ?? 0}min',
-                            style: const TextStyle(color: Colors.white70)),
-                        const SizedBox(width: 24),
-                        Text('${robotState.acreage ?? 0}m²',
-                            style: const TextStyle(color: Colors.white70)),
-                        const SizedBox(width: 24),
-                        Text('${robotState.motorRotateSpeed ?? 0}r/s',
-                            style: const TextStyle(color: Colors.white70)),
-                        const SizedBox(width: 24),
-                        Text('${robotState.moveSpeed ?? 0}m/s',
-                            style: const TextStyle(color: Colors.white70)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 100,
-                width: MediaQuery.of(context).size.width,
+        bottom: 0,
+        child: Column(
+          children: [
+            Container(
+              height: 120,
+              width: MediaQuery.of(context).size.width,
+              decoration: const ShapeDecoration(
+                  color: Colors.black12,
+                  shape: RoundedRectangleBorder()),
+              child: ListView.builder(
+                  itemCount: notifications.length,
+                  itemBuilder: (context, index) {
+                    return Text(notifications[index],
+                        style: const TextStyle(color: Colors.white));
+                  }),
+            ),
+            const SizedBox(height: 20),
+            Container(
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20)),
-                    color: Colors.white),
-                child: const ControlWidget(),
-              ),
-            ],
-          )),
-    );
+                    gradient: LinearGradient(
+                      colors: [Colors.blue, Colors.blueAccent],
+                    )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: 70,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const SizedBox(width: 24),
+                              Text(
+                                  '状态：${_mapMachineState(robotState.machineState)}',
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                              const Spacer(),
+                              Text('电量：${robotState.power ?? 0}%',
+                                  style: const TextStyle(color: Colors.white)),
+                              const SizedBox(width: 24),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const SizedBox(width: 24),
+                              Text('${robotState.duration ?? 0}min',
+                                  style:
+                                      const TextStyle(color: Colors.white70)),
+                              const SizedBox(width: 24),
+                              Text('${robotState.acreage ?? 0}m²',
+                                  style:
+                                      const TextStyle(color: Colors.white70)),
+                              const SizedBox(width: 24),
+                              Text('${robotState.motorRotateSpeed ?? 0}r/s',
+                                  style:
+                                      const TextStyle(color: Colors.white70)),
+                              const SizedBox(width: 24),
+                              Text('${robotState.moveSpeed ?? 0}m/s',
+                                  style:
+                                      const TextStyle(color: Colors.white70)),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 100,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: Colors.white),
+                      child: const ControlWidget(),
+                    ),
+                  ],
+                )),
+          ],
+        ));
   }
 
   //映射MachineState为汉字

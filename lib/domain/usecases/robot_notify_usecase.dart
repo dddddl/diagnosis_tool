@@ -13,16 +13,16 @@ import 'package:diagnosis_tool/domain/usecases.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:logger/logger.dart';
 
-class MqttStatusUseCase extends UseCase<MqttStatusUseCaseResponse, Null> {
+class RobotNotifyUseCase extends UseCase<RobotNotifyUseCaseResponse, Null> {
   Logger logger;
 
-  MqttStatusUseCase(this.logger) : super();
+  RobotNotifyUseCase(this.logger) : super();
 
   @override
-  Future<Stream<MqttStatusUseCaseResponse?>> buildUseCaseStream(
+  Future<Stream<RobotNotifyUseCaseResponse?>> buildUseCaseStream(
       Null? params) async {
-    return eventBus.on<AppMqttConnectStatus>().map((event) {
-      return MqttStatusUseCaseResponse(event);
+    return eventBus.on<RobotNotify>().map((event) {
+      return RobotNotifyUseCaseResponse(event.notification);
     });
   }
 
@@ -32,8 +32,8 @@ class MqttStatusUseCase extends UseCase<MqttStatusUseCaseResponse, Null> {
   }
 }
 
-class MqttStatusUseCaseResponse {
-  final AppMqttConnectStatus state;
+class RobotNotifyUseCaseResponse {
+  final String notification;
 
-  MqttStatusUseCaseResponse(this.state);
+  RobotNotifyUseCaseResponse(this.notification);
 }

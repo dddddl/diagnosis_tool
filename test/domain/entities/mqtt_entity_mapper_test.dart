@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:diagnosis_tool/data/helpers/mqtt_entity_mapper.dart';
+import 'package:diagnosis_tool/data/helpers/map/mqtt_entity_mapper.dart';
 import 'package:diagnosis_tool/domain/entities/mqtt_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 

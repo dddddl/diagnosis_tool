@@ -24,7 +24,7 @@ mixin _$Command<T> {
   int get cmd => throw _privateConstructorUsedError;
   String get uuid => throw _privateConstructorUsedError;
   int get timeStamps => throw _privateConstructorUsedError;
-  T get params => throw _privateConstructorUsedError;
+  T get param => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
       throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $CommandCopyWith<T, $Res> {
   factory $CommandCopyWith(Command<T> value, $Res Function(Command<T>) then) =
       _$CommandCopyWithImpl<T, $Res, Command<T>>;
   @useResult
-  $Res call({int cmd, String uuid, int timeStamps, T params});
+  $Res call({int cmd, String uuid, int timeStamps, T param});
 }
 
 /// @nodoc
@@ -57,7 +57,7 @@ class _$CommandCopyWithImpl<T, $Res, $Val extends Command<T>>
     Object? cmd = null,
     Object? uuid = null,
     Object? timeStamps = null,
-    Object? params = freezed,
+    Object? param = freezed,
   }) {
     return _then(_value.copyWith(
       cmd: null == cmd
@@ -72,9 +72,9 @@ class _$CommandCopyWithImpl<T, $Res, $Val extends Command<T>>
           ? _value.timeStamps
           : timeStamps // ignore: cast_nullable_to_non_nullable
               as int,
-      params: freezed == params
-          ? _value.params
-          : params // ignore: cast_nullable_to_non_nullable
+      param: freezed == param
+          ? _value.param
+          : param // ignore: cast_nullable_to_non_nullable
               as T,
     ) as $Val);
   }
@@ -88,7 +88,7 @@ abstract class _$$_CommandCopyWith<T, $Res>
       __$$_CommandCopyWithImpl<T, $Res>;
   @override
   @useResult
-  $Res call({int cmd, String uuid, int timeStamps, T params});
+  $Res call({int cmd, String uuid, int timeStamps, T param});
 }
 
 /// @nodoc
@@ -105,7 +105,7 @@ class __$$_CommandCopyWithImpl<T, $Res>
     Object? cmd = null,
     Object? uuid = null,
     Object? timeStamps = null,
-    Object? params = freezed,
+    Object? param = freezed,
   }) {
     return _then(_$_Command<T>(
       cmd: null == cmd
@@ -120,9 +120,9 @@ class __$$_CommandCopyWithImpl<T, $Res>
           ? _value.timeStamps
           : timeStamps // ignore: cast_nullable_to_non_nullable
               as int,
-      params: freezed == params
-          ? _value.params
-          : params // ignore: cast_nullable_to_non_nullable
+      param: freezed == param
+          ? _value.param
+          : param // ignore: cast_nullable_to_non_nullable
               as T,
     ));
   }
@@ -135,7 +135,7 @@ class _$_Command<T> implements _Command<T> {
       {required this.cmd,
       required this.uuid,
       required this.timeStamps,
-      required this.params});
+      required this.param});
 
   factory _$_Command.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
@@ -148,11 +148,11 @@ class _$_Command<T> implements _Command<T> {
   @override
   final int timeStamps;
   @override
-  final T params;
+  final T param;
 
   @override
   String toString() {
-    return 'Command<$T>(cmd: $cmd, uuid: $uuid, timeStamps: $timeStamps, params: $params)';
+    return 'Command<$T>(cmd: $cmd, uuid: $uuid, timeStamps: $timeStamps, param: $param)';
   }
 
   @override
@@ -164,13 +164,13 @@ class _$_Command<T> implements _Command<T> {
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.timeStamps, timeStamps) ||
                 other.timeStamps == timeStamps) &&
-            const DeepCollectionEquality().equals(other.params, params));
+            const DeepCollectionEquality().equals(other.param, param));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, cmd, uuid, timeStamps,
-      const DeepCollectionEquality().hash(params));
+      const DeepCollectionEquality().hash(param));
 
   @JsonKey(ignore: true)
   @override
@@ -189,7 +189,7 @@ abstract class _Command<T> implements Command<T> {
       {required final int cmd,
       required final String uuid,
       required final int timeStamps,
-      required final T params}) = _$_Command<T>;
+      required final T param}) = _$_Command<T>;
 
   factory _Command.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =
@@ -202,7 +202,7 @@ abstract class _Command<T> implements Command<T> {
   @override
   int get timeStamps;
   @override
-  T get params;
+  T get param;
   @override
   @JsonKey(ignore: true)
   _$$_CommandCopyWith<T, _$_Command<T>> get copyWith =>

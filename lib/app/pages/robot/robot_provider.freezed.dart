@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RobotViewState {
   RobotState get robotState => throw _privateConstructorUsedError;
   bool get mqttConnected => throw _privateConstructorUsedError;
-  String? get log => throw _privateConstructorUsedError;
+  List<String> get notifications => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RobotViewStateCopyWith<RobotViewState> get copyWith =>
@@ -31,7 +31,8 @@ abstract class $RobotViewStateCopyWith<$Res> {
           RobotViewState value, $Res Function(RobotViewState) then) =
       _$RobotViewStateCopyWithImpl<$Res, RobotViewState>;
   @useResult
-  $Res call({RobotState robotState, bool mqttConnected, String? log});
+  $Res call(
+      {RobotState robotState, bool mqttConnected, List<String> notifications});
 
   $RobotStateCopyWith<$Res> get robotState;
 }
@@ -51,7 +52,7 @@ class _$RobotViewStateCopyWithImpl<$Res, $Val extends RobotViewState>
   $Res call({
     Object? robotState = null,
     Object? mqttConnected = null,
-    Object? log = freezed,
+    Object? notifications = null,
   }) {
     return _then(_value.copyWith(
       robotState: null == robotState
@@ -62,10 +63,10 @@ class _$RobotViewStateCopyWithImpl<$Res, $Val extends RobotViewState>
           ? _value.mqttConnected
           : mqttConnected // ignore: cast_nullable_to_non_nullable
               as bool,
-      log: freezed == log
-          ? _value.log
-          : log // ignore: cast_nullable_to_non_nullable
-              as String?,
+      notifications: null == notifications
+          ? _value.notifications
+          : notifications // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 
@@ -86,7 +87,8 @@ abstract class _$$_RobotViewStateCopyWith<$Res>
       __$$_RobotViewStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({RobotState robotState, bool mqttConnected, String? log});
+  $Res call(
+      {RobotState robotState, bool mqttConnected, List<String> notifications});
 
   @override
   $RobotStateCopyWith<$Res> get robotState;
@@ -105,7 +107,7 @@ class __$$_RobotViewStateCopyWithImpl<$Res>
   $Res call({
     Object? robotState = null,
     Object? mqttConnected = null,
-    Object? log = freezed,
+    Object? notifications = null,
   }) {
     return _then(_$_RobotViewState(
       robotState: null == robotState
@@ -116,10 +118,10 @@ class __$$_RobotViewStateCopyWithImpl<$Res>
           ? _value.mqttConnected
           : mqttConnected // ignore: cast_nullable_to_non_nullable
               as bool,
-      log: freezed == log
-          ? _value.log
-          : log // ignore: cast_nullable_to_non_nullable
-              as String?,
+      notifications: null == notifications
+          ? _value._notifications
+          : notifications // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -128,19 +130,28 @@ class __$$_RobotViewStateCopyWithImpl<$Res>
 
 class _$_RobotViewState implements _RobotViewState {
   const _$_RobotViewState(
-      {required this.robotState, this.mqttConnected = false, this.log});
+      {required this.robotState,
+      this.mqttConnected = false,
+      final List<String> notifications = const []})
+      : _notifications = notifications;
 
   @override
   final RobotState robotState;
   @override
   @JsonKey()
   final bool mqttConnected;
+  final List<String> _notifications;
   @override
-  final String? log;
+  @JsonKey()
+  List<String> get notifications {
+    if (_notifications is EqualUnmodifiableListView) return _notifications;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_notifications);
+  }
 
   @override
   String toString() {
-    return 'RobotViewState(robotState: $robotState, mqttConnected: $mqttConnected, log: $log)';
+    return 'RobotViewState(robotState: $robotState, mqttConnected: $mqttConnected, notifications: $notifications)';
   }
 
   @override
@@ -152,11 +163,13 @@ class _$_RobotViewState implements _RobotViewState {
                 other.robotState == robotState) &&
             (identical(other.mqttConnected, mqttConnected) ||
                 other.mqttConnected == mqttConnected) &&
-            (identical(other.log, log) || other.log == log));
+            const DeepCollectionEquality()
+                .equals(other._notifications, _notifications));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, robotState, mqttConnected, log);
+  int get hashCode => Object.hash(runtimeType, robotState, mqttConnected,
+      const DeepCollectionEquality().hash(_notifications));
 
   @JsonKey(ignore: true)
   @override
@@ -169,14 +182,14 @@ abstract class _RobotViewState implements RobotViewState {
   const factory _RobotViewState(
       {required final RobotState robotState,
       final bool mqttConnected,
-      final String? log}) = _$_RobotViewState;
+      final List<String> notifications}) = _$_RobotViewState;
 
   @override
   RobotState get robotState;
   @override
   bool get mqttConnected;
   @override
-  String? get log;
+  List<String> get notifications;
   @override
   @JsonKey(ignore: true)
   _$$_RobotViewStateCopyWith<_$_RobotViewState> get copyWith =>
